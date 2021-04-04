@@ -1,0 +1,112 @@
+﻿@model LearnMVC.Models.UploadTransactionLog
+
+@{
+    ViewBag.Title = "Upload";
+}
+
+<h2 id="headings">Upload Center</h2>
+@using (Html.BeginForm("Upload", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-lg-4 col-md-12 col-md-12">
+            <label for="tranid" class="control-label">Upload Transaction ID</label>
+            <input type="text" id="tranid" class="form-control" name="UploadTransactionID" value=@ViewData["GUID"] readonly />
+        </div>
+        <div class="col-lg-4 col-md-12 col-md-12">
+            <label for="uploadtype" class="control-label">Upload File Type</label>
+            <select id="uploadtype" class="form-control" name="uploadfiletype">
+                <option>--Select Upload File Type--</option>
+                <option value="Postal_Details">Postal Office Details</option>
+                <option value="Postal_User">Postal User Details</option>
+            </select>
+        </div>
+        <div class="col-lg-4 col-md-12 col-md-12">
+            <label for="uploaddate">Upload Date</label>
+            <input type="text" class="form-control" id="uploaddate" name="UploadedOn" value=@DateTime.Now.ToString() readonly />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-4 col-md-12 col-md-12">
+            <label for="uploadfile" class="control-label">Upload File</label>
+            <input type="file" id="uploadfile" class="form-control" name="UploadFileName" required />
+        </div>
+        <div class="col-lg-4 col-md-12 col-md-12">
+            <label for="descr">Upload File Description</label>
+            <textarea class="form-control" id="descr" name="UploadFileDescription" rows="2" placeholder="Please limit description to 100 words"></textarea>
+        </div>
+        <div class="col-lg-4 col-md-12 col-md-12">
+            <label for="uploadby">Upload By</label>
+            <input type="text" class="form-control" id="uploadby" name="UploadedBy" value=@Session["UserID"].ToString() readonly />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <button type="submit" class="btn btn-success">Upload File</button>
+            <button type="reset" class="btn btn-primary">Reset Form</button>
+            <a class="btn btn-primary" href="~/Home/Index">Home</a>
+        </div>
+    </div>
+}
+
+@if (ViewData["AfterTransaction"] != null)
+{
+    <hr />
+    <h4 id="headings">Upload File Transaction Details</h4>
+
+        <table id="uploadtransactiontable" class="table table-bordered table-responsive table-striped table-hover">
+            <tr>
+                <td>Server Transaction ID:</td>
+                <td>@Html.DisplayFor(model => model.ServerTransactionID)</td>
+            </tr>
+            <tr>
+                <td>Upload Transaction ID:</td>
+                <td>@Html.DisplayFor(model => model.UploadTransactionID)</td>
+            </tr>
+            <tr>
+                <td>Upload File Name:</td>
+                <td>@Html.DisplayFor(model => model.UploadFileName)</td>
+            </tr>
+            <tr>
+                <td>Upload Server Filepath:</td>
+                <td>@Html.DisplayFor(model => model.UploadFileServerPath)</td>
+            </tr>
+            <tr>
+                <td>Uploaded By:</td>
+                <td>@Html.DisplayFor(model => model.UploadedBy)</td>
+            </tr>
+            <tr>
+                <td>Uploaded By:</td>
+                <td>@Html.DisplayFor(model => model.UploadedOn)</td>
+            </tr>
+            <tr>
+                <td>Uploaded Status:</td>
+                @if (ViewData["Upload Status"] != null)
+                {
+                    <td class="bg-success">@ViewData["Upload Status"]</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>
+        </table>
+        <br />
+        <div class="row">
+            @*<div class="col-md-6">
+                <p class="text-success">@ViewBag.SuccessMessage</p>
+                <img id="QRCodeImage" class="img-thumbnail img-responsive" src=@ViewBag.QRImage alt="Generated QR Image" />
+            </div>*@
+            <div class="col-md-12 text-center">
+                <a class="btn btn-primary" href="~/Home/Index">Home</a>
+                <a class="btn btn-primary" href="~/Upload/Upload">Back to Upload File</a>
+                @Html.ActionLink("Download File Summary", "DownloadtoExcelResult", "Download", new { transid = Model.ServerTransactionID, Report = "OfficeDetails" }, new { @class = "btn btn-warning", target = "_blank" })
+                @Html.ActionLink("View Upload File Summary", "ProcessData", "Upload", new { tranid = Model.ServerTransactionID }, new { @class = "btn btn-warning", target = "_blank" })
+            </div>
+        </div>
+        
+    
+}

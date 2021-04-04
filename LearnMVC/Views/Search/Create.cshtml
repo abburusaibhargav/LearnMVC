@@ -1,0 +1,73 @@
+﻿@model LearnMVC.Models.User
+
+@{
+    ViewBag.Title = "Create User Detail";
+}
+
+<h2 id="headings">Create User Details</h2>
+
+@if (ViewData["Message"] != null)
+{
+    <p class="text-primary">ViewData["Message"]</p>
+}
+else
+{
+    using (Html.BeginForm("Create", "Search", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div id="createuser">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label for="fname" class="control-label">First Name</label>
+                    <input type="text" class="form-control" name="first_name" id="fname" placeholder="Enter First Name" required />
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label for="lname" class="control-label">Last Name</label>
+                    <input type="text" class="form-control" name="last_name" id="lname" placeholder="Enter Last Name" required />
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label for="username" class="control-label">User Name</label>
+                    <input type="text" class="form-control" name="Username" id="username" placeholder="Enter Username" required />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label for="gender" class="control-label">Gender</label>
+                    <select id="genderselect" class="form-control" name="gender" required>
+                        <option> -- Select Gender --</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Others</option>
+                        <option value="NK">Don't prefer to say</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label for="email" class="control-label">E-Mail</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter E-Mail ID" required />
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label for="Password" class="control-label">User Name</label>
+                    <input type="password" class="form-control" name="Password" id="Password" placeholder="Enter Password" required />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label for="phone" class="control-label">Phone</label>
+                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Contact Number" required />
+                </div><br />
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <button class="btn btn-success btn-sm" type="submit">Create User</button>
+                    <button class="btn btn-primary btn-sm" type="reset">Reset Form</button>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

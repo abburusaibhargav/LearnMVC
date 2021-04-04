@@ -1,0 +1,194 @@
+﻿@model LearnMVC.Models.Consignment.CreateDomesticBooking
+@{
+    ViewBag.Title = "CreateBooking";
+}
+
+<h2 id="headings">Consignment Details</h2>
+<hr />
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js" type="text/javascript"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript"></script>
+<link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css" rel="Stylesheet" type="text/css" />
+<script src="~/Content/Site_jQuery.js"></script>
+
+<h4 class="text-info">Basic Details</h4>
+@using (Html.BeginForm("CreateBooking", "Consignment", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <label for="ConsigmentServerBookingID" class="control-label">Unique Server Booking ID</label>
+            <input type="text" id="ConsigmentServerBookingID" class="form-control" name="ConsigmentServerBookingID" value="@ViewBag.GUID" readonly />
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <label for="ConsigneePincode" class="control-label">Consignee Pincode</label>
+            <input type="text" id="ConsigneePincode" class="form-control" name="ConsigneePincode" placeholder="Enter Consignee Pincode" required />
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <label for="ConsignerPincode" class="control-label">Consigner Pincode</label>
+            <input type="text" id="ConsignerPincode" class="form-control" name="ConsignerPincode" placeholder="Enter Consigner Pincode" required />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <label for="ConsigneeName" class="control-label">Consignee Name</label>
+            <input type="text" id="ConsigneeName" class="form-control" name="ConsigneeName" placeholder="Enter Consignee Name" required />
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <label for="ConsignerName" class="control-label">Consigner Name</label>
+            <input type="text" id="ConsignerName" class="form-control" name="ConsignerName" placeholder="Enter Consginer Name" required />
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <label for="ConsignmentType" class="control-label">Consignment Type</label>
+            <select id="ConsignmentType" class="form-control" name="ConsignmentType">
+                <option value="-1">--Select Consigment Type--</option>
+                <option value="Reg">Registered Post</option>
+                <option value="Speed">Speed Post</option>
+                <option value="Normal">Normal Post</option>
+                <option value="Delay">Delay Delivery</option>
+            </select>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <textarea class=" form-control" id="ConsigneeAddress" name="ConsigneeAddress" placeholder="Enter Consignee Address" rows="5" required></textarea>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <textarea class=" form-control" id="ConsignerAddress" name="ConsignerAddress" placeholder="Enter Consigner Address" rows="5" required></textarea>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <label for="ConsigneeState" class="control-label">Consignee State</label>
+            <div id="ConsigneeState" class="row">
+                @if (ViewBag.StateDDL != null)
+                {
+                    @Html.DropDownListFor(model => model.ConsigneeStateID, ViewBag.StateDDL as SelectList, "--Select Consignee State--", new { @class = "form-control" });
+                }
+            </div><br />
+            <label for="ConsignerState" class="control-label">Consigner State</label>
+            <div id="ConsignerState" class="row">
+                @if (ViewBag.StateDDL != null)
+                {
+                    @Html.DropDownListFor(model => model.ConsignerStateID, ViewBag.StateDDL as SelectList, "--Select Consigner State--", new { @class = "form-control" });
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr />
+
+    <h4 class="text-info">Office Details</h4>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            @Html.DropDownListFor(model => model.CircleID, ViewBag.postal_Circle_Lists_DDL as SelectList, "--Select Circle--", new { @class = "form-control" })
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            @Html.DropDownListFor(model => model.RegionID, ViewBag.postal_Region_DDL as SelectList, "--Select Region--", new { @class = "form-control" })
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            @Html.DropDownListFor(model => model.DivisionID, ViewBag.divisionddl as SelectList, "--Select Division--", new { @class = "form-control" })
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            @Html.DropDownListFor(model => model.DistrictID, ViewBag.districtddl as SelectList, "--Select District--", new { @class = "form-control" })
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            @Html.DropDownListFor(model => model.OfficeID, ViewBag.officedataddl as SelectList, "--Select Office--", new { @class = "form-control" })
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            @Html.DropDownListFor(model => model.ConsignerPincode, ViewBag.pincodeDDL as SelectList, "--Select ConsignerPincode--", new { @class = "form-control" })
+        </div>
+    </div><br />
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            @if (ViewBag.OfficeTypeDDL != null)
+            {
+                @Html.DropDownListFor(model => model.OfficeTypeID, ViewBag.OfficeTypeDDL as SelectList, "--Select OfficeType--", new { @class = "form-control" })
+            }
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            @if (ViewBag.DeliveryTypeDDL != null)
+            {
+                @Html.DropDownListFor(model => model.DeliveryID, ViewBag.DeliveryTypeDDL as SelectList, "--Select Delivery Type--", new { @class = "form-control" })
+            }
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            @*@Html.DropDownListFor(model => model.ConsignerPincode, new SelectList(" "), "--Select ConsignerPincode--", new { @class = "form-control" })*@
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="text-center">
+            <button class="btn btn-success" type="submit">Create Booking</button>
+            <button class="btn btn-primary" type="reset">Reset Booking</button>
+            @Html.ActionLink("Back","Index","Consignment", new { @class="btn btn-primary"})
+        </div>
+    </div>
+}
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#ConsignerStateID").change(function () {
+            $.get("/Consignment/GetCircleDataDDL", { StateID: $("#ConsignerStateID").val() }, function (data) {
+                $("#CircleID").empty();
+                $.each(data, function (index, row) {
+                    $("#CircleID").append("<option value='" + row.CircleID + "'>" + row.CircleName + "</option>")
+                });
+            });
+        })
+    });
+
+    $(document).ready(function () {
+        $("#CircleID").change(function () {
+            $.get("/Consignment/GetRegionDataDDL", { CircleID: $("#CircleID").val() }, function (data) {
+                $("#RegionID").empty();
+                $.each(data, function (index, row) {
+                    $("#RegionID").append("<option value='" + row.RegionID + "'>" + row.RegionName + "</option>")
+                });
+            });
+        })
+    });
+   
+    $(document).ready(function () {
+        $("#RegionID").change(function () {
+            $.get("/Consignment/GetDivisionDataDDL", { RegionID: $("#RegionID").val() },
+                function (data) {
+                    $("#DivisionID").empty();
+                    $.each(data, function (index, row) {
+                        $("#DivisionID").append("<option value='" + row.DivisionID + "'>" + row.DivisionName + "</option>")
+                    });
+                });
+        })
+    });
+
+    $(document).ready(function () {
+        $("#DivisionID").change(function () {
+            $.get("/Consignment/GetDistrictDataDDL", { DivisionID: $("#DivisionID").val() },
+                function (data) {
+                    $("#DistrictID").empty();
+                    $.each(data, function (index, row) {
+                        $("#DistrictID").append("<option value='" + row.DistrictID + "'>" + row.DistrictName + "</option>")
+                    });
+                });
+        })
+    });
+
+    $(document).ready(function () {
+        $("#DistrictID").change(function () {
+            $.get("/Consignment/GetOfficeDataDDL", { DistrictID: $("#DistrictID").val() },
+                function (data) {
+                    $("#OfficeID").empty();
+                    $.each(data, function (index, row) {
+                        $("#OfficeID").append("<option value='" + row.OfficeID + "'>" + row.OfficeName + "</option>")
+                    });
+                });
+        })
+    });
+</script>*@
+
+
+
+
+
+

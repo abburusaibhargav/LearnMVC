@@ -1,0 +1,48 @@
+﻿@model LearnMVC.Models.User
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2 id="headings">Login</h2>
+
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { enctype="multipart/form-data", id="Captcha"}))
+{
+    <div id="loginpage">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <label for="userid" class="control-label">User ID</label>
+                <input class="form-control" type="text" name="UserID" id="userid" placeholder="Enter User ID" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <label for="pwd" class="control-label">Password</label>
+                <input class="form-control" type="password" name="password" id="pwd" placeholder="Enter Password" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                @Html.Captcha(5)
+            </div>
+        </div>
+
+        <br />
+        <button class="btn btn-success" type="submit">Login</button>
+        <button class="btn btn-primary" type="reset">Reset</button>
+    </div>
+}
+@if (ViewData["Authenticated"] != null)
+{
+    <h4 class="text-danger text-center">User Authenticated Failed. Password is incorrect</h4>
+}
+@if (ViewData["NoUser"] != null)
+{
+    <h4 class="text-danger text-center">User Authenticated Failed. Username not found</h4>
+}
+
+
+
+
+

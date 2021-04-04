@@ -1,0 +1,40 @@
+﻿@model LearnMVC.Models.QRCodeModel
+
+@{
+    ViewBag.Title = "GenerateQRCode";
+}
+
+<h2 id="headings">Generate QR Code</h2>
+
+<div class="row">
+    @using (Html.BeginForm("GenerateQRCode", "GenerateQRCode", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <label for="qrtext" class="control-label">Enter Text:</label>
+            <input id="qrtext" name="QRCodeText" class="form-control" type="text" placeholder="Enter Text" required />
+            <br />
+            <button class="btn btn-success" type="submit">Generate QR Code</button>
+            @Html.ActionLink("Refresh","GenerateQRCode","GenerateQRCode", new { @class="btn btn-info"})
+           
+        </div>
+    }
+
+<div class="col-lg-6 col-md-12 col-sm-12">
+    @if (ViewBag.QRImage != null)
+    {
+        <p class="text-success">@ViewBag.SuccessMessage</p>
+        <img id="QRCodeImage" class="img-responsive img-thumbnail" src=@ViewBag.QRImage alt="GeneratedQRCode" style="height:150px; width:150px" />
+
+        if (ViewBag.ErrorMessage != null)
+        {
+            <p class="text-danger">@ViewBag.ErrorMessage</p>
+        }
+        <br /><br />
+        <a class="btn btn-sm btn-primary" href="~/Home/Index">Home</a>
+        @Html.ActionLink("Generate QR Code Again", "GenerateQRCode", "GenerateQRCode", new { @class = "btn btn-sm btn-info" })
+    }
+</div>
+</div>
+

@@ -1,0 +1,98 @@
+﻿@model LearnMVC.Models.Get_Consignment_Details_By_BookingID_Result
+
+@{
+    ViewBag.Title = "BookConsignmentDetails";
+}
+
+<h2>BookConsignmentDetails</h2>
+
+<div>
+    <h4>Get_Consignment_Details_By_BookingID_Result</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Booking_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Booking_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Consignee_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Consignee_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Consigner_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Consigner_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Circle_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Circle_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Region_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Region_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Division_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Division_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.District_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.District_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Office_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Office_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pincode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pincode)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

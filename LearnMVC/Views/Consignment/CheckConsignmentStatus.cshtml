@@ -1,0 +1,80 @@
+﻿@model LearnMVC.Models.ConsignmentDetail
+@{
+    ViewBag.Title = "CheckConsignmentStatus";
+}
+
+<h2 id="headings">Check Consignment Status</h2>
+<hr />
+
+@using (Html.BeginForm("CheckConsignmentStatus", "Consignment", FormMethod.Get))
+{
+    <div id="CheckConsignmentStatus" class="jumbotron">
+        <div class="row">
+            <div class="col-lg-6">
+                <label for="bookingid" class="control-label">Booking ID</label>
+                <input type="text" id="bookingid" name="BookingID" class="form-control" placeholder="Enter Booking ID" required />
+
+                <label for="bookingdate" class="control-label">Booking Date</label><span style="font-size:12px;">( Optional )</span>
+                <input type="date" id="bookingdate" name="CreatedDate" class="form-control" />
+
+                <br />
+                <button type="submit" class="btn btn-primary">Get Consignment Status</button><br /><br />
+                <button type="reset" class="btn btn-primary">Reset</button>
+                @Html.ActionLink("Back", "Index", "Consignment", new { @class = "btn btn-primary" })<br />
+                <br />
+                <h5 class="text-danger">@ViewBag.NoRows</h5>
+                <h5 class="text-success">@ViewBag.Rows</h5>
+            </div>
+            <div class="col-lg-6">
+                @if (ViewBag.Rows != null)
+                {
+                    <h4 id="headings"> Consignment Details</h4>
+                    <table class="table table-bordered table-responsive table-condensed">
+                        <tr>
+                            <td>Consignment Booking ID</td>
+                            <td>@Html.DisplayFor(model => model.BookingID)</td>
+                        </tr>
+                        <tr>
+                            <td>Booking Office</td>
+                            <td>@Html.DisplayFor(model => model.BookingOfficeID)</td>
+                        </tr>
+                        <tr>
+                            <td>Destination Office</td>
+                            <td>@Html.DisplayFor(model => model.DestinationOfficeID)</td>
+                        </tr>
+                        <tr>
+                            <td>Destination Office Pincode</td>
+                            <td>@Html.DisplayFor(model => model.DestinationPincode)</td>
+                        </tr>
+                        <tr>
+                            <td>Consignment Status</td>
+                            @if (Model.ConsignmentStatus == "In Transit")
+                            {
+                                <td class="success">@Html.DisplayFor(model => model.ConsignmentStatus)</td>
+                            }
+                            else
+                            {
+                                <td class="danger">@Html.DisplayFor(model => model.ConsignmentStatus)</td>
+                            }
+                        </tr>
+                        <tr>
+                            <td>Booked On</td>
+                            <td>@Html.DisplayFor(model => model.CreatedOn)</td>
+                        </tr>
+                        <tr>
+                            <td>Booked By</td>
+                            <td>@Html.DisplayFor(model => model.CreatedBy)</td>
+                        </tr>
+                    </table>
+                    <br />
+                    <div class="row text-center">
+                        <a class="btn btn-primary" href="~/Consignment/CheckConsignmentStatus">Back To Search</a>
+                        <a class="btn btn-primary" href="~/Consignment/Index">Back To Home</a>
+                    </div> 
+                }
+            </div>
+        </div>
+    </div>
+}
+
+

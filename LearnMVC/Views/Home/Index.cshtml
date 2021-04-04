@@ -1,0 +1,113 @@
+﻿@model LearnMVC.Models.Announcement
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<br />
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+
+@if (Session["UserID"] != null)
+{
+    <h4 class="text-success">Welcome @Session["Username"].ToString()</h4>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h3 id="headings">Announcements Board</h3>
+        <p class="text-info" style="font-style:italic">
+            This section has the application related announcements which are kept by Admin,
+            Please have this checked regularly.
+        </p>
+        <table class="table table-responsive table-bordered pre-scrollable">
+            @if (ViewBag.Announcements != null)
+            {
+                <tr id="rows" class="text-center">
+                    <td>Announcement Regd.</td>
+                    <td>Announcements</td>
+                    <td>Announcement Date</td>
+                    <td>Classification</td>
+                </tr>
+                foreach (var announcement in ViewBag.Announcements)
+                {
+
+                    if (announcement.AnnouncementClassification == "FYI")
+                    {
+                        <tr class="bg-success">
+                            <td>
+                                <strong>@announcement.AnnouncementTitle</strong>
+                            </td>
+                            <td>
+                                <p class="text-justify">@announcement.AnnouncementContent</p>
+                            </td>
+                            <td>
+                                <p class="text-center">@announcement.CreatedDate</p>
+                            </td>
+                            <td>
+                                <p class="text-center">@announcement.AnnouncementClassification</p>
+                            </td>
+                        </tr>
+                    }
+
+                    if (announcement.AnnouncementClassification == "FYA")
+                    {
+                        <tr class="bg-warning">
+                            <td>
+                                <strong>@announcement.AnnouncementTitle</strong>
+                            </td>
+                            <td>
+                                <p class="text-justify">@announcement.AnnouncementContent</p>
+                            </td>
+                            <td>
+                                <p class="text-center">@announcement.CreatedDate</p>
+                            </td>
+                            <td>
+                                <p class="text-center">@announcement.AnnouncementClassification</p>
+                            </td>
+                        </tr>
+                    }
+                    if (announcement.AnnouncementClassification == "Internal")
+                    {
+                        <tr class="bg-info">
+                            <td>
+                                <strong>@announcement.AnnouncementTitle</strong>
+                            </td>
+                            <td>
+                                <p class="text-justify">@announcement.AnnouncementContent</p>
+                            </td>
+                            <td>
+                                <p class="text-center">@announcement.CreatedDate</p>
+                            </td>
+                            <td>
+                                <p class="text-center">@announcement.AnnouncementClassification</p>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </table>
+    </div>
+   
+    @using (Html.BeginForm("MailSystem", "Home", FormMethod.Post))
+    {
+        <div class="col-md-4">
+            <h3 id="headings">Mail System</h3>
+            <p class="text-info pull-left" style="font-style:italic">This area allows you to send mail internally from application.</p>
+            <div class="row">
+                <label class="control-label " for="Receivermailid"> Receiver Mail ID</label>
+                <input id="Receivermailid" class="form-control" type="email" placeholder="Enter Receiver Mail ID" name="Receivermailid" required />
+
+                <label class="control-label" for="MailBody">Message</label>
+                <textarea id="MailBody" class="form-control" type="text" placeholder="Enter Message" name="MailBody" rows="3"></textarea>
+                <br />
+                <button class="btn btn-success" type="submit">Send</button>
+                <button class="btn btn-primary" type="reset">Reset</button>
+            </div>
+        </div>
+    }
+
+</div>

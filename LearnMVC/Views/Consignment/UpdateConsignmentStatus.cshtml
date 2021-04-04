@@ -1,0 +1,62 @@
+﻿@model LearnMVC.Models.ConsignmentDetail
+@{
+    ViewBag.Title = "UpdateConsignmentStatus";
+}
+
+<h2 id="headings">Update Consignment Status</h2>
+
+
+@using (Html.BeginForm("UpdateConsignmentStatus", "Consignment", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <input type="text" class="form-control" name="BookingID" required placeholder="Enter Booking ID" />
+            <br />
+            <button type="submit" class="btn btn-success">Get Status</button>
+            <button type="reset" class="btn btn-success">Reset</button>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Rows != null)
+{
+    <table class="table table-bordered table-responsive table-hover table-striped">
+        <tr>
+            <td>Booking ID</td>
+            <td>@Html.DisplayFor(model => model.BookingID)</td>
+        </tr>
+        <tr>
+            <td>Consignment Status</td>
+            <td>@Html.DisplayFor(model => model.ConsignmentStatus)</td>
+        </tr>
+        <tr>
+            <td>Update Consignment Status</td>
+            <td>
+                <select class="form-control" name="ConsignmentStatus">
+                    <option value="Booked">Booked</option>
+                    <option value="In Transit">In Transit</option>
+                    <option value="Waiting">Waiting</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Returned">Returned</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <div class="row text-center">
+        @Html.ActionLink("Update Consignment Status", "UpdateConsignmentStatus", "Consignment", new { BookingID = Model.BookingID, Type="post"}, new { @class = "btn btn-primary" })
+        <a class="btn btn-primary" href="~/Home/Index">Home</a>
+    </div>
+
+
+    <br />
+    <p class="text-center">@ViewBag.Status</p>
+
+    
+
+}
+
+
+
+
+

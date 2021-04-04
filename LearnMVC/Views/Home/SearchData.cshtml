@@ -1,0 +1,36 @@
+﻿@model LearnMVC.Models.SearchModel
+@{
+    ViewBag.Title = "SearchData";
+}
+
+<h2>SearchData</h2>
+
+<body>
+    @using (Html.BeginForm("SearchData","Search",FormMethod.Post))
+    {
+        <div class="form-group">
+            <label for="DateFrom">Date From:</label>
+            <input type="date" class="form-control" id="DateFrom" placeholder="Search From Date" />
+        </div>
+        <div class="form-group">
+            <label for="DateTo">Date To:</label>
+            <input type="date" class="form-control" id="DateTo" placeholder="Search To Date" />
+        </div>
+        <div class="form-group">
+            <label for="AuditRefID">Audit Ref ID:</label>
+            <input type="text" class="form-control" id="AuditRefID" placeholder="Audit Reference ID" />
+        </div>
+        <div class="form-group">
+            <label for="Report">Select Report</label>
+            <select class="form-control" id="Report">
+                <option>-- Select Report --</option>
+                <option value=101>Auto Generated Dates</option>
+                <option value=102>Auto Generated Names</option>
+                <option value=103>Transaction Summary</option>
+            </select>
+        </div>
+        <button class="btn btn-success" type="submit">Search</button>
+        <button class="btn btn-info" type="reset">Reset</button>
+    }
+</body>
+ 

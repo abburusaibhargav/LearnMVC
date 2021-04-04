@@ -1,0 +1,66 @@
+﻿@model LearnMVC.Models.Announcement
+
+@{
+    ViewBag.Title = "Announcements";
+}
+
+<h2 id="headings">Announcements Control</h2>
+<hr />
+
+@using (Html.BeginForm("Announcements", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="AnnouncementTitle" class="control-label">Announcement Title</label>
+                    <input id="AnnouncementTitle" type="text" class="form-control" name="AnnouncementTitle" placeholder="Announcement Title" required />
+                </div>
+                <div class="form-group">
+                    <label for="AnnouncementContent" class="control-label">Announcement Content</label>
+                    <textarea id="AnnouncementContent" type="text" class="form-control" name="AnnouncementContent" placeholder="Announcement Content" rows="5" required>
+                     </textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="CreatedBy" class="control-label">Announced By</label>
+                    <input id="CreatedBy" type="text" class="form-control" name="CreatedBy" value="@ViewBag.User.ToString()" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label for="AnnouncementClassification" class="control-label">Announcement Classification</label>
+                    <select id="AnnouncementClassification" name="AnnouncementClassification" class="form-control">
+                        <option class="active" value="FYI">FYI</option>
+                        <option value="FYI">FYA</option>
+                        <option value="Internal">Internal</option>
+                    </select>
+                </div>
+            </div>
+        </div><br />
+        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="reset" class="btn btn-success">Reset</button>
+    </div>
+}
+
+@*GET Method*@
+
+@if (ViewBag.Result != null)
+{
+    <hr />
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="text-success">@ViewBag.Result</p>
+            <p class="text-success">@Html.DisplayFor(model => model.AnnouncementID)</p>
+            <div class="row">
+                <a class="btn btn-primary" href="~/Admin/Announcements">Back to Add Announcement</a>
+                <button type="button" class="btn btn-primary">Home</button>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-danger">@ViewBag.Result</p>
+}

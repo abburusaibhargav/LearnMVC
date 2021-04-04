@@ -1,0 +1,78 @@
+﻿@model LearnMVC.Models.User
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2 class="text-center text-info">User Details</h2>
+
+<div>
+    <table id="initialuserdetails" class="table table-bordered table-responsive table-hover">
+        <tr id="rows">
+            <td>User Name</td>
+            <td>Audit Reference ID</td>
+            <td>Credentails Reference ID</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.first_name), @Html.DisplayFor(model => model.last_name)</td>
+            <td>@Html.DisplayFor(model => model.AuditRefID)</td>
+            <td>@Html.DisplayFor(model => model.Credentails_Ref_Id)</td>
+        </tr>
+    </table>
+    <hr />
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <table id="userdetailstable" class="table table-bordered table-responsive table-hover">
+                <tr>
+                    <td>First Name</td>
+                    <td>@Html.DisplayFor(model => model.first_name)</td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td>@Html.DisplayFor(model => model.last_name)</td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>@Html.DisplayFor(model => model.gender)</td>
+                </tr>
+                <tr>
+                    <td>E-Mail</td>
+                    <td>@Html.DisplayFor(model => model.email)</td>
+                </tr>
+                <tr>
+                    <td>Contact</td>
+                    <td>@Html.DisplayFor(model => model.Phone)</td>
+                </tr>
+                <tr>
+                    <td>Active User</td>
+                    <td>@Html.DisplayFor(model => model.Active)</td>
+                </tr>
+                <tr>
+                    <td>Created On</td>
+                    <td>@Html.DisplayFor(model => model.CreatedBy)</td>
+                </tr>
+                <tr>
+                    <td>Created Date</td>
+                    <td>@Html.DisplayFor(model => model.CreatedDate)</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <table id="userdetailstable" class="table table-bordered table-responsive table-hover">
+                <tr>
+                    <td>User Name</td>
+                    <td>@Html.DisplayFor(model => model.Username)</td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>@Html.DisplayFor(model => model.Password)</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserID }, new { @class="text-warning"}) |
+    @Html.ActionLink("Back to List", "Index", new { @class = "text-primary" })
+</p>

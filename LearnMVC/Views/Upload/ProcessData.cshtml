@@ -1,0 +1,60 @@
+﻿@model IEnumerable<LearnMVC.Models.UploadTranSummary>
+
+
+@{
+    ViewBag.Title = "ProcessData";
+}
+
+<h2 id="headings">ProcessData</h2>
+<table id="uploadtransactiontable" class="table table-bordered table-responsive table-hover table-striped">
+    <tr>
+        <td class="bg-primary">Data Transaction Server ID</td>
+        <td>Uploaded By</td>
+        <td>Uploaded On</td>
+    </tr>
+    @foreach (var item in Model.Take(1))
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.StageTranID)</td>
+            <td>@Html.DisplayFor(modelItem => item.Uploadedby)</td>
+            <td>@Html.DisplayFor(modelItem => item.UploadedOn)</td>
+        </tr>
+    }
+
+</table>
+<br />
+<table id="uploadtransactiontable" class="table table-bordered table-responsive table-hover table-striped">
+    <tr>
+        <th>
+            Change Description
+        </th>
+        <th>
+            No of Changes
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountOfChanges)
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<div class="col-md-12 text-center">
+    <a class="btn btn-sm btn-primary" href="~/Home/Index">Home</a>
+    <a class="btn btn-sm btn-primary" href="~/Upload/Upload">Back to Upload File</a>
+    @Html.ActionLink("Download to Excel", "DowloadtoExcel","Download", new { @class="btn btn-sm btn-primary"});
+    <br /><br />
+    @using (Html.BeginForm("ProcessData","Upload",FormMethod.Post))
+    {
+        @Html.ActionLink("Proceed Processing Data","ProcessData","Upload", new { @class="btn btn-sm btn-success"})
+    }
+
+</div>

@@ -1,0 +1,72 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serifCalibri;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+#userdetailstable{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serifCalibri;
+    font-size:16px;
+    width:100%;
+    border:1px solid black;
+    text-align:center;
+}
+#initialuserdetails {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serifCalibri;
+    font-size: 16px;
+    text-align:center;
+}
+#rows{
+    background-color:midnightblue;
+    color:white;
+}
+#headings{
+    text-align:center;
+    color:darkred;
+}
+#userlisttable{
+    text-align:center;
+    color: midnightblue;
+}
+th{
+    text-align:center;
+    background-color:midnightblue;
+    color:ghostwhite;
+}
+#uploadtransactiontable {
+    width:70%;
+    text-align:center;
+    margin:auto;
+    table-layout:auto;
+}
+#loginpage{
+    margin-left:40%;
+}
+#QRCodeImage{
+    height:150px;
+    width:150px;
+}
+#consignmentimages{
+    height:auto;
+    width:auto;
+}
+
