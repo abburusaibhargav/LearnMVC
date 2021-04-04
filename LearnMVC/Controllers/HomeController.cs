@@ -17,7 +17,7 @@ namespace LearnMVC.Controllers
         {
             var Announcements = connectionEntity.Announcements
                                 .Where(x => x.Active == true)
-                                .OrderByDescending(date => date.CreatedBy)
+                                .OrderByDescending(date => date.CreatedDate)
                                 .ToList();
 
             if(Announcements != null)
