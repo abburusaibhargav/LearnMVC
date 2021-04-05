@@ -43,6 +43,7 @@
         <AssociationConnector Association="AppDataModel.FK_OID_DID" />
         <EntityTypeShape EntityType="AppDataModel.Menu" Width="1.5" PointX="14.375" PointY="0.75" />
         <EntityTypeShape EntityType="AppDataModel.Announcement" Width="1.5" PointX="15.375" PointY="4.75" />
+        <EntityTypeShape EntityType="AppDataModel.LandingImage" Width="1.5" PointX="15.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

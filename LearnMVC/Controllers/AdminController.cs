@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using LearnMVC.Models;
 
 namespace LearnMVC.Controllers
@@ -20,7 +22,7 @@ namespace LearnMVC.Controllers
             else
             {
                 return View();
-            }   
+            }
         }
 
         public ActionResult Announcements()
@@ -33,12 +35,12 @@ namespace LearnMVC.Controllers
         public ActionResult Announcements(Announcement announcement)
         {
             var result = connectionEntity.InsertAnnouncements(
-                                                                announcement.AnnouncementTitle, 
-                                                                announcement.AnnouncementContent, 
-                                                                announcement.CreatedBy, 
+                                                                announcement.AnnouncementTitle,
+                                                                announcement.AnnouncementContent,
+                                                                announcement.CreatedBy,
                                                                 announcement.AnnouncementClassification
                                                                 );
-            if(result != null)
+            if (result != null)
             {
                 ViewBag.Result = announcement.AnnouncementID;
                 return RedirectToAction("Index", "Home");
@@ -48,7 +50,53 @@ namespace LearnMVC.Controllers
                 ViewBag.Result = "Announcement Update Failed";
                 return RedirectToAction("Announcements", "Home");
             }
+
+        }
+        public ActionResult LandingImageControl()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult LandingImageControl(HttpPostedFileBase LandingImagePath, LandingImage landingImage)
+        {
+            if (ModelState.IsValid)
+            {
+                string FileName = Path.GetFileNameWithoutExtension(LandingImagePath.FileName);
+                string filetype = Path.GetExtension(LandingImagePath.FileName);
+
+                if (filetype.ToLower() == ".jpg" || filetype.ToLower() == ".png" || filetype.ToLower() == ".jpeg")
+                {
+                    string fullfilename = FileName + filetype;
+                    string dbpath = "~/Content/LandingImages/" + fullfilename;
+
+                    string filepath = Path.Combine(Server.MapPath("~/Content/LandingImages/"), fullfilename);
+
+                    LandingImagePath.SaveAs(filepath);
+
+                    var result = connectionEntity.InsertLandingPageImages(
+                        landingImage.LandingImageName,
+                        dbpath,
+                        landingImage.SortOrder,
+                        Session["UserID"].ToString()
+                        ); ;
+
+                    if (result != null)
+                    {
+                        ViewBag.Result = "Image Insert Successful.";
+                        TempData["Result"] = "Image Insert Successful.";
+                    }
+                }
+                else
+                {
+                    ViewBag.FileExtensionError = "Please only upload images in .jpg or .png file format.";
+                    TempData["Result"] = "Please only upload images in .jpg or .png file format.";
+                }
+            }
+            ModelState.Clear();
+            Dispose();
             
+            return View("LandingImageControl");
         }
     }
 }

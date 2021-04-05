@@ -55,6 +55,7 @@ namespace LearnMVC.Models
         public virtual DbSet<Postal_District_List> Postal_District_List { get; set; }
         public virtual DbSet<Menu> Menus { get; set; }
         public virtual DbSet<Announcement> Announcements { get; set; }
+        public virtual DbSet<LandingImage> LandingImages { get; set; }
     
         public virtual int Record_Upload_Transaction_Log(string uploadServerTranID, string uploadfilename, string filepath, string descr, string createdby, Nullable<System.DateTime> createddate)
         {
@@ -389,6 +390,27 @@ namespace LearnMVC.Models
                 new ObjectParameter("classification", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("InsertAnnouncements", announcementTitleParameter, announcementContentParameter, createdByParameter, classificationParameter);
+        }
+    
+        public virtual ObjectResult<string> InsertLandingPageImages(string landingimagename, string landingImagePath, string sortOrder, string createdby)
+        {
+            var landingimagenameParameter = landingimagename != null ?
+                new ObjectParameter("landingimagename", landingimagename) :
+                new ObjectParameter("landingimagename", typeof(string));
+    
+            var landingImagePathParameter = landingImagePath != null ?
+                new ObjectParameter("LandingImagePath", landingImagePath) :
+                new ObjectParameter("LandingImagePath", typeof(string));
+    
+            var sortOrderParameter = sortOrder != null ?
+                new ObjectParameter("SortOrder", sortOrder) :
+                new ObjectParameter("SortOrder", typeof(string));
+    
+            var createdbyParameter = createdby != null ?
+                new ObjectParameter("Createdby", createdby) :
+                new ObjectParameter("Createdby", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("InsertLandingPageImages", landingimagenameParameter, landingImagePathParameter, sortOrderParameter, createdbyParameter);
         }
     }
 }

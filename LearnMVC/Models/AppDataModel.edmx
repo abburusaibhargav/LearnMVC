@@ -17,7 +17,7 @@
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
-          <Property Name="AnnouncementClassification" Type="nvarchar" MaxLength="5" />
+          <Property Name="AnnouncementClassification" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="ASCII_Reference">
           <Key>
@@ -175,6 +175,19 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateadDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LandingImages">
+          <Key>
+            <PropertyRef Name="LandingImageID" />
+          </Key>
+          <Property Name="LandingImageID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LandingImageName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LandingImagePath" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SortOrder" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="LoanDetails">
@@ -667,6 +680,12 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Parameter Name="createdBy" Type="nvarchar" Mode="In" />
           <Parameter Name="classification" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="InsertLandingPageImages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="landingimagename" Type="nvarchar" Mode="In" />
+          <Parameter Name="LandingImagePath" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="nvarchar" Mode="In" />
+          <Parameter Name="Createdby" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="NumbersToWords" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="value" Type="bigint" Mode="In" />
         </Function>
@@ -773,6 +792,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <EntitySet Name="ConsigneeDetails" EntityType="Self.ConsigneeDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConsignmentDetails" EntityType="Self.ConsignmentDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Data_Process_Log" EntityType="Self.Data_Process_Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LandingImages" EntityType="Self.LandingImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoanDetails" EntityType="Self.LoanDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Login_Credentials" EntityType="Self.Login_Credentials" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
@@ -1199,6 +1219,13 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             <Parameter Name="createdBy" Mode="In" Type="String" />
             <Parameter Name="classification" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="LandingImages" EntityType="AppDataModel.LandingImage" />
+          <FunctionImport Name="InsertLandingPageImages" ReturnType="Collection(String)">
+            <Parameter Name="landingimagename" Mode="In" Type="String" />
+            <Parameter Name="LandingImagePath" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="Createdby" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Login_Credentials">
           <Key>
@@ -1621,7 +1648,20 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AnnouncementClassification" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="AnnouncementClassification" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="LandingImage">
+          <Key>
+            <PropertyRef Name="LandingImageID" />
+          </Key>
+          <Property Name="LandingImageID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LandingImageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LandingImagePath" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2127,6 +2167,21 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="InsertAnnouncements" FunctionName="AppDataModel.Store.InsertAnnouncements" />
+          <EntitySetMapping Name="LandingImages">
+            <EntityTypeMapping TypeName="AppDataModel.LandingImage">
+              <MappingFragment StoreEntitySet="LandingImages">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="LandingImagePath" ColumnName="LandingImagePath" />
+                <ScalarProperty Name="LandingImageName" ColumnName="LandingImageName" />
+                <ScalarProperty Name="LandingImageID" ColumnName="LandingImageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InsertLandingPageImages" FunctionName="AppDataModel.Store.InsertLandingPageImages" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

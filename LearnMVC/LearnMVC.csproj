@@ -284,6 +284,9 @@
     <Compile Include="Models\Get_OfficeDetails_By_Pincode_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LandingImage.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LoanDetail.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
@@ -426,9 +429,11 @@
     <Content Include="Views\Consignment\CheckConsignmentStatus.cshtml" />
     <Content Include="Views\Consignment\UpdateConsignmentStatus.cshtml" />
     <Content Include="Views\Admin\Announcements.cshtml" />
+    <Content Include="Views\Admin\LandingImageControl.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\LandingImages\" />
     <Folder Include="Content\Uploads\" />
     <Folder Include="Views\GeneratePDF\" />
   </ItemGroup>

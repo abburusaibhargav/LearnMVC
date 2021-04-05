@@ -1,0 +1,45 @@
+﻿@model LearnMVC.Models.LandingImage
+
+@{
+    ViewBag.Title = "LandingImageControl";
+}
+
+<h2 id="headings">Landing Image Control</h2>
+<hr />
+@using (Html.BeginForm("LandingImageControl", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <label for="LandingImageName" class="control-label">Image Name</label>
+            <input id="LandingImageName" type="text" class="form-control" name="LandingImageName" placeholder="Image Name" required />
+
+            <label for="LandingImagePath" class="control-label">Image Path</label>
+            <input type="file" id="LandingImagePath" class="form-control" name="LandingImagePath" required />
+
+            <label for="SortOrder" class="control-label">Sort Order</label>
+            <input id="SortOrder" type="text" class="form-control" name="SortOrder" placeholder="Sort Order" required />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-6">
+            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="reset" class="btn btn-primary">Reset</button>
+            <a class="btn btn-primary" href="~/Admin/Index">Home</a>
+        </div>
+    </div>
+    if (ViewBag.Result != null)
+    {
+        <div class="row text-center">
+            <p class="text-success">@ViewBag.Result</p>
+        </div>
+    }
+    if (ViewBag.FileExtensionError != null)
+    {
+        <div class="row text-center">
+            <p class="text-danger">@ViewBag.FileExtensionError</p>
+        </div>
+    }
+
+}
+
