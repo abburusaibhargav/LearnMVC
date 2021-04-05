@@ -15,6 +15,15 @@ namespace LearnMVC.Controllers
 
         public ActionResult Index(string UserID)
         {
+            if (UserID != null)
+            {
+                if (Session["UserID"] != null)
+                {
+                    var userdetails = connectionEntity.Users.Where(x => x.UserID == UserID).FirstOrDefault();
+                    Session["Username"] = userdetails.first_name + " " + userdetails.last_name;
+                }
+            }
+            #region Announcements
             var Announcements = connectionEntity.Announcements
                                 .Where(x => x.Active == true)
                                 .OrderByDescending(date => date.CreatedDate)
@@ -28,15 +37,8 @@ namespace LearnMVC.Controllers
             {
                 ViewBag.Announcements = null;
             }
+            #endregion
 
-            if (UserID != null)
-            {
-                if (Session["UserID"] != null)
-                {
-                    var userdetails = connectionEntity.Users.Where(x => x.UserID == UserID).FirstOrDefault();
-                    Session["Username"] = userdetails.first_name + " "+ userdetails.last_name;
-                }
-            } 
             return View();
         }
         public ActionResult Help()

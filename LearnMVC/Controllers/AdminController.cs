@@ -54,6 +54,16 @@ namespace LearnMVC.Controllers
         }
         public ActionResult LandingImageControl()
         {
+            var result = connectionEntity.LandingImages.Where(x => x.Active == true).OrderByDescending(s => s.SortOrder).Take(1).FirstOrDefault();
+
+            if(result != null)
+            {
+                ViewBag.MaxSortOrder = result.SortOrder + 1;
+            }
+            else
+            {
+                ViewBag.MaxSortOrder = 1;
+            }
             return View();
         }
 
@@ -74,18 +84,18 @@ namespace LearnMVC.Controllers
 
                     LandingImagePath.SaveAs(filepath);
 
-                    var result = connectionEntity.InsertLandingPageImages(
+                    string result = connectionEntity.InsertLandingPageImages(
                         landingImage.LandingImageName,
                         dbpath,
                         landingImage.SortOrder,
                         Session["UserID"].ToString()
-                        ); ;
+                        ).ToString();
 
-                    if (result != null)
+                    if(result != null)
                     {
                         ViewBag.Result = "Image Insert Successful.";
-                        TempData["Result"] = "Image Insert Successful.";
                     }
+                       
                 }
                 else
                 {
@@ -96,7 +106,7 @@ namespace LearnMVC.Controllers
             ModelState.Clear();
             Dispose();
             
-            return View("LandingImageControl");
+            return RedirectToAction("LandingImageControl");
         }
     }
 }

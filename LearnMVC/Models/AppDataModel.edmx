@@ -184,11 +184,12 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="LandingImageID" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="LandingImageName" Type="nvarchar" MaxLength="100" />
           <Property Name="LandingImagePath" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="SortOrder" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SortOrder" Type="int" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
           <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="Active" Type="bit" />
         </EntityType>
         <EntityType Name="LoanDetails">
           <Key>
@@ -683,7 +684,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
         <Function Name="InsertLandingPageImages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="landingimagename" Type="nvarchar" Mode="In" />
           <Parameter Name="LandingImagePath" Type="nvarchar" Mode="In" />
-          <Parameter Name="SortOrder" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="int" Mode="In" />
           <Parameter Name="Createdby" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="NumbersToWords" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1220,10 +1221,10 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             <Parameter Name="classification" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="LandingImages" EntityType="AppDataModel.LandingImage" />
-          <FunctionImport Name="InsertLandingPageImages" ReturnType="Collection(String)">
+          <FunctionImport Name="InsertLandingPageImages">
             <Parameter Name="landingimagename" Mode="In" Type="String" />
             <Parameter Name="LandingImagePath" Mode="In" Type="String" />
-            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="Int32" />
             <Parameter Name="Createdby" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
@@ -1657,11 +1658,12 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="LandingImageID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="LandingImageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="LandingImagePath" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SortOrder" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" />
           <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2170,6 +2172,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <EntitySetMapping Name="LandingImages">
             <EntityTypeMapping TypeName="AppDataModel.LandingImage">
               <MappingFragment StoreEntitySet="LandingImages">
+                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

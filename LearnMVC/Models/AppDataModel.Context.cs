@@ -392,7 +392,7 @@ namespace LearnMVC.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("InsertAnnouncements", announcementTitleParameter, announcementContentParameter, createdByParameter, classificationParameter);
         }
     
-        public virtual ObjectResult<string> InsertLandingPageImages(string landingimagename, string landingImagePath, string sortOrder, string createdby)
+        public virtual int InsertLandingPageImages(string landingimagename, string landingImagePath, Nullable<int> sortOrder, string createdby)
         {
             var landingimagenameParameter = landingimagename != null ?
                 new ObjectParameter("landingimagename", landingimagename) :
@@ -402,15 +402,15 @@ namespace LearnMVC.Models
                 new ObjectParameter("LandingImagePath", landingImagePath) :
                 new ObjectParameter("LandingImagePath", typeof(string));
     
-            var sortOrderParameter = sortOrder != null ?
+            var sortOrderParameter = sortOrder.HasValue ?
                 new ObjectParameter("SortOrder", sortOrder) :
-                new ObjectParameter("SortOrder", typeof(string));
+                new ObjectParameter("SortOrder", typeof(int));
     
             var createdbyParameter = createdby != null ?
                 new ObjectParameter("Createdby", createdby) :
                 new ObjectParameter("Createdby", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("InsertLandingPageImages", landingimagenameParameter, landingImagePathParameter, sortOrderParameter, createdbyParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertLandingPageImages", landingimagenameParameter, landingImagePathParameter, sortOrderParameter, createdbyParameter);
         }
     }
 }
