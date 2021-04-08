@@ -86,11 +86,6 @@ namespace LearnMVC.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Record_Upload_Transaction_Log", uploadServerTranIDParameter, uploadfilenameParameter, filepathParameter, descrParameter, createdbyParameter, createddateParameter);
         }
     
-        public virtual int Get_User_List()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Get_User_List");
-        }
-    
         public virtual int Insert_User_Details(string first_name, string last_name, string gender, string phone, string email, string username, string password)
         {
             var first_nameParameter = first_name != null ?
@@ -201,19 +196,31 @@ namespace LearnMVC.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("User_Auth", useridParameter, pwdParameter);
         }
     
-        public virtual int Search_Get_User_List()
+        public virtual int Search_Get_User_List(string userID)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Search_Get_User_List");
+            var userIDParameter = userID != null ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Search_Get_User_List", userIDParameter);
         }
     
-        public virtual ObjectResult<User> All_User_List()
+        public virtual ObjectResult<User> All_User_List(string userID)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<User>("All_User_List");
+            var userIDParameter = userID != null ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<User>("All_User_List", userIDParameter);
         }
     
-        public virtual ObjectResult<User> All_User_List(MergeOption mergeOption)
+        public virtual ObjectResult<User> All_User_List(string userID, MergeOption mergeOption)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<User>("All_User_List", mergeOption);
+            var userIDParameter = userID != null ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<User>("All_User_List", mergeOption, userIDParameter);
         }
     
         public virtual int GetCircleNameDDL(string stateID)
@@ -411,6 +418,15 @@ namespace LearnMVC.Models
                 new ObjectParameter("Createdby", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertLandingPageImages", landingimagenameParameter, landingImagePathParameter, sortOrderParameter, createdbyParameter);
+        }
+    
+        public virtual ObjectResult<Get_User_List_Result> Get_User_List(string userID)
+        {
+            var userIDParameter = userID != null ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_User_List_Result>("Get_User_List", userIDParameter);
         }
     }
 }

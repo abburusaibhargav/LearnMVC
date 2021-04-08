@@ -66,5 +66,29 @@ namespace LearnMVC.Controllers
             return RedirectToAction("DownloadtoExcelResult", "Download", new RouteValueDictionary
                                                   (new { Controller = "Download", Action = "DownloadtoExcelResult", DownloadTranID = tranid }));
         }
+
+        public ActionResult DownloadUserList(string Proc, string UserID)
+        {
+            gridView.DataSource = connectionEntity.Get_User_List(UserID).ToList();
+            gridView.DataBind();
+
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment ; filename=" + Proc + ".xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+
+            StringWriter stringWriter = new StringWriter();
+            HtmlTextWriter htmlTextWriter = new HtmlTextWriter(stringWriter);
+
+            gridView.RenderControl(htmlTextWriter);
+
+            Response.Output.Write(stringWriter.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("AllUserList", "Search", new RouteValueDictionary
+                                                  (new { Controller = "Search", Action = "AllUserList" }));
+        }
     }
 }

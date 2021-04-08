@@ -1,7 +1,77 @@
-﻿
+﻿@model IEnumerable<LearnMVC.Models.Get_User_List_Result>
 @{
-    ViewBag.Title = "AllUserList";
+    ViewBag.Title = "All Users List";
 }
 
-<h2>AllUserList</h2>
+<h2 id="headings">Users List</h2>
+<hr />
+<h4 class="pull-left" style="color:red; font-style:italic">Search has retreived total @TempData["TotalTblRecords"] out of @TempData.Peek("TotalRecordsToFetch")</h4>
+@Html.ActionLink("Download to Excel","DownloadUserList","Download", new { Proc = "Get_User_List", UserID=Session["UserID"].ToString()}, new { @class = "btn btn-primary pull-right"})
+<table class="table table-bordered table-striped table-responsive table-hover text-center">
+    <tr id="rows">
+        <td>User ID</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>Gender</td>
+        <td>E-Mail</td>
+        <td>Contact Number</td>
+        <td>Actions</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.first_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.last_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                <a class="glyphicon-envelope btn btn-primary" data-target="#mailmodel" data-toggle="modal"></a>
+                <span>
+                    <a class="glyphicon-pencil btn btn-primary" data-target="#msgmodal" data-toggle="modal"></a>
+                </span>
+            </td>
+        </tr>
+    }
+</table>
+<br />
 
+@using (Html.BeginForm("AllUserList", "Search", FormMethod.Post))
+{
+    <div class="row text-center">
+        <ul class="pagination text-justify">
+            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+            {
+                if (i != ViewBag.CurrentPage)
+                {
+                    <li><a href="javascript:PagerClick(@i);">@i</a></li>
+                }
+                else
+                {
+                    <li class="disabled"><a href="#">@i</a></li>
+                }
+            }
+        </ul>
+    </div>
+    <input type="hidden" id="hfCurrentPageIndex" name="CurrentPageIndex" />
+}
+
+<script type="text/javascript">
+    function PagerClick(index) {
+        document.getElementById("hfCurrentPageIndex").value = index;
+        document.forms[0].submit();
+    }
+</script>

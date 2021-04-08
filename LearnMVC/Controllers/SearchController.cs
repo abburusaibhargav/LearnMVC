@@ -12,9 +12,9 @@ namespace LearnMVC.Controllers
 {
     public class SearchController : Controller
     {
-      
+
         /// /Entity Framework data connection to database
-        
+
         AppDataConnectionEntity connectionEntity = new AppDataConnectionEntity();
         // GET: Search
 
@@ -24,16 +24,43 @@ namespace LearnMVC.Controllers
         }
         public ActionResult AllUserList()
         {
-            var userlist = connectionEntity.Search_Get_User_List().ToString();
-            var userviewlist = userlist.FirstOrDefault();
-            return View(userviewlist);
-            
+            string UserID = Session["UserID"].ToString();
+            int CurrentPageIndex = 1;
+
+            var result = GetAllUserList(UserID, CurrentPageIndex).ToList();
+            TempData["TotalTblRecords"] = result.Count();
+            TempData["TotalRecordsToFetch"] = connectionEntity.Get_User_List(UserID).Count();
+            if(result != null)
+            {
+                ViewBag.CurrentPage = CurrentPageIndex;
+                return View(result);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }   
+        }
+        [HttpPost]
+        public ActionResult AllUserList(int CurrentPageIndex)
+        {
+            string UserID = Session["UserID"].ToString();
+            var result = GetAllUserList(UserID, CurrentPageIndex).ToList();
+            if (result != null)
+            {
+                TempData["TotalTblRecords"] = result.Count();
+                ViewBag.CurrentPage = CurrentPageIndex;
+                return View(result);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: Search/Details/5
         public ActionResult Details(string UserID)
         {
-            if(Session["UserID"] != null)
+            if (Session["UserID"] != null)
             {
                 return View(connectionEntity.Users.Where(x => x.UserID == UserID).FirstOrDefault());
             }
@@ -53,7 +80,7 @@ namespace LearnMVC.Controllers
         [HttpPost]
         public ActionResult Create(User user)
         {
-            if(Session["UserID"] != null)
+            if (Session["UserID"] != null)
             {
                 try
                 {
@@ -79,7 +106,7 @@ namespace LearnMVC.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-                      
+
         }
 
         // GET: Search/Edit/5
@@ -95,7 +122,7 @@ namespace LearnMVC.Controllers
             try
             {
                 connectionEntity.Update_User_Details(user.UserID, user.first_name, user.last_name, user.gender, user.email, user.Phone);
-                return RedirectToAction("Index","Search");
+                return RedirectToAction("Index", "Search");
             }
             catch
             {
@@ -123,6 +150,26 @@ namespace LearnMVC.Controllers
             {
                 return View();
             }
+        }
+
+        public List<Get_User_List_Result> GetAllUserList(string UserID, int currentpage)
+        {
+            int maxrows = 10;
+            Pager pager = new Pager();
+
+            var users = connectionEntity.Get_User_List(UserID)
+                .OrderBy(s=>s.UserID)
+                .Skip((currentpage - 1)* maxrows)
+                .Take(maxrows)
+                .ToList();
+
+            double pagecount = (double)((decimal)connectionEntity.Get_User_List(UserID).Count() / Convert.ToDecimal(maxrows));
+
+            pager.PageCount = (int)Math.Ceiling(pagecount);
+            ViewBag.TotalPage = pager.PageCount;
+            ViewBag.CurrentPage = currentpage;
+            
+            return users;
         }
     }
 }

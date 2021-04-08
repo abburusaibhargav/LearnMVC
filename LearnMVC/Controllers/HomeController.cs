@@ -69,6 +69,7 @@ namespace LearnMVC.Controllers
             return RedirectToAction("Index","Home");
         }
 
+
         public List<LandingImage> GetLandingImages()
         {
             List<LandingImage> landingImages = new List<LandingImage>();

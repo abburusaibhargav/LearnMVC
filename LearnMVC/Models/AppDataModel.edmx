@@ -664,7 +664,9 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
         <Function Name="Get_User_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="nvarchar" Mode="In" />
         </Function>
-        <Function Name="Get_User_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Get_User_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetHomePageMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Insert_User_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="first_name" Type="nvarchar" Mode="In" />
@@ -1083,7 +1085,6 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             <Parameter Name="createdby" Mode="In" Type="String" />
             <Parameter Name="createddate" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="Get_User_List" />
           <FunctionImport Name="Insert_User_Details">
             <Parameter Name="first_name" Mode="In" Type="String" />
             <Parameter Name="last_name" Mode="In" Type="String" />
@@ -1164,8 +1165,12 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             <End Role="Postal_District_List" EntitySet="Postal_District_List" />
             <End Role="Postal_Office_List" EntitySet="Postal_Office_List" />
           </AssociationSet>
-          <FunctionImport Name="Search_Get_User_List" />
-          <FunctionImport Name="All_User_List" EntitySet="Users" ReturnType="Collection(AppDataModel.User)" />
+          <FunctionImport Name="Search_Get_User_List" >
+          <Parameter Name="UserID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="All_User_List" EntitySet="Users" ReturnType="Collection(AppDataModel.User)" >
+          <Parameter Name="UserID" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="GetCircleNameDDL">
           <Parameter Name="StateID" Mode="In" Type="String" />
           </FunctionImport>
@@ -1226,6 +1231,9 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             <Parameter Name="LandingImagePath" Mode="In" Type="String" />
             <Parameter Name="SortOrder" Mode="In" Type="Int32" />
             <Parameter Name="Createdby" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Get_User_List" ReturnType="Collection(AppDataModel.Get_User_List_Result)">
+            <Parameter Name="UserID" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Login_Credentials">
@@ -1665,6 +1673,16 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Boolean" />
         </EntityType>
+        <ComplexType Name="Get_User_List_Result">
+          <Property Type="String" Name="UserID" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="gender" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1814,7 +1832,6 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Record_Upload_Transaction_Log" FunctionName="AppDataModel.Store.Record_Upload_Transaction_Log" />
-          <FunctionImportMapping FunctionImportName="Get_User_List" FunctionName="AppDataModel.Store.Get_User_List" />
           <FunctionImportMapping FunctionImportName="Insert_User_Details" FunctionName="AppDataModel.Store.Insert_User_Details" />
           <FunctionImportMapping FunctionImportName="Update_User_Details" FunctionName="AppDataModel.Store.Update_User_Details" />
           <FunctionImportMapping FunctionImportName="Get_User_Details_By_UserID" FunctionName="AppDataModel.Store.Get_User_Details" />
@@ -2086,8 +2103,6 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="Search_Get_User_List" FunctionName="AppDataModel.Store.Get_User_List" />
-          <FunctionImportMapping FunctionImportName="All_User_List" FunctionName="AppDataModel.Store.Get_User_List" />
           <FunctionImportMapping FunctionImportName="GetCircleNameDDL" FunctionName="AppDataModel.Store.Get_Postal_Circle_Data_by_StateID" />
           <FunctionImportMapping FunctionImportName="GetDivisionNamDDL" FunctionName="AppDataModel.Store.Get_Division_Data_by_RegionID" />
           <FunctionImportMapping FunctionImportName="GetRegionNameDDL" FunctionName="AppDataModel.Store.Get_Postal_Region_Data_by_CirleID" />
@@ -2185,6 +2200,20 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="InsertLandingPageImages" FunctionName="AppDataModel.Store.InsertLandingPageImages" />
+          <FunctionImportMapping FunctionImportName="Get_User_List" FunctionName="AppDataModel.Store.Get_User_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AppDataModel.Get_User_List_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
