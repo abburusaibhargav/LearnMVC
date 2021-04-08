@@ -66,7 +66,7 @@ namespace LearnMVC.Controllers
             }
             return RedirectToAction("Login", "Account", new RouteValueDictionary(new { Controller = "Login", Action = "Account", authstatus = "nouserfound" }));
         }
-        public ActionResult Logout(string UserID)
+        public ActionResult Logout(string result)
         {
             Session["UserID"] = null;
             Dispose();

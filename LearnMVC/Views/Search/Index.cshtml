@@ -1,78 +1,104 @@
-﻿@model IEnumerable<LearnMVC.Models.User>
-
+﻿
 @{
     ViewBag.Title = "Index";
 }
+<style>
+.well{
+    background-color:antiquewhite;
+    box-shadow:rgba(0,0,0,0.4) 10px 10px;
 
-<h2 id="headings">User List</h2>
+}
+</style>
+<h2 id="headings">Search Control</h2>
+<hr />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-    @Html.ActionLink("Download PDF", "UserList", "GeneratePDF" , new { @class="btn btn-primary pull-right"})
-</p>
-<br />
-    <table id="userlisttable" class=" table table-bordered table-responsive table-striped table-hover">
-        <tr>
-            <th>
-                First Name
-               
-            </th>
-            <th>
-                Last Name
-               
-            </th>
-            <th>
-                Gender
-               
-            </th>
-            <th>
-               E-Mail
-                
-            </th>
-            <th>
-                Contact#
-              
-            </th>
-            <th>
-                Created By
-            </th>
-            <th>
-                Created On
-            </th>
-            <th>Action</th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.first_name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.last_name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { UserID = item.UserID }, new{ @class="text-warning"}) |
-                    @Html.ActionLink("Details", "Details", new { UserID = item.UserID }, new { @class = "text-info" }) |
-                    @Html.ActionLink("Delete", "Delete", new { UserID = item.UserID }, new { @class = "text-danger" })
-                </td>
-            </tr>
-        }
-
-    </table>
-
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+</div> 
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <a href="#">
+            <div class="well well-lg">
+                <h4>Voting in West Bengal, Assam (both phase 3) Tamil Nadu, Kerala & Puducherry</h4>
+            </div>
+        </a>
+    </div>
+</div>

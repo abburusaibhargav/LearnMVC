@@ -4,4 +4,11 @@
 }
 
 <h2>Logout</h2>
-
+<hr />
+<div class="row">
+    <div class="jumbotron">
+        <strong class="text-success">@ViewBag.Result</strong>
+        <br />
+        @Html.ActionLink("Click here to login back","Index","Home", new { @class="text-center text-success"})
+    </div>
+</div>

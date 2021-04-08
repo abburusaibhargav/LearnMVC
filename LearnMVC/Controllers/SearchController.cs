@@ -18,6 +18,10 @@ namespace LearnMVC.Controllers
         AppDataConnectionEntity connectionEntity = new AppDataConnectionEntity();
         // GET: Search
 
+        public ActionResult Index()
+        {
+            return View();
+        }
         public ActionResult AllUserList()
         {
             var userlist = connectionEntity.Search_Get_User_List().ToString();

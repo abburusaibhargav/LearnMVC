@@ -9,12 +9,16 @@ using LearnMVC.Models;
 
 namespace LearnMVC.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         AppDataConnectionEntity connectionEntity = new AppDataConnectionEntity();
 
         public ActionResult Index(string UserID)
         {
+            //Response.AddHeader("Refresh", "5");
+            var Announcements = GetAnnouncements();
+
             if (UserID != null)
             {
                 if (Session["UserID"] != null)
@@ -23,11 +27,6 @@ namespace LearnMVC.Controllers
                     Session["Username"] = userdetails.first_name + " " + userdetails.last_name;
                 }
             }
-            #region Announcements
-            var Announcements = connectionEntity.Announcements
-                                .Where(x => x.Active == true)
-                                .OrderByDescending(date => date.CreatedDate)
-                                .ToList();
 
             if(Announcements != null)
             {
@@ -37,7 +36,6 @@ namespace LearnMVC.Controllers
             {
                 ViewBag.Announcements = null;
             }
-            #endregion
 
             return View();
         }
@@ -46,6 +44,19 @@ namespace LearnMVC.Controllers
             return View();
         }
 
+        public ActionResult GetHomeLandingImages()
+        {
+            var images = GetLandingImages();
+            if(images != null)
+            {
+                ViewBag.Images = images;    
+            }
+            else
+            {
+                ViewBag.Images = "No data";
+            }
+            return PartialView("HomeLandingImages");
+        }
         public ActionResult Admin()
         {
             string UserID = Session["UserID"].ToString();
@@ -56,6 +67,26 @@ namespace LearnMVC.Controllers
         public ActionResult MailSystem(MailSystemModel mail)
         {
             return RedirectToAction("Index","Home");
+        }
+
+        public List<LandingImage> GetLandingImages()
+        {
+            List<LandingImage> landingImages = new List<LandingImage>();
+            landingImages = connectionEntity.LandingImages.Where(x => x.Active == true).OrderBy(s => s.SortOrder).ToList();
+
+            return landingImages;
+           
+        }
+
+        public List<Announcement> GetAnnouncements()
+        {
+            List<Announcement> announcements = new List<Announcement>();
+            announcements = connectionEntity.Announcements
+                                .Where(x => x.Active == true)
+                                .OrderByDescending(date => date.CreatedDate)
+                                .ToList();
+
+            return announcements;
         }
     }
 }
