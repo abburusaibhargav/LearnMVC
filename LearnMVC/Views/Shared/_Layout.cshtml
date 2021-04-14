@@ -31,10 +31,11 @@
                         <li>@Html.ActionLink("Consignment", "Index", "Consignment")</li>
                         <li>@Html.ActionLink("Search Data", "Index", "Search")</li>
                         <li>@Html.ActionLink("Upload Center", "Upload", "Upload")</li>
-                    }
-                    <li>@Html.ActionLink("Help", "Help", "Home")</li>
+                        <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
+                    }    
                 </ul>
                 <ul class="nav navbar-nav pull-right">
+                    <li>@Html.ActionLink("Help", "Help", "Home")</li>
                     @if (Session["UserID"] != null)
                     {
                         <li>@Html.ActionLink("Admin", "Index", "Admin")</li>

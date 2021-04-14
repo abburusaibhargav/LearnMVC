@@ -1,0 +1,46 @@
+﻿@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (ViewBag.AnnouncementsResults != null)
+{
+    <table class="table table-bordered table-hover table-striped table-responsive">
+        <tr id="rows">
+            <td>
+                Announcement ID
+            </td>
+            <td>
+                Announced On
+            </td>
+            <td>
+                Announcement Subject
+            </td>
+            <td>
+                Announcement
+            </td>
+            <td>
+                Announcement Classification
+            </td>
+        </tr>
+        @foreach (var item in ViewBag.AnnouncementsResults)
+        {
+    <tr>
+        <td>
+            @item.AnnouncementID
+        </td>
+        <td>
+            @item.CreatedDate
+        </td>
+        <td>
+            @item.AnnouncementTitle
+        </td>
+        <td>
+            @item.AnnouncementContent
+        </td>
+        <td>
+            @item.AnnouncementClassification
+        </td>
+    </tr>
+        }
+    </table>
+}
+

@@ -302,6 +302,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ConsignmentController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\GeneratePDFController.cs" />
     <Compile Include="Controllers\GenerateQRCodeController.cs" />
@@ -357,10 +358,16 @@
     <Compile Include="Models\EmiTable.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetAnnouncements_Result.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAnnouncements_Result1.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetHomePageMenu_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Get_Consignment_Details_By_BookingID_Result.cs">
+    <Compile Include="Models\Get_Consignment_Details_By_BookingID1_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Get_OfficeDetails_By_Pincode_Result.cs">
@@ -518,6 +525,10 @@
     <Content Include="Views\Home\HomeLandingImages.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Search\sdd.cshtml" />
+    <Content Include="Views\Search\SearchAnnouncements.cshtml" />
+    <Content Include="Views\Search\SearchResults.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Consignment\BookingConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

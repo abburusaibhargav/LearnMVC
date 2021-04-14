@@ -268,67 +268,6 @@ namespace LearnMVC.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetOfficeNameDDL", districtIDParameter);
         }
     
-        public virtual ObjectResult<string> Create_Consignment_Booking(string consigneename, string consignername, string consigneeaddress, string consigneraddress, string tostateid, string circleid, string regionid, string divisionid, string districtid, string officeid, string officetypeid, string deliverytypeid, Nullable<int> destinationpincode, string createdby)
-        {
-            var consigneenameParameter = consigneename != null ?
-                new ObjectParameter("consigneename", consigneename) :
-                new ObjectParameter("consigneename", typeof(string));
-    
-            var consignernameParameter = consignername != null ?
-                new ObjectParameter("consignername", consignername) :
-                new ObjectParameter("consignername", typeof(string));
-    
-            var consigneeaddressParameter = consigneeaddress != null ?
-                new ObjectParameter("consigneeaddress", consigneeaddress) :
-                new ObjectParameter("consigneeaddress", typeof(string));
-    
-            var consigneraddressParameter = consigneraddress != null ?
-                new ObjectParameter("consigneraddress", consigneraddress) :
-                new ObjectParameter("consigneraddress", typeof(string));
-    
-            var tostateidParameter = tostateid != null ?
-                new ObjectParameter("tostateid", tostateid) :
-                new ObjectParameter("tostateid", typeof(string));
-    
-            var circleidParameter = circleid != null ?
-                new ObjectParameter("circleid", circleid) :
-                new ObjectParameter("circleid", typeof(string));
-    
-            var regionidParameter = regionid != null ?
-                new ObjectParameter("regionid", regionid) :
-                new ObjectParameter("regionid", typeof(string));
-    
-            var divisionidParameter = divisionid != null ?
-                new ObjectParameter("divisionid", divisionid) :
-                new ObjectParameter("divisionid", typeof(string));
-    
-            var districtidParameter = districtid != null ?
-                new ObjectParameter("districtid", districtid) :
-                new ObjectParameter("districtid", typeof(string));
-    
-            var officeidParameter = officeid != null ?
-                new ObjectParameter("officeid", officeid) :
-                new ObjectParameter("officeid", typeof(string));
-    
-            var officetypeidParameter = officetypeid != null ?
-                new ObjectParameter("officetypeid", officetypeid) :
-                new ObjectParameter("officetypeid", typeof(string));
-    
-            var deliverytypeidParameter = deliverytypeid != null ?
-                new ObjectParameter("deliverytypeid", deliverytypeid) :
-                new ObjectParameter("deliverytypeid", typeof(string));
-    
-            var destinationpincodeParameter = destinationpincode.HasValue ?
-                new ObjectParameter("destinationpincode", destinationpincode) :
-                new ObjectParameter("destinationpincode", typeof(int));
-    
-            var createdbyParameter = createdby != null ?
-                new ObjectParameter("createdby", createdby) :
-                new ObjectParameter("createdby", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Create_Consignment_Booking", consigneenameParameter, consignernameParameter, consigneeaddressParameter, consigneraddressParameter, tostateidParameter, circleidParameter, regionidParameter, divisionidParameter, districtidParameter, officeidParameter, officetypeidParameter, deliverytypeidParameter, destinationpincodeParameter, createdbyParameter);
-        }
-    
         public virtual ObjectResult<Get_OfficeDetails_By_Pincode_Result> Get_OfficeDetails_By_Pincode(Nullable<int> pincode)
         {
             var pincodeParameter = pincode.HasValue ?
@@ -336,15 +275,6 @@ namespace LearnMVC.Models
                 new ObjectParameter("pincode", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_OfficeDetails_By_Pincode_Result>("Get_OfficeDetails_By_Pincode", pincodeParameter);
-        }
-    
-        public virtual ObjectResult<Get_Consignment_Details_By_BookingID_Result> Get_Consignment_Details_By_BookingID(string bookingID)
-        {
-            var bookingIDParameter = bookingID != null ?
-                new ObjectParameter("BookingID", bookingID) :
-                new ObjectParameter("BookingID", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Consignment_Details_By_BookingID_Result>("Get_Consignment_Details_By_BookingID", bookingIDParameter);
         }
     
         public virtual ObjectResult<GetHomePageMenu_Result> GetHomePageMenu()
@@ -427,6 +357,97 @@ namespace LearnMVC.Models
                 new ObjectParameter("UserID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_User_List_Result>("Get_User_List", userIDParameter);
+        }
+    
+        public virtual ObjectResult<GetAnnouncements_Result1> GetAnnouncements(string userid, Nullable<System.DateTime> from, Nullable<System.DateTime> to, string announcementClassification)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            var fromParameter = from.HasValue ?
+                new ObjectParameter("from", from) :
+                new ObjectParameter("from", typeof(System.DateTime));
+    
+            var toParameter = to.HasValue ?
+                new ObjectParameter("to", to) :
+                new ObjectParameter("to", typeof(System.DateTime));
+    
+            var announcementClassificationParameter = announcementClassification != null ?
+                new ObjectParameter("AnnouncementClassification", announcementClassification) :
+                new ObjectParameter("AnnouncementClassification", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAnnouncements_Result1>("GetAnnouncements", useridParameter, fromParameter, toParameter, announcementClassificationParameter);
+        }
+    
+        public virtual ObjectResult<string> Create_Consignment_Booking(string consigneename, string consignername, string consigneeaddress, string consigneraddress, string tostateid, string circleid, string regionid, string divisionid, string districtid, string officeid, string officetypeid, string deliverytypeid, Nullable<int> destinationpincode, string createdby)
+        {
+            var consigneenameParameter = consigneename != null ?
+                new ObjectParameter("consigneename", consigneename) :
+                new ObjectParameter("consigneename", typeof(string));
+    
+            var consignernameParameter = consignername != null ?
+                new ObjectParameter("consignername", consignername) :
+                new ObjectParameter("consignername", typeof(string));
+    
+            var consigneeaddressParameter = consigneeaddress != null ?
+                new ObjectParameter("consigneeaddress", consigneeaddress) :
+                new ObjectParameter("consigneeaddress", typeof(string));
+    
+            var consigneraddressParameter = consigneraddress != null ?
+                new ObjectParameter("consigneraddress", consigneraddress) :
+                new ObjectParameter("consigneraddress", typeof(string));
+    
+            var tostateidParameter = tostateid != null ?
+                new ObjectParameter("tostateid", tostateid) :
+                new ObjectParameter("tostateid", typeof(string));
+    
+            var circleidParameter = circleid != null ?
+                new ObjectParameter("circleid", circleid) :
+                new ObjectParameter("circleid", typeof(string));
+    
+            var regionidParameter = regionid != null ?
+                new ObjectParameter("regionid", regionid) :
+                new ObjectParameter("regionid", typeof(string));
+    
+            var divisionidParameter = divisionid != null ?
+                new ObjectParameter("divisionid", divisionid) :
+                new ObjectParameter("divisionid", typeof(string));
+    
+            var districtidParameter = districtid != null ?
+                new ObjectParameter("districtid", districtid) :
+                new ObjectParameter("districtid", typeof(string));
+    
+            var officeidParameter = officeid != null ?
+                new ObjectParameter("officeid", officeid) :
+                new ObjectParameter("officeid", typeof(string));
+    
+            var officetypeidParameter = officetypeid != null ?
+                new ObjectParameter("officetypeid", officetypeid) :
+                new ObjectParameter("officetypeid", typeof(string));
+    
+            var deliverytypeidParameter = deliverytypeid != null ?
+                new ObjectParameter("deliverytypeid", deliverytypeid) :
+                new ObjectParameter("deliverytypeid", typeof(string));
+    
+            var destinationpincodeParameter = destinationpincode.HasValue ?
+                new ObjectParameter("destinationpincode", destinationpincode) :
+                new ObjectParameter("destinationpincode", typeof(int));
+    
+            var createdbyParameter = createdby != null ?
+                new ObjectParameter("createdby", createdby) :
+                new ObjectParameter("createdby", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Create_Consignment_Booking", consigneenameParameter, consignernameParameter, consigneeaddressParameter, consigneraddressParameter, tostateidParameter, circleidParameter, regionidParameter, divisionidParameter, districtidParameter, officeidParameter, officetypeidParameter, deliverytypeidParameter, destinationpincodeParameter, createdbyParameter);
+        }
+    
+        public virtual ObjectResult<Get_Consignment_Details_By_BookingID1_Result> Get_Consignment_Details_By_BookingID(string bookingID)
+        {
+            var bookingIDParameter = bookingID != null ?
+                new ObjectParameter("BookingID", bookingID) :
+                new ObjectParameter("BookingID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Consignment_Details_By_BookingID1_Result>("Get_Consignment_Details_By_BookingID", bookingIDParameter);
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using LearnMVC.Models.Consignment;
 using System.Web.Routing;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace LearnMVC.Controllers
 {
@@ -84,22 +86,31 @@ namespace LearnMVC.Controllers
             int ToPincode = createDomesticBooking.ConsignerPincode;
             string createdby = Session["UserID"].ToString();
 
-            string BookingID = consignment.BookingID;
+            string BookingID = string.Empty;
 
             BookingID = connectionEntity.Create_Consignment_Booking(ConsigneeName, ConsignerName, ConsigneeAddress, ConsignerAddress,
-                ToStateID, CircleID, RegionId, divisionId, districtId, OfficeId, officeTypeId, delivery, ToPincode, createdby).ToString();
+                ToStateID, CircleID, RegionId, divisionId, districtId, OfficeId, officeTypeId, delivery, ToPincode, createdby).First().ToString();
 
-            //return View();
-
-            return RedirectToAction("BookConsignmentDetails", "Consignment",
-                        new RouteValueDictionary(new { Controller = "Consignment", Action = "BookConsignmentDetails", BookingID = BookingID }));
+            if(BookingID != null)
+            {
+                return RedirectToAction("BookingConfirm", "Consignment",
+                    new RouteValueDictionary(
+                        new { Action = "BookingConfirm", Controller = "Consignment", status = true, BookingID = BookingID.ToString() }));
+            }
+            else
+            {
+                return RedirectToAction("BookingConfirm", "Consignment",
+                    new RouteValueDictionary(
+                        new { Action = "BookingConfirm", Controller = "Consignment", status = false }));
+            }
+        
         }
 
         public ActionResult BookConsignmentDetails(string BookingID, BookConsignment consignment)
         {
             if (BookingID != null)
             {
-                var BookingDetails = connectionEntity.Get_Consignment_Details_By_BookingID(BookingID);
+                var BookingDetails = connectionEntity.Get_Consignment_Details_By_BookingID(BookingID).ToString();
                 return View(BookingDetails);
             }
             else
@@ -107,6 +118,21 @@ namespace LearnMVC.Controllers
                return RedirectToAction("Index", "Consignment");
             }
           
+        }
+
+        public ActionResult BookingConfirm(bool status,string BookingID)
+        {
+           if(status == true)
+            {
+                if(BookingID != null)
+                {
+                    var results = connectionEntity.Get_Consignment_Details_By_BookingID(BookingID).ToList();
+                    ViewBag.Results = results;
+
+                    return View();
+                }
+            }
+            return View();
         }
 
         [HttpGet]

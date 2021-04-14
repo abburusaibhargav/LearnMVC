@@ -4,8 +4,11 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+using System.Reflection;
 using LearnMVC.Models;
 
 namespace LearnMVC.Controllers
@@ -108,8 +111,41 @@ namespace LearnMVC.Controllers
             }
 
         }
+     
+        public ActionResult SearchAnnouncements(string UserID,[Optional]DateTime from, [Optional]DateTime To, string AnnouncementClassification)
+        {
+            if (UserID != null && from != null && To != null && AnnouncementClassification!=null)
+            {
+                var results = connectionEntity.GetAnnouncements(UserID, from, To, AnnouncementClassification).ToList();
+                if (results != null)
+                {
+                    ViewBag.Count = results.Count();
+                    ViewBag.AnnouncementsResults = results;
 
-        // GET: Search/Edit/5
+                }
+                return PartialView("SearchResults", results);
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SearchAnnouncements(string UserID, SearchModel model)
+        {
+            string UID = UserID;
+            DateTime From = model.Datefrom;
+            DateTime To = model.DateTo;
+            string AnnouncementClass = model.AnnouncementClassification;
+            //var results = connectionEntity.GetAnnouncements(UserID, model.Datefrom, model.DateTo, model.AnnouncementClassification).ToList();
+            //if(results != null)
+            //{
+            //    ViewBag.Count = results.Count();
+            //    ViewBag.AnnouncementsResults = results;
+
+            //}
+            return RedirectToAction("SearchAnnouncements", "Search", new RouteValueDictionary(
+                new 
+                { Action = "SearchAnnouncements", Controller = "Search", UserID = UID, from = From, to = To, AnnouncementClassification = AnnouncementClass }));
+        }
+
         public ActionResult Edit(User User)
         {
             return View();
@@ -158,7 +194,6 @@ namespace LearnMVC.Controllers
             Pager pager = new Pager();
 
             var users = connectionEntity.Get_User_List(UserID)
-                .OrderBy(s=>s.UserID)
                 .Skip((currentpage - 1)* maxrows)
                 .Take(maxrows)
                 .ToList();

@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "BookingConfirm";
+}
+
+<h2 id="headings">Booking Details</h2>
+
+<div>
+    <div id="bookingstatus">
+        <h4>Booking Status - <span>Success</span></h4>
+    </div>
+    <hr />
+    @{
+        if (ViewBag.Results != null)
+        {
+        <table id="bookdetailstable" class="table table-bordered table-hover table-responsive table-striped text-center">
+            @foreach (var item in ViewBag.Results)
+            {
+                <tr>
+                    <td id="rows">Booking ID</td>
+                    <td>@item.BookingID</td>
+                </tr>
+                <tr>
+                    <td id="rows">Consignee Name</td>
+                    <td>@item.ConsigneeName</td>
+                </tr>
+                <tr>
+                    <td id="rows">Consigner Name</td>
+                    <td>@item.ConsignerName</td>
+                </tr>
+                <tr>
+                    <td id="rows">Destination State</td>
+                    <td>@item.StateName</td>
+                </tr>
+                <tr>
+                    <td id="rows">Destination Circle</td>
+                    <td>@item.CircleName</td>
+                </tr>
+                <tr>
+                    <td id="rows">Destination Region</td>
+                    <td>@item.RegionName</td>
+                </tr>
+                <tr>
+                    <td id="rows">Destination Division</td>
+                    <td>@item.DivisionName</td>
+                </tr>
+                <tr>
+                    <td id="rows">Destination District</td>
+                    <td>@item.DistrictName</td>
+                </tr>
+                <tr>
+                    <td id="rows">Destination Office & Pin code</td>
+                    <td>@item.OfficeName | 
+                    <span>@item.Pincode</span>
+                    </td>
+                </tr>
+
+            }
+        </table>
+        }
+    }
+    <hr />
+    <div class="row text-center">
+        @Html.ActionLink("New Booking", "CreateBooking", "CreateBooking", new { @class = "btn btn-success" })
+        @Html.ActionLink("Go Back Home", "Index", "Home", new { @class = "btn btn-primary" })
+    </div>
+</div>
+

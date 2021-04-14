@@ -1,0 +1,49 @@
+﻿@model LearnMVC.Models.SearchModel
+@{
+    ViewBag.Title = "SearchAnnouncements";
+}
+
+<h2 id="headings">Search Announcements</h2>
+
+@using (Html.BeginForm("SearchAnnouncements", "Search", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-lg-3">
+            <label for="userid" class="control-label">User ID</label>
+            <input id="userid" class="form-control" name="UserID" value="@Session["UserID"].ToString()" readonly />
+        </div>
+        <div class="col-lg-3">
+            <label for="type" class="control-label">Select Announcement Type</label>
+            <select id="type" class="form-control" name="AnnouncementClassification">
+                <option class="active" value="#">--Select Announcement Type--</option>
+                <option value="FYI">FYI</option>
+                <option value="FYA">FYA</option>
+                <option value="Internal">Internal</option>
+                <option value="Confidential">Confidential</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <label for="from" class="control-label">From Date</label>
+            <input id="from" type="date" class="form-control" name="Datefrom" required />
+        </div>
+        <div class="col-lg-3">
+            <label for="to" class="control-label">To Date</label>
+            <input id="to" type="date" class="form-control" name="DateTo" required />
+        </div>
+    </div>
+    <br />
+    <div class="row text-center">
+        <button type="submit" class="btn btn-success">Search</button>
+        <button type="reset" class="btn btn-primary">Reset</button>
+        @Html.ActionLink("Back to Search", "Index", "Search", new { @class = "btn btn-primary" })
+    </div>
+    <hr />
+    
+        @Html.Partial("SearchResults");    
+}
+
+
+
+
+
+
