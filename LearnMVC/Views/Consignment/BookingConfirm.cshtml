@@ -9,16 +9,17 @@
         <h4>Booking Status - <span>Success</span></h4>
     </div>
     <hr />
+    @Html.ActionLink("Print", "PrintConsignmentDetails", "Consignment",new {BookingID= ViewBag.BookingID }, new { @class="btn btn-primary pull-right"})
     @{
         if (ViewBag.Results != null)
         {
         <table id="bookdetailstable" class="table table-bordered table-hover table-responsive table-striped text-center">
             @foreach (var item in ViewBag.Results)
             {
-                <tr>
-                    <td id="rows">Booking ID</td>
-                    <td>@item.BookingID</td>
-                </tr>
+            <tr>
+                <td id="rows">Booking ID</td>
+                <td>@item.BookingID</td>
+            </tr>
                 <tr>
                     <td id="rows">Consignee Name</td>
                     <td>@item.ConsigneeName</td>
@@ -26,6 +27,10 @@
                 <tr>
                     <td id="rows">Consigner Name</td>
                     <td>@item.ConsignerName</td>
+                </tr>
+                <tr>
+                    <td id="rows">Consignee Address</td>
+                    <td>@item.DestinationAddress</td>
                 </tr>
                 <tr>
                     <td id="rows">Destination State</td>
@@ -49,12 +54,13 @@
                 </tr>
                 <tr>
                     <td id="rows">Destination Office & Pin code</td>
-                    <td>@item.OfficeName | 
+                    <td>
+                        @item.OfficeName |
                     <span>@item.Pincode</span>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            }
+        }
         </table>
         }
     }
@@ -62,6 +68,7 @@
     <div class="row text-center">
         @Html.ActionLink("New Booking", "CreateBooking", "CreateBooking", new { @class = "btn btn-success" })
         @Html.ActionLink("Go Back Home", "Index", "Home", new { @class = "btn btn-primary" })
+        @Html.ActionLink("Get Status", "UpdateConsignmentStatus", "Consignment", new { BookingID = ViewBag.BookingID }, new { @class = "btn btn-primary" })
     </div>
 </div>
 

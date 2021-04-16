@@ -29,6 +29,7 @@ namespace LearnMVC.Models
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string ConsignmentStatus { get; set; }
         public Nullable<System.DateTime> StatusDate { get; set; }
+        public string DestinationAddress { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ConsigneeDetail> ConsigneeDetails { get; set; }

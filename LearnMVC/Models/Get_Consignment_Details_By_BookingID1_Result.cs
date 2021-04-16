@@ -10,11 +10,9 @@
 namespace LearnMVC.Models
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Get_Consignment_Details_By_BookingID1_Result
     {
-        [Key]
         public string BookingID { get; set; }
         public string ConsigneeName { get; set; }
         public string ConsignerName { get; set; }
@@ -25,5 +23,6 @@ namespace LearnMVC.Models
         public string DistrictName { get; set; }
         public string OfficeName { get; set; }
         public int Pincode { get; set; }
+        public string DestinationAddress { get; set; }
     }
 }

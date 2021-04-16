@@ -1,16 +1,13 @@
 ﻿using LearnMVC.Models;
-using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using ClosedXML.Excel;
-using System.Web.UI;
 using System.Web.Routing;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace LearnMVC.Controllers
 {
@@ -28,9 +25,9 @@ namespace LearnMVC.Controllers
 
 
         // GET: Download
-        public ActionResult DownloadtoExcelResult( string DownloadTranID, string transid, string Report)
+        public ActionResult DownloadtoExcelResult(string DownloadTranID, string transid, string Report)
         {
-            if(DownloadTranID != null)
+            if (DownloadTranID != null)
             {
                 string guid = Guid.NewGuid().ToString();
                 ViewBag.GUID = guid;
@@ -41,7 +38,7 @@ namespace LearnMVC.Controllers
                 return RedirectToAction("DownloadToExcel", "Download", new RouteValueDictionary
                                                   (new { Controller = "Download", Action = "DownloadToExcel", tranid = transid, report = Report }));
             }
-            
+
         }
         public ActionResult DownloadToExcel(string tranid, string report)
         {
@@ -50,7 +47,7 @@ namespace LearnMVC.Controllers
 
             Response.ClearContent();
             Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment ; filename=" + report+".xls");
+            Response.AddHeader("content-disposition", "attachment ; filename=" + report + ".xls");
             Response.ContentType = "application/ms-excel";
             Response.Charset = "";
 

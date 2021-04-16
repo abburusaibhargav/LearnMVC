@@ -2,11 +2,30 @@
 @{
     ViewBag.Title = "All Users List";
 }
-
 <h2 id="headings">Users List</h2>
 <hr />
-<h4 class="pull-left" style="color:red; font-style:italic">Search has retreived total @TempData["TotalTblRecords"] out of @TempData.Peek("TotalRecordsToFetch")</h4>
-@Html.ActionLink("Download to Excel","DownloadUserList","Download", new { Proc = "Get_User_List", UserID=Session["UserID"].ToString()}, new { @class = "btn btn-primary pull-right"})
+<div class="row form-inline" id="topheadrow">
+    <div class="col-lg-4">
+        <p style="color:red; font-style:italic; font-size:15px;">Search has retreived total @TempData["TotalTblRecords"] out of @TempData.Peek("TotalRecordsToFetch")</p>
+    </div>
+    <div class="col-lg-4">
+        @*<div class="progress">
+            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                40%
+            </div>
+        </div>*@
+    </div>
+    <div class="col-lg-4">
+        <a class="text-primary pull-right" href="#" onclick='javascript: window.print()'>Print</a>  <span class="pull-right"> | </span>
+        @Html.ActionLink("Download PDF", "PDF_AllUserList", "GeneratePDF", new { @class = "pull-right" }) <span class="pull-right"> | </span>
+        @Html.ActionLink("Download Excel", "DownloadUserList", "Download", new { Proc = "Get_User_List", UserID = Session["UserID"].ToString() }, new { @class = "pull-right" })
+    </div>
+</div>
+@*<h4 class="pull-left" style="color:red; font-style:italic">Search has retreived total @TempData["TotalTblRecords"] out of @TempData.Peek("TotalRecordsToFetch")</h4>
+<a class="text-primary pull-right" href="#" onclick='javascript: window.print()'>Print</a>  <span class="pull-right"> | </span>
+@Html.ActionLink("Download PDF", "PDF_AllUserList", "GeneratePDF", new { @class = "pull-right" }) <span class="pull-right"> | </span>
+@Html.ActionLink("Download Excel", "DownloadUserList", "Download", new { Proc = "Get_User_List", UserID = Session["UserID"].ToString() }, new { @class = "pull-right" })*@
 <table class="table table-bordered table-striped table-responsive table-hover text-center">
     <tr id="rows">
         <td>User ID</td>

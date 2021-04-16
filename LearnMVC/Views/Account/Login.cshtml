@@ -6,8 +6,7 @@
 
 <h2 id="headings">Login</h2>
 
-
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { enctype="multipart/form-data", id="Captcha"}))
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { enctype = "multipart/form-data", id = "Captcha" }))
 {
     <div id="loginpage">
         <div class="row">
@@ -24,15 +23,20 @@
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12">
-                @Html.Captcha(5)
+                @Html.Captcha("Refresh", "Please Enter the Text", 5, "Is required field", true)
             </div>
         </div>
 
         <br />
-        <button class="btn btn-success" type="submit">Login</button>
-        <button class="btn btn-primary" type="reset">Reset</button>
+        <button id="btnsubmit" class="btn btn-success" type="submit">Login</button>
+        <button id="btnreset"class="btn btn-primary" type="reset">Reset</button>
     </div>
 }
+
+<div id="divloader" style="display:none;">
+    <img src="~/Content/loading.gif" alt="loading..." />
+</div>
+
 @if (ViewData["Authenticated"] != null)
 {
     <h4 class="text-danger text-center">User Authenticated Failed. Password is incorrect</h4>
@@ -40,6 +44,10 @@
 @if (ViewData["NoUser"] != null)
 {
     <h4 class="text-danger text-center">User Authenticated Failed. Username not found</h4>
+}
+@if (ViewBag.Captcha != null)
+{
+    <h4 class="text-danger text-center">@ViewBag.Captcha</h4>
 }
 
 

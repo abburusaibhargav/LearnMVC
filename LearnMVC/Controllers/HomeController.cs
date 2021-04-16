@@ -1,11 +1,8 @@
-﻿using System;
+﻿using LearnMVC.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
 using System.Data;
-using LearnMVC.Models;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace LearnMVC.Controllers
 {
@@ -28,7 +25,7 @@ namespace LearnMVC.Controllers
                 }
             }
 
-            if(Announcements != null)
+            if (Announcements != null)
             {
                 ViewBag.Announcements = Announcements;
             }
@@ -47,9 +44,9 @@ namespace LearnMVC.Controllers
         public ActionResult GetHomeLandingImages()
         {
             var images = GetLandingImages();
-            if(images != null)
+            if (images != null)
             {
-                ViewBag.Images = images;    
+                ViewBag.Images = images;
             }
             else
             {
@@ -66,7 +63,7 @@ namespace LearnMVC.Controllers
         [HttpPost]
         public ActionResult MailSystem(MailSystemModel mail)
         {
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -76,7 +73,7 @@ namespace LearnMVC.Controllers
             landingImages = connectionEntity.LandingImages.Where(x => x.Active == true).OrderBy(s => s.SortOrder).ToList();
 
             return landingImages;
-           
+
         }
 
         public List<Announcement> GetAnnouncements()

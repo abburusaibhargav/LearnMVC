@@ -30,6 +30,11 @@ namespace LearnMVC.Controllers
                 {
                     ViewData["NoUser"] = "NoUser";
                 }
+
+                if(authstatus == "captchaerror")
+                {
+                    ViewBag.Captcha = "Please enter valid Captcha";
+                }
             }
        
             return View();
@@ -62,9 +67,13 @@ namespace LearnMVC.Controllers
                             return RedirectToAction("Login", "Account", new RouteValueDictionary(new { Controller = "Login", Action = "Account", authstatus = "pwdx" }));
                         }
                     }
+                    else
+                    {
+                        return RedirectToAction("Login", "Account", new RouteValueDictionary(new { Controller = "Login", Action = "Account", authstatus = "nouserfound" }));
+                    }
                 }
             }
-            return RedirectToAction("Login", "Account", new RouteValueDictionary(new { Controller = "Login", Action = "Account", authstatus = "nouserfound" }));
+                return RedirectToAction("Login", "Account", new RouteValueDictionary(new { Controller = "Login", Action = "Account", authstatus = "captchaerror" }));
         }
         public ActionResult Logout(string result)
         {

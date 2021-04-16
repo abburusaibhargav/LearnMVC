@@ -449,5 +449,14 @@ namespace LearnMVC.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Consignment_Details_By_BookingID1_Result>("Get_Consignment_Details_By_BookingID", bookingIDParameter);
         }
+    
+        public virtual ObjectResult<Get_Consignment_Status_By_BookingID_Result> Get_Consignment_Status_By_BookingID(string bookingID)
+        {
+            var bookingIDParameter = bookingID != null ?
+                new ObjectParameter("BookingID", bookingID) :
+                new ObjectParameter("BookingID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Consignment_Status_By_BookingID_Result>("Get_Consignment_Status_By_BookingID", bookingIDParameter);
+        }
     }
 }

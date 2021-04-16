@@ -8,14 +8,16 @@ using LearnMVC.Models.Consignment;
 using System.Web.Routing;
 using System.Data;
 using System.Data.SqlClient;
+using Rotativa;
+using iTextSharp;
+using iText;
 
 namespace LearnMVC.Controllers
 {
     public class ConsignmentController : Controller
-    {
+    { 
+        //Initialize Database Connection
         AppDataConnectionEntity connectionEntity = new AppDataConnectionEntity();
-        // GET: Consignment
-
         public ActionResult Index(User user)
         {
             return View();
@@ -86,6 +88,7 @@ namespace LearnMVC.Controllers
             int ToPincode = createDomesticBooking.ConsignerPincode;
             string createdby = Session["UserID"].ToString();
 
+            //ConsigneeAddress = ConsigneeAddress.Replace(",", "<br/>");
             string BookingID = string.Empty;
 
             BookingID = connectionEntity.Create_Consignment_Booking(ConsigneeName, ConsignerName, ConsigneeAddress, ConsignerAddress,
@@ -93,43 +96,40 @@ namespace LearnMVC.Controllers
 
             if(BookingID != null)
             {
-                return RedirectToAction("BookingConfirm", "Consignment",
+                if(BookingID.Trim() == "Unable to create booking.")
+                {
+                    return RedirectToAction("BookingConfirm", "Consignment",
                     new RouteValueDictionary(
-                        new { Action = "BookingConfirm", Controller = "Consignment", status = true, BookingID = BookingID.ToString() }));
+                        new { Action = "BookingConfirm", Controller = "Consignment", status = false }));
+                }
+                else
+                {
+                    return RedirectToAction("BookingConfirm", "Consignment",
+                                       new RouteValueDictionary(
+                                           new { Action = "BookingConfirm", Controller = "Consignment", status = true, BookingID = BookingID.ToString() }));
+                }   
             }
             else
             {
-                return RedirectToAction("BookingConfirm", "Consignment",
-                    new RouteValueDictionary(
-                        new { Action = "BookingConfirm", Controller = "Consignment", status = false }));
+                return View();
             }
         
         }
 
-        public ActionResult BookConsignmentDetails(string BookingID, BookConsignment consignment)
-        {
-            if (BookingID != null)
-            {
-                var BookingDetails = connectionEntity.Get_Consignment_Details_By_BookingID(BookingID).ToString();
-                return View(BookingDetails);
-            }
-            else
-            {
-               return RedirectToAction("Index", "Consignment");
-            }
-          
-        }
-
         public ActionResult BookingConfirm(bool status,string BookingID)
         {
+            if(Session["UserID"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
            if(status == true)
             {
                 if(BookingID != null)
                 {
                     var results = connectionEntity.Get_Consignment_Details_By_BookingID(BookingID).ToList();
                     ViewBag.Results = results;
-
-                    return View();
+                    ViewBag.BookingID = BookingID.ToString();
                 }
             }
             return View();
@@ -160,51 +160,51 @@ namespace LearnMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult UpdateConsignmentStatus(string BookingID,string Type, ConsignmentDetail consignment)
+        public ActionResult UpdateConsignmentStatus(string BookingID)
         {
             if(BookingID != null)
             {
-                if(Type == "get")
+                var resultforstatusupdate = connectionEntity.Get_Consignment_Status_By_BookingID(BookingID).ToList();
+
+                if (resultforstatusupdate != null)
                 {
-                    var resultforstatusupdate = connectionEntity.ConsignmentDetails.Where(x => x.BookingID == BookingID).FirstOrDefault();
-
-                    if (resultforstatusupdate != null)
-                    {
-                        ViewBag.Rows = "Records Found for Update..";
-                        return View(resultforstatusupdate);
-                    }
-                    else
-                    {
-                        ViewBag.Rows = "No Records Found for Update..";
-                    }
+                    ViewBag.Rows = "Records Found for Update..";
+                    ViewBag.Results = resultforstatusupdate;
+                    return View();
                 }
-
-                if(Type == "post")
+                else
                 {
-                    string Status = consignment.ConsignmentStatus;
-
-                    var result = connectionEntity.UpdateConsignmentStatus1(BookingID, Status);
-
-                    if (result.ToString() == "Updated")
-                    {
-                        ViewBag.Status = "Consignment Status Updated Successfully..!";
-                    }
-                    else
-                    {
-                        ViewBag.Status = "Consignment Status Update failed..!";
-                    }
+                    ViewBag.Rows = "No Records Found for Update..";
                 }
+                
             }
-
-            ModelState.Clear();
             return View();
         }
 
         [HttpPost]
-        public ActionResult UpdateConsignmentStatus(ConsignmentDetail consignment,string BookingID)
+        public ActionResult UpdateConsignmentStatus(ConsignmentDetail consignment)
         {
+            string BookingID = consignment.BookingID;
+            string Status = consignment.ConsignmentStatus;
 
-            return View();
+            var results = connectionEntity.UpdateConsignmentStatus1(BookingID, Status);
+        
+            if (results.ToString() == "Updated")
+            {
+                ViewBag.Status = "Consignment Status Updated Successfully..!";
+            }
+            else
+            {
+                ViewBag.Status = "Consignment Status Update failed..!";
+            }
+            return RedirectToAction("UpdateConsignmentStatus", "Consignment",
+                                       new RouteValueDictionary(
+                                           new { Action = "UpdateConsignmentStatus", Controller = "Consignment",BookingID = BookingID.ToString() }));
+        }
+        public ActionResult PrintConsignmentDetails(string BookingID)
+        {
+            var report = new ActionAsPdf("BookingConfirm", new { status = true, BookingID = BookingID});
+            return report;
         }
 
         #region Drop Down List Data -> GET Methods | JSON Response

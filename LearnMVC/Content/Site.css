@@ -85,3 +85,27 @@ th{
     table-layout: auto;
     justify-items:center;
 }
+#CheckConsignmentStatus{
+    background-color:lightyellow;
+}
+#updateConsignmetTable {
+    width: auto;
+    text-align: center;
+    margin: auto;
+    table-layout: auto;
+}
+#divloader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -39px;
+    margin-left: -39px;
+}
+#updateConsignment {
+    border: 2px solid black;
+    border-top-left-radius: 5%;
+    border-top-right-radius: 0%;
+    border-bottom-left-radius: 0%;
+    border-bottom-right-radius: 5%;
+}
+

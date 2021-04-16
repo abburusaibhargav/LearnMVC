@@ -1,60 +1,147 @@
 ﻿@model LearnMVC.Models.ConsignmentDetail
 @{
     ViewBag.Title = "UpdateConsignmentStatus";
+    var result = ViewBag.Results;
 }
 
 <h2 id="headings">Update Consignment Status</h2>
 
+<hr />
+<div class="row">
+    <div class="col-lg-6">
+        @using (Html.BeginForm("UpdateConsignmentStatus", "Consignment", FormMethod.Get))
+        {
+            <div class="row">
+                <h4>Enter Booking ID:</h4>
+                <input id="bookingid" type="text" class="form-control" name="BookingID" required placeholder="Enter Booking ID" />
 
-@using (Html.BeginForm("UpdateConsignmentStatus", "Consignment", FormMethod.Get))
-{
-    <div class="row">
-        <div class="col-lg-6">
-            <input type="text" class="form-control" name="BookingID" required placeholder="Enter Booking ID" />
-            <br />
-            <button type="submit" class="btn btn-success">Get Status</button>
-            <button type="reset" class="btn btn-success">Reset</button>
-        </div>
+                <br />
+                <button type="submit" class="btn btn-success">Get Status</button>
+                <button type="reset" class="btn btn-success">Reset</button>
+                @*<h4 class="pull-right">@ViewBag.Rows</h4>*@
+            </div>
+        }
     </div>
-}
+    <div id="updateConsignment" class="col-lg-6 table-bordered">
+        @if (ViewBag.Rows != null)
+        {
+            <h4 id="headings">Consignment Status</h4>
 
-@if (ViewBag.Rows != null)
-{
-    <table class="table table-bordered table-responsive table-hover table-striped">
-        <tr>
-            <td>Booking ID</td>
-            <td>@Html.DisplayFor(model => model.BookingID)</td>
-        </tr>
-        <tr>
-            <td>Consignment Status</td>
-            <td>@Html.DisplayFor(model => model.ConsignmentStatus)</td>
-        </tr>
-        <tr>
-            <td>Update Consignment Status</td>
-            <td>
-                <select class="form-control" name="ConsignmentStatus">
-                    <option value="Booked">Booked</option>
-                    <option value="In Transit">In Transit</option>
-                    <option value="Waiting">Waiting</option>
-                    <option value="Delivered">Delivered</option>
-                    <option value="Returned">Returned</option>
-                </select>
-            </td>
-        </tr>
-    </table>
-    <br />
-    <div class="row text-center">
-        @Html.ActionLink("Update Consignment Status", "UpdateConsignmentStatus", "Consignment", new { BookingID = Model.BookingID, Type="post"}, new { @class = "btn btn-primary" })
-        <a class="btn btn-primary" href="~/Home/Index">Home</a>
+            using (Html.BeginForm("UpdateConsignmentStatus", "Consignment", FormMethod.Post))
+            {
+                <table id="updateConsignmetTable" class="table table-bordered table-responsive table-hover table-striped">
+                    @foreach (var item in ViewBag.Results)
+                    {
+                        <tr>
+                            <td id="rows">Booking ID</td>
+                            <td >@item.BookingID</td>
+                            <input type="hidden" name="BookingID" value=@item.BookingID readonly />
+                        </tr>
+                        <tr>
+                            <td id="rows">Consignee Name</td>
+                            <td>@item.ConsigneeName</td>
+                        </tr>
+                        <tr>
+                            <td id="rows">Consigner Name</td>
+                            <td>@item.ConsignerName</td>
+                        </tr>
+                        <tr>
+                            <td id="rows">Destination Address</td>
+                            <td>@item.DestinationAddress</td>
+                        </tr>
+                        <tr>
+                            <td id="rows">Office Name</td>
+                            <td>@item.OfficeName</td>
+                        </tr>
+                        <tr>
+                            <td id="rows">Division</td>
+                            <td>@item.DivisionName</td>
+                        </tr>
+                        <tr>
+                            <td id="rows">Destination Pincode</td>
+                            <td>@item.Pincode</td>
+                        </tr>
+                        if (@item.ConsignmentStatus == "Delivered")
+                        {
+                            <tr>
+                                <td id="rows">Consignment Status | Status Date</td>
+                                <td style="background-color:green; color:white;">@item.ConsignmentStatus | @item.StatusDate </td>
+                            </tr>
+                        }
+                        if (@item.ConsignmentStatus == "Returned")
+                        {
+                            <tr>
+                                <td id="rows">Consignment Status | Status Date</td>
+                                <td style="background-color:darkred; color:white;">@item.ConsignmentStatus | @item.StatusDate </td>
+                            </tr>
+                        }
+                        if (@item.ConsignmentStatus == "Booked" || @item.ConsignmentStatus == "In Transit" || @item.ConsignmentStatus == "Received - Yet to Bag")
+                        {
+                            <tr>
+                                <td id="rows">Consignment Status | Status Date</td>
+                                <td style="background-color:dodgerblue; color:white;">@item.ConsignmentStatus | @item.StatusDate </td>
+                            </tr>
+
+                            <tr>
+                                <td id="rows">Update Consignment Status</td>
+                                <td>
+                                    <select class="form-control center-block disabled" name="ConsignmentStatus">
+                                        <option class="active">--Select Status--</option>
+                                        <option value="Booked">Booked</option>
+                                        <option value="In Transit">In Transit</option>
+                                        <option value="Waiting">Waiting</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="Returned">Returned</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        }
+                        if (@item.ConsignmentStatus == "Waiting")
+                        {
+                            <tr>
+                                <td id="rows">Consignment Status | Status Date</td>
+                                <td style="background-color:yellow; color:black;">@item.ConsignmentStatus | @item.StatusDate </td>
+                            </tr>
+
+                            <tr>
+                                <td id="rows">Update Consignment Status</td>
+                                <td>
+                                    <select class="form-control center-block" name="ConsignmentStatus" required>
+                                        <option class="active">--Select Status--</option>
+                                        <option value="In Transit">In Transit</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="Returned">Returned</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+
+                </table>
+                <br />
+                <div class="row text-center">
+                    @foreach (var status in ViewBag.Results)
+                    {
+                        if (@status.ConsignmentStatus == "Delivered" || @status.ConsignmentStatus == "Returned")
+                        {
+                            <button class="btn btn-success disabled" type="submit"> Update Status</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-success" type="submit">Update Status</button>
+                        }
+                    }
+
+                    <a class="btn btn-primary" href="~/Home/Index">Home</a>
+                    <a class="btn btn-primary" href="~//Consignment/UpdateConsignmentStatus">Update Another Consignment</a>
+                </div>
+                <br />
+            }
+        }
     </div>
+</div>
 
-
-    <br />
-    <p class="text-center">@ViewBag.Status</p>
-
-    
-
-}
 
 
 

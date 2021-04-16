@@ -111,6 +111,7 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="ConsignmentStatus" Type="nvarchar" MaxLength="100" />
           <Property Name="StatusDate" Type="datetime" />
+          <Property Name="DestinationAddress" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'TestDatabase.dbo.Covid_TestData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -638,6 +639,9 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Parameter Name="email" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="Get_Consignment_Details_By_BookingID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BookingID" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Get_Consignment_Status_By_BookingID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BookingID" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="Get_District_Data_by_StateID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1245,6 +1249,9 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             <Parameter Name="createdby" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Get_Consignment_Details_By_BookingID" ReturnType="Collection(AppDataModel.Get_Consignment_Details_By_BookingID1_Result)">
+          <Parameter Name="BookingID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Consignment_Status_By_BookingID" ReturnType="Collection(AppDataModel.Get_Consignment_Status_By_BookingID_Result)">
             <Parameter Name="BookingID" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
@@ -1372,6 +1379,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <NavigationProperty Name="ConsigneeDetails" Relationship="AppDataModel.FK_Consignee_BookingID_Consignment_BookingID" FromRole="ConsignmentDetail" ToRole="ConsigneeDetail" />
           <Property Name="ConsignmentStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="StatusDate" Type="DateTime" Precision="3" />
+          <Property Name="DestinationAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="LoanDetail">
           <Key>
@@ -1708,6 +1716,22 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="OfficeName" Nullable="true" MaxLength="100" />
           <Property Type="Int32" Name="Pincode" Nullable="false" />
+          <Property Type="String" Name="DestinationAddress" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="Get_Consignment_Status_By_BookingID_Result">
+          <Property Type="String" Name="BookingID" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ConsigneeName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ConsignerName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DestinationAddress" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="StateName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CircleName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="RegionName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="OfficeName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Pincode" Nullable="false" />
+          <Property Type="String" Name="ConsignmentStatus" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="StatusDate" Nullable="true" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1986,6 +2010,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <EntitySetMapping Name="ConsignmentDetails">
             <EntityTypeMapping TypeName="AppDataModel.ConsignmentDetail">
               <MappingFragment StoreEntitySet="ConsignmentDetails">
+                <ScalarProperty Name="DestinationAddress" ColumnName="DestinationAddress" />
                 <ScalarProperty Name="StatusDate" ColumnName="StatusDate" />
                 <ScalarProperty Name="ConsignmentStatus" ColumnName="ConsignmentStatus" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -2248,6 +2273,26 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
                 <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
                 <ScalarProperty Name="OfficeName" ColumnName="OfficeName" />
                 <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+                <ScalarProperty Name="DestinationAddress" ColumnName="DestinationAddress" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Get_Consignment_Status_By_BookingID" FunctionName="AppDataModel.Store.Get_Consignment_Status_By_BookingID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AppDataModel.Get_Consignment_Status_By_BookingID_Result">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="ConsigneeName" ColumnName="ConsigneeName" />
+                <ScalarProperty Name="ConsignerName" ColumnName="ConsignerName" />
+                <ScalarProperty Name="DestinationAddress" ColumnName="DestinationAddress" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="CircleName" ColumnName="CircleName" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="OfficeName" ColumnName="OfficeName" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+                <ScalarProperty Name="ConsignmentStatus" ColumnName="ConsignmentStatus" />
+                <ScalarProperty Name="StatusDate" ColumnName="StatusDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

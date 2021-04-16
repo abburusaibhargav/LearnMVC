@@ -1,31 +1,24 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.IO;
-//using System.Linq;
-//using System.Text;
-//using System.Web;
-//using System.Web.Mvc;
-//using iText.Layout;
-//using LearnMVC.Models;
-//using iText.IO;
-//using iTextSharp.text.pdf;
+﻿using LearnMVC.Models;
+using Rotativa;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
-//namespace LearnMVC.Controllers
-//{
-//    public class GeneratePDFController : Controller
-//    {
-//        // GET: GeneratePDF
-//        public FileResult UserList()
-//        {
-//            MemoryStream stream = new MemoryStream();
-//            StringBuilder stringBuilder = new StringBuilder();
-//            DateTime dateTime = DateTime.Now;
-//            string PDFFileName = string.Format("SamplePdf" + dateTime.ToString("yyyyMMdd") + "-" + ".pdf");
-//            var doc = new Document();
-//            doc.SetMargins(0f, 0f, 0f, 0f, 0f, 0f, 0f);
-//            PdfPTable tablelayout = new 
+namespace LearnMVC.Controllers
+{
+    public class GeneratePDFController : Controller
+    {
+        AppDataConnectionEntity connectionEntity = new AppDataConnectionEntity();
+        public ActionResult PDF_AllUserList()
+        {
+            var report = new ActionAsPdf("Result_AllUserList", null);
+            return report;
+        }
 
-//            return File(stream, "application/pdf", PDFFileName);
-//        }
-//    }
-//}
+        public List<Get_User_List_Result> Result_AllUserList()
+        {
+            var results = connectionEntity.Get_User_List(Session["UserID"].ToString()).ToList();
+            return results;
+        }
+    }
+}

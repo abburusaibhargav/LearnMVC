@@ -51,13 +51,8 @@ namespace LearnMVC.Controllers
                 ViewBag.QRImage = "data:image/png;base64," + baseimage;
                 ViewBag.SuccessMessage = "QR Code generated successfully.";
 
-                //TempData["QRImage"] = "data:image/png;base64," + baseimage;
-                //TempData["GenerateResult"] = "QR Code generated successfully.";
-
-                TempData["QRImage"] = ViewBag.QRImage;
-                TempData["GenerateResult"] = ViewBag.SuccessMessage;
-
-
+                ViewBag.QRImage = TempData.Peek("QRImage");
+                ViewBag.SuccessMessage = TempData.Peek("GenerateResult");
             }
             catch
             {
