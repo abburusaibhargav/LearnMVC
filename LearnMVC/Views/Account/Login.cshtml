@@ -4,6 +4,19 @@
     ViewBag.Title = "Login";
 }
 
+<script type="text/javascript">
+    function getUsername() {
+        var fname = document.getElementById("first_name");
+        var lname = document.getElementById("last_name");
+        var n = fname + lname;
+        var uname = n.toLowerCase();
+
+        $("#hidUserName").append(uname);
+        $("#hidUserName").val(uname);
+    
+ 
+</script>
+
 <h2 id="headings">Login</h2>
 
 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { enctype = "multipart/form-data", id = "Captcha" }))
@@ -30,6 +43,9 @@
         <br />
         <button id="btnsubmit" class="btn btn-success" type="submit">Login</button>
         <button id="btnreset"class="btn btn-primary" type="reset">Reset</button>
+        <a class="btn btn-primary" data-target="#createusermodal" data-toggle="modal">
+            Create User
+        </a>
     </div>
 }
 
@@ -50,7 +66,66 @@
     <h4 class="text-danger text-center">@ViewBag.Captcha</h4>
 }
 
-
+@using (Html.BeginForm("CreateUser", "Account", FormMethod.Post))
+{
+    <div id="createusermodal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                    <h3 id="headings" class="modal-title">Register as New User</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label for="first_name" class="control-label">First Name</label>
+                            <input id="first_name" name="first_name" type="text" class="form-control" placeholder="Enter First Name" required />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="last_name" class="control-label">Last Name</label>
+                            <input id="last_name" name="last_name" type="text" class="form-control" placeholder="Enter Last Name" required />
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label for="gender" class="control-label">Gender</label><br />
+                            <div class="col-lg-6">
+                                <input id="gender" type="radio" name="gender" value="M" checked required/> Male<br />
+                                <input id="gender" type="radio" name="gender" value="F" required/> Female
+                            </div>
+                            <div class="col-lg-6 pull-left">
+                                <input id="gender" type="radio" name="gender" value="O" required> Others<br />
+                                <input id="gender" type="radio" name="gender" value="NK" required /> Not Intrested
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="phone" class="control-label">Phone</label>
+                            <input id="phone" name="Phone" type="text" class="form-control" placeholder="Enter Mobile#" required />
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label for="email" class="control-label">Email</label>
+                            <input id="email" name="email" type="email" class="form-control" placeholder="Enter E-Mail Name" required />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="pwd" class="control-label">Email</label>
+                            <input id="pwd" name="password" type="password" class="form-control" placeholder="Enter Password" required />
+                        </div>
+                    </div>
+                </div>
+                @*<input id="hidUserName" type="hidden" name="Username"/>
+                <p id="hidUserName" class="text-info"></p>*@
+                <p class="text-info text-center" style="font-style:italic;"> Username and Password will be sent separately to registered E-Mail</p>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Create Register</button>
+                    <button type="reset" class="btn btn-primary">Reset Form</button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 
 

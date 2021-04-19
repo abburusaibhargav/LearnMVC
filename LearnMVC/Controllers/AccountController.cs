@@ -83,5 +83,37 @@ namespace LearnMVC.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        [HttpPost]
+        public ActionResult CreateUser(User user)
+        {
+            string fname = user.first_name;
+            string lname = user.last_name;
+            string email = user.email;
+            string pwd = user.password;
+            string gender = user.gender;
+            string phone = user.Phone;
+            string uname = fname + lname;
+
+            try
+            {
+                string result = string.Empty;
+                result = connectionEntity.Insert_User_Details(fname, lname, gender, phone, email, uname, pwd).ToString();
+
+                if (result == "User Created")
+                {
+                    ViewBag.Result = result + " successfully.";
+                }
+                else
+                {
+                    ViewBag.Result = result + " failed.";
+                }
+            }
+            catch
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
+
+        }
     }
 }

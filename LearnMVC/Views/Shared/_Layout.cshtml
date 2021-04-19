@@ -23,17 +23,23 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Learn MVC", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                
             </div>
             <div class="navbar-collapse collapse" id="menulinks">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>
+                        <a href="#" data-target="#mailsend" data-toggle="modal">
+                        <span class="glyphicon glyphicon-envelope"></span> Send Mail
+                        </a>
+                    </li>
                     @if (Session["UserID"] != null)
                     {
                         <li>@Html.ActionLink("Consignment", "Index", "Consignment")</li>
                         <li>@Html.ActionLink("Search Data", "Index", "Search")</li>
                         <li>@Html.ActionLink("Upload Center", "Upload", "Upload")</li>
                         <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
-                    }    
+                    }
                 </ul>
                 <ul class="nav navbar-nav pull-right">
                     <li>@Html.ActionLink("Help", "Help", "Home")</li>

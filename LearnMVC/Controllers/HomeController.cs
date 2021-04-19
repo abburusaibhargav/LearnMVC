@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace LearnMVC.Controllers
@@ -63,6 +64,33 @@ namespace LearnMVC.Controllers
         [HttpPost]
         public ActionResult MailSystem(MailSystemModel mail)
         {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    MailMessage mailMessage = new MailMessage();
+                    mailMessage.To.Add(mail.Receivermailid);
+                    mailMessage.Subject = "Ad-hoc Mail";
+                    mailMessage.From = new MailAddress("abburusaibhargav@gmail.com", "AVSSB - Learn MVC");
+                    mailMessage.Body = mail.MailBody + "<br/>" +
+                        "<br/>" +
+                        "Regards,<br />" +
+                        "AVSSB - Learn MVC"+
+                        "This is system generated mail. Replies to this inbox are not monitored." ;
+                    mailMessage.IsBodyHtml = true;
+                    SmtpClient smtpClient = new SmtpClient();
+                    smtpClient.Send(mailMessage);
+
+                    ViewBag.Message = "Mail Sent Successfully..!";
+                }
+                catch
+                {
+                    ViewBag.Message = "Mail Sending Failed..!";
+                    return RedirectToAction("Index", "Home");
+                }
+               
+
+            }
             return RedirectToAction("Index", "Home");
         }
 
