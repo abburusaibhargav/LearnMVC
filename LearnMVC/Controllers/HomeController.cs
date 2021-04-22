@@ -75,7 +75,7 @@ namespace LearnMVC.Controllers
                     mailMessage.Body = mail.MailBody + "<br/>" +
                         "<br/>" +
                         "Regards,<br />" +
-                        "AVSSB - Learn MVC"+
+                        "AVSSB - Learn MVC<br/>"+
                         "This is system generated mail. Replies to this inbox are not monitored." ;
                     mailMessage.IsBodyHtml = true;
                     SmtpClient smtpClient = new SmtpClient();
