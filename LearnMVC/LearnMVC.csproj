@@ -351,10 +351,14 @@
     <Compile Include="Models\ConsignmentDetail.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConsignmentStatu.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Consignment\BookConsignment.cs" />
     <Compile Include="Models\Covid_TestData.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\Data_Process_Log.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
@@ -367,10 +371,16 @@
     <Compile Include="Models\GetAnnouncements_Result1.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetDashBoardData_Result.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetHomePageMenu_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Get_Consignment_Details_By_BookingID1_Result.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Get_Consignment_History_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Get_Consignment_Status_By_BookingID_Result.cs">
@@ -432,6 +442,9 @@
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TrackConsignment.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TransactionSummary.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
@@ -457,6 +470,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Scripts\Search.js" />
     <Content Include="Content\Site_jQuery.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

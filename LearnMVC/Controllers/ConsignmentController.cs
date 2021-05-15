@@ -166,6 +166,13 @@ namespace LearnMVC.Controllers
             {
                 var resultforstatusupdate = connectionEntity.Get_Consignment_Status_By_BookingID(BookingID).ToList();
 
+                var consignmenthistory = connectionEntity.Get_Consignment_History(BookingID).ToList();
+                ViewBag.ConsignmentHistory = consignmenthistory;
+                ViewBag.BookingID = BookingID;
+
+                List<ConsignmentStatu> consignmentStatuses = connectionEntity.ConsignmentStatus.Where(x => x.Active == true).ToList();
+                ViewBag.ConsignmentStatus = new SelectList(consignmentStatuses, "ConsignmentStatusID", "ConsignmentStatusName");
+
                 if (resultforstatusupdate != null)
                 {
                     ViewBag.Rows = "Records Found for Update..";
@@ -185,9 +192,10 @@ namespace LearnMVC.Controllers
         public ActionResult UpdateConsignmentStatus(ConsignmentDetail consignment)
         {
             string BookingID = consignment.BookingID;
-            string Status = consignment.ConsignmentStatus;
+            string StatusID = consignment.ConsignmentStatusID;
+            string userid = Session["UserID"].ToString();
 
-            var results = connectionEntity.UpdateConsignmentStatus1(BookingID, Status);
+            var results = connectionEntity.UpdateConsignmentStatus1(BookingID, StatusID, userid);
         
             if (results.ToString() == "Updated")
             {

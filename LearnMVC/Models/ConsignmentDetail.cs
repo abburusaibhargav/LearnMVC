@@ -28,6 +28,7 @@ namespace LearnMVC.Models
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string ConsignmentStatus { get; set; }
+        public string ConsignmentStatusID { get; set; }
         public Nullable<System.DateTime> StatusDate { get; set; }
         public string DestinationAddress { get; set; }
     

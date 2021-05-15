@@ -34,7 +34,7 @@
                     {
                         <tr>
                             <td id="rows">Booking ID</td>
-                            <td >@item.BookingID</td>
+                            <td>@item.BookingID</td>
                             <input type="hidden" name="BookingID" value=@item.BookingID readonly />
                         </tr>
                         <tr>
@@ -61,7 +61,7 @@
                             <td id="rows">Destination Pincode</td>
                             <td>@item.Pincode</td>
                         </tr>
-                        if (@item.ConsignmentStatus == "Delivered")
+                        if (@item.ConsignmentStatus == "Delivered" || item.ConsignmentStatus == "Shipment Received")
                         {
                             <tr>
                                 <td id="rows">Consignment Status | Status Date</td>
@@ -81,43 +81,28 @@
                                 <td id="rows">Consignment Status | Status Date</td>
                                 <td style="background-color:dodgerblue; color:white;">@item.ConsignmentStatus | @item.StatusDate </td>
                             </tr>
-
-                            <tr>
-                                <td id="rows">Update Consignment Status</td>
-                                <td>
-                                    <select class="form-control center-block disabled" name="ConsignmentStatus">
-                                        <option class="active">--Select Status--</option>
-                                        <option value="Booked">Booked</option>
-                                        <option value="In Transit">In Transit</option>
-                                        <option value="Waiting">Waiting</option>
-                                        <option value="Delivered">Delivered</option>
-                                        <option value="Returned">Returned</option>
-                                    </select>
-                                </td>
-                            </tr>
                         }
-                        if (@item.ConsignmentStatus == "Waiting")
+                        if (@item.ConsignmentStatus == "Waiting" || @item.ConsignmentStatus == "Out for Delivery")
                         {
                             <tr>
                                 <td id="rows">Consignment Status | Status Date</td>
                                 <td style="background-color:yellow; color:black;">@item.ConsignmentStatus | @item.StatusDate </td>
                             </tr>
-
+                        }
+                        if (@item.ConsignmentStatus == "Shipment Further Connected to Hub" || @item.ConsignmentStatus == "Bagging Complete")
+                        {
                             <tr>
-                                <td id="rows">Update Consignment Status</td>
-                                <td>
-                                    <select class="form-control center-block" name="ConsignmentStatus" required>
-                                        <option class="active">--Select Status--</option>
-                                        <option value="In Transit">In Transit</option>
-                                        <option value="Delivered">Delivered</option>
-                                        <option value="Returned">Returned</option>
-                                    </select>
-                                </td>
+                                <td id="rows">Consignment Status | Status Date</td>
+                                <td style="background-color:darkcyan; color:black;">@item.ConsignmentStatus | @item.StatusDate </td>
                             </tr>
                         }
-
+                        <tr>
+                            <td id="rows">Update Consignment Status</td>
+                            <td>
+                                @Html.DropDownListFor(model => model.ConsignmentStatusID, ViewBag.ConsignmentStatus as SelectList, "--Select Consignment Status--", new { @class = "form-control" })
+                            </td>
+                        </tr>
                     }
-
                 </table>
                 <br />
                 <div class="row text-center">
@@ -135,12 +120,57 @@
 
                     <a class="btn btn-primary" href="~/Home/Index">Home</a>
                     <a class="btn btn-primary" href="~//Consignment/UpdateConsignmentStatus">Update Another Consignment</a>
+                    <a class="btn btn-primary" data-toggle="modal" data-target="#consignmenthistory">Consignment History</a>
                 </div>
                 <br />
             }
+
+            if(ViewBag.ConsignmentHistory != null)
+            {
+                <div class="modal fade" role="dialog" id="consignmenthistory">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button class="close" type="button" data-dismiss="modal">&times;</button>
+                                <h3 id="headings" class="modal-title">Consignment History</h3>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-condensed table-bordered text-center">
+                                    <tr>
+                                        <td id="rows">Booking ID:</td>
+                                        <td>@ViewBag.BookingID</td>
+                                    </tr>
+                                </table>
+                                <hr />
+                                <table class="table table-bordered table-hover table-striped table-condensed table-striped text-center">
+                                    <tr id="rows">
+                                        <td>S.No</td>
+                                        <td>Status Date</td>
+                                        <td>Consignment Status</td>
+                                        <td>Destination Pincode</td>
+                                    </tr>
+                                    @foreach (var history in ViewBag.ConsignmentHistory)
+                                    {
+                                        <tr>
+                                            <td>@history.SortOrder</td>
+                                            <td>@history.StatusDateTime</td>
+                                            <td>@history.ConsignmentStatusName</td>
+                                            <td>@history.DestinationPincode</td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="button" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
         }
+
     </div>
-</div>
 
 
 

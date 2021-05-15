@@ -25,6 +25,9 @@
         <div class="col-lg-4 col-md-6 col-sm-12">
             <label for="ConsignerPincode" class="control-label">Consigner Pincode</label>
             <input type="text" id="ConsignerPincode" class="form-control" name="ConsignerPincode" placeholder="Enter Consigner Pincode" required />
+            <br />
+            @*<a class="btn btn-info" data-target="#lookuppincode" data-toggle="modal">Lookup Pincode</a>*@
+            <input type="button" class="btn btn-primary" id="btnlookuppincode" value="Lookup Pincode">
         </div>
     </div>
     <br />
@@ -66,10 +69,13 @@
             </div><br />
             <label for="ConsignerState" class="control-label">Consigner State</label>
             <div id="ConsignerState" class="row">
-                @if (ViewBag.StateDDL != null)
+
+                <input type="text" class="form-control" name="ConsignerState" id="ConsignerState" readonly />
+
+                @*@if (ViewBag.StateDDL != null)
                 {
                     @Html.DropDownListFor(model => model.ConsignerStateID, ViewBag.StateDDL as SelectList, "--Select Consigner State--", new { @class = "form-control" });
-                }
+                }*@
             </div>
         </div>
     </div>
@@ -187,8 +193,96 @@
     });
 </script>*@
 
+@*@using (Html.BeginForm("LookUpPincode", "Search", FormMethod.Get))
+{
+    <div class="modal fade" id="lookuppincode" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                    <h3 id="headings" class="modal-title">Search Pincode</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-12 col-sm-12">
+                            <label for="searchpin" class="control-label">Enter Pincode</label>
+                            <input type="text" class="form-control" id="searchpin" placeholder="Enter Pincode" name="Pincode" required />
+                        </div>    
+                    </div>
 
+                    @if(ViewBag.PincodeNoResults != null || ViewBag.PincodeResults != null)
+                    {
+                        <hr />
+                        <div class="row">
+                            @if (ViewBag.PincodeNoResults != null)
+                            {
+                                <p class="text-danger text-center">@ViewBag.PincodeNoResults </p>
+                            }
+                            @if (ViewBag.PincodeResults != null)
+                            {
+                                <table class="table table-bordered table-hover table-responsive table-striped">
+                                    <tr id="rows">
+                                        <td>Pincode</td>
+                                        <td>State Name</td>
+                                        <td>Circle Name</td>
+                                        <td>Region Name</td>
+                                        <td>Division Name</td>
+                                        <td>District Name</td>
+                                        <td>Office Name</td>
+                                        <td>Office Type</td>
+                                        <td>Delivery Type</td>
+                                    </tr>
+                                    @foreach (var item in ViewBag.PincodeResults)
+                                    {
+                                    <tr>
+                                        <td>@item.Pincode</td>
+                                        <td>@item.StateName</td>
+                                        <td>@item.CircleName</td>
+                                        <td>@item.RegionName</td>
+                                        <td>@item.DivisionName</td>
+                                        <td>@item.DistrictName</td>
+                                        <td>@item.OfficeName</td>
+                                        <td>@item.OfficeTypeName</td>
+                                        <td>@item.DeliveryType</td>
+                                    </tr>
+                                    }
+                                </table>
+                            }
+                        </div>
+                        //}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Search</button>
+                    <button type="reset" class="btn btn-primary">Reset Form</button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}*@
 
+<script type="text/javascript">
 
+    $(document).ready(function () {
+        $("#btnlookuppincode").click(function () {
+            var pincode = $('#ConsignerPincode').val();
+            $.ajax({
+                cache: 'false',
+                type: "POST",
+                data: { pincode: pincode },
+                url: '@Url.Action("LookUpPincode", "Search")',
+                dataType: 'json',  // add this line
+                "success": function (data) {
+                    if (data != null) {
+                        var vdata = data;
+                        $("#ConsignerState").val(vdata[0].StateName);
+                        //$("#FName").val(vdata[0].FatherName);
+                        //$("#Phone").val(vdata[0].Phone1);
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 

@@ -113,6 +113,18 @@
           <Property Name="StatusDate" Type="datetime" />
           <Property Name="DestinationAddress" Type="nvarchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="ConsignmentStatus">
+          <Key>
+            <PropertyRef Name="ConsignmentStatusID" />
+          </Key>
+          <Property Name="ConsignmentStatusID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ConsignmentStatusName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'TestDatabase.dbo.Covid_TestData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Covid_TestData">
@@ -382,6 +394,18 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="TrackConsignment">
+          <Key>
+            <PropertyRef Name="TrackConsignmentID" />
+          </Key>
+          <Property Name="TrackConsignmentID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BookingID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ConsignmentStatusID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="StatusDateTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="SortOrder" Type="int" />
+        </EntityType>
         <EntityType Name="TransactionSummary">
           <Key>
             <PropertyRef Name="TranSumryID" />
@@ -641,6 +665,9 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
         <Function Name="Get_Consignment_Details_By_BookingID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BookingID" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="Get_Consignment_History" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BookingID" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="Get_Consignment_Status_By_BookingID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BookingID" Type="nvarchar" Mode="In" />
         </Function>
@@ -677,6 +704,10 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Parameter Name="to" Type="datetime" Mode="In" />
           <Parameter Name="AnnouncementClassification" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="GetDashBoardData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usertype" Type="nvarchar" Mode="In" />
+          <Parameter Name="userid" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetHomePageMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Insert_User_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="first_name" Type="nvarchar" Mode="In" />
@@ -698,6 +729,9 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Parameter Name="LandingImagePath" Type="nvarchar" Mode="In" />
           <Parameter Name="SortOrder" Type="int" Mode="In" />
           <Parameter Name="Createdby" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="LoadDashboardData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="NumbersToWords" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="value" Type="bigint" Mode="In" />
@@ -788,6 +822,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
         <Function Name="UpdateConsignmentStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BookingID" Type="nvarchar" Mode="In" />
           <Parameter Name="Status" Type="nvarchar" Mode="In" />
+          <Parameter Name="userid" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="UpdatePubWeekSalProcRecords" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AuditRefID" Type="nvarchar" Mode="In" />
@@ -804,6 +839,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <EntitySet Name="AutoGeneratedNames" EntityType="Self.AutoGeneratedNames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConsigneeDetails" EntityType="Self.ConsigneeDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConsignmentDetails" EntityType="Self.ConsignmentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConsignmentStatus" EntityType="Self.ConsignmentStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Data_Process_Log" EntityType="Self.Data_Process_Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LandingImages" EntityType="Self.LandingImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoanDetails" EntityType="Self.LoanDetails" Schema="dbo" store:Type="Tables" />
@@ -820,6 +856,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <EntitySet Name="Postal_Region_List" EntityType="Self.Postal_Region_List" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Postal_State_List" EntityType="Self.Postal_State_List" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrackConsignment" EntityType="Self.TrackConsignment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionSummary" EntityType="Self.TransactionSummary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UploadTransactionLog" EntityType="Self.UploadTransactionLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UploadTranSummary" EntityType="Self.UploadTranSummary" Schema="dbo" store:Type="Tables" />
@@ -1208,6 +1245,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <FunctionImport Name="UpdateConsignmentStatus1" ReturnType="Collection(String)">
             <Parameter Name="BookingID" Mode="In" Type="String" />
             <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="userid" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="Announcements" EntityType="AppDataModel.Announcement" />
           <FunctionImport Name="InsertAnnouncements" ReturnType="Collection(String)">
@@ -1252,7 +1290,19 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Parameter Name="BookingID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Get_Consignment_Status_By_BookingID" ReturnType="Collection(AppDataModel.Get_Consignment_Status_By_BookingID_Result)">
-            <Parameter Name="BookingID" Mode="In" Type="String" />
+          <Parameter Name="BookingID" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="ConsignmentStatus" EntityType="AppDataModel.ConsignmentStatu" />
+          <EntitySet Name="TrackConsignments" EntityType="AppDataModel.TrackConsignment" />
+          <FunctionImport Name="LoadDashboardData">
+          <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Consignment_History" ReturnType="Collection(AppDataModel.Get_Consignment_History_Result)">
+          <Parameter Name="BookingID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetDashBoardData" ReturnType="Collection(AppDataModel.GetDashBoardData_Result)">
+            <Parameter Name="usertype" Mode="In" Type="String" />
+            <Parameter Name="userid" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Login_Credentials">
@@ -1732,6 +1782,50 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Type="Int32" Name="Pincode" Nullable="false" />
           <Property Type="String" Name="ConsignmentStatus" Nullable="true" MaxLength="100" />
           <Property Type="DateTime" Name="StatusDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="ConsignmentStatu">
+          <Key>
+            <PropertyRef Name="ConsignmentStatusID" />
+          </Key>
+          <Property Name="ConsignmentStatusID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ConsignmentStatusName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="TrackConsignment">
+          <Key>
+            <PropertyRef Name="TrackConsignmentID" />
+          </Key>
+          <Property Name="TrackConsignmentID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BookingID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ConsignmentStatusID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StatusDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="SortOrder" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="Get_Consignment_History_Result">
+          <Property Type="String" Name="BookingID" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="DestinationPincode" Nullable="false" />
+          <Property Type="String" Name="ConsignmentStatusName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="StatusDateTime" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="SortOrder" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetDashBoardData_Result">
+          <Property Type="String" Name="loginuserrole" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TotalConsignmentTillDate" Nullable="true" />
+          <Property Type="Int32" Name="TotalOffices" Nullable="true" />
+          <Property Type="Int32" Name="TotalDeliveryOffices" Nullable="true" />
+          <Property Type="Int32" Name="TotalnonDeliveryOffices" Nullable="true" />
+          <Property Type="Int32" Name="TotalBranchOffices" Nullable="true" />
+          <Property Type="Int32" Name="TotalSubBranchOffices" Nullable="true" />
+          <Property Type="Int32" Name="TotalHeadOffices" Nullable="true" />
+          <Property Type="String" Name="AnnualTurnOver" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="MaintainenceCost" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2293,6 +2387,61 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
                 <ScalarProperty Name="Pincode" ColumnName="Pincode" />
                 <ScalarProperty Name="ConsignmentStatus" ColumnName="ConsignmentStatus" />
                 <ScalarProperty Name="StatusDate" ColumnName="StatusDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="ConsignmentStatus">
+            <EntityTypeMapping TypeName="AppDataModel.ConsignmentStatu">
+              <MappingFragment StoreEntitySet="ConsignmentStatus">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ConsignmentStatusName" ColumnName="ConsignmentStatusName" />
+                <ScalarProperty Name="ConsignmentStatusID" ColumnName="ConsignmentStatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrackConsignments">
+            <EntityTypeMapping TypeName="AppDataModel.TrackConsignment">
+              <MappingFragment StoreEntitySet="TrackConsignment">
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusDateTime" ColumnName="StatusDateTime" />
+                <ScalarProperty Name="ConsignmentStatusID" ColumnName="ConsignmentStatusID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="TrackConsignmentID" ColumnName="TrackConsignmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="LoadDashboardData" FunctionName="AppDataModel.Store.LoadDashboardData" />
+          <FunctionImportMapping FunctionImportName="Get_Consignment_History" FunctionName="AppDataModel.Store.Get_Consignment_History">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AppDataModel.Get_Consignment_History_Result">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="DestinationPincode" ColumnName="DestinationPincode" />
+                <ScalarProperty Name="ConsignmentStatusName" ColumnName="ConsignmentStatusName" />
+                <ScalarProperty Name="StatusDateTime" ColumnName="StatusDateTime" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetDashBoardData" FunctionName="AppDataModel.Store.GetDashBoardData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AppDataModel.GetDashBoardData_Result">
+                <ScalarProperty Name="loginuserrole" ColumnName="loginuserrole" />
+                <ScalarProperty Name="TotalConsignmentTillDate" ColumnName="TotalConsignmentTillDate" />
+                <ScalarProperty Name="TotalOffices" ColumnName="TotalOffices" />
+                <ScalarProperty Name="TotalDeliveryOffices" ColumnName="TotalDeliveryOffices" />
+                <ScalarProperty Name="TotalnonDeliveryOffices" ColumnName="TotalnonDeliveryOffices" />
+                <ScalarProperty Name="TotalBranchOffices" ColumnName="TotalBranchOffices" />
+                <ScalarProperty Name="TotalSubBranchOffices" ColumnName="TotalSubBranchOffices" />
+                <ScalarProperty Name="TotalHeadOffices" ColumnName="TotalHeadOffices" />
+                <ScalarProperty Name="AnnualTurnOver" ColumnName="AnnualTurnOver" />
+                <ScalarProperty Name="MaintainenceCost" ColumnName="MaintainenceCost" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

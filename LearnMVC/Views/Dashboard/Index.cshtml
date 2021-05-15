@@ -2,6 +2,55 @@
 @{
     ViewBag.Title = "Dashboard";
 }
-
 <h2 id="headings">Dashboard</h2>
 
+    <table class="table table-bordered table-responsive table-hover text-center" style="margin-left:25%; width:50%;align-content:center;">
+        <tr>
+            <td id="rows">Login User ID</td>
+            <td><strong class="text-success">@Session["UserID"].ToString()</strong></td>
+        </tr>
+        <tr>
+            <td id="rows">Login Username</td>
+            <td><strong class="text-success">@Session["Username"].ToString()</strong></td>
+        </tr>
+        <tr>
+            <td id="rows">Login User Role</td>
+            <td><strong class="text-success">Super User</strong></td>
+        </tr>
+    </table>
+
+    <table id="dashboardtable" class="table table-bordered table-responsive table-hover text-center">
+        @foreach (var dashboarddata in ViewBag.DashBoardResults)
+        {
+            <tr id="rows">
+                <td>Total Consignment Booked</td>
+                <td>Total Offices</td>
+                <td>Total Delivery Offices</td>
+            </tr>
+            <tr>
+                <td>@dashboarddata.TotalConsignmentTillDate</td>
+                <td>@dashboarddata.TotalOffices</td>
+                <td>@dashboarddata.TotalDeliveryOffices</td>
+            </tr>
+            <tr id="rows">
+                <td>Total Non-Delivery Offices</td>
+                <td>Total Branch Offices</td>
+                <td>Total Sub-Branch Offices</td>
+            </tr>
+            <tr>
+                <td>@dashboarddata.TotalnonDeliveryOffices</td>
+                <td>@dashboarddata.TotalBranchOffices</td>
+                <td>@dashboarddata.TotalSubBranchOffices</td>
+            </tr>
+            <tr id="rows">
+                <td>Total Head Offices</td>
+                <td>Total Annual Turnover</td>
+                <td>Total Maintenance Cost</td>
+            </tr>
+            <tr>
+                <td>@dashboarddata.TotalHeadOffices</td>
+                <td>@dashboarddata.AnnualTurnOver</td>
+                <td>@dashboarddata.MaintainenceCost</td>
+            </tr>
+        }
+    </table>

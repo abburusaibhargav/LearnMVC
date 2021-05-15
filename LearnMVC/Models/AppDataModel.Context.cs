@@ -56,6 +56,8 @@ namespace LearnMVC.Models
         public virtual DbSet<Menu> Menus { get; set; }
         public virtual DbSet<Announcement> Announcements { get; set; }
         public virtual DbSet<LandingImage> LandingImages { get; set; }
+        public virtual DbSet<ConsignmentStatu> ConsignmentStatus { get; set; }
+        public virtual DbSet<TrackConsignment> TrackConsignments { get; set; }
     
         public virtual int Record_Upload_Transaction_Log(string uploadServerTranID, string uploadfilename, string filepath, string descr, string createdby, Nullable<System.DateTime> createddate)
         {
@@ -295,7 +297,7 @@ namespace LearnMVC.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateConsignmentStatus", bookingIDParameter, statusParameter);
         }
     
-        public virtual ObjectResult<string> UpdateConsignmentStatus1(string bookingID, string status)
+        public virtual ObjectResult<string> UpdateConsignmentStatus1(string bookingID, string status, string userid)
         {
             var bookingIDParameter = bookingID != null ?
                 new ObjectParameter("BookingID", bookingID) :
@@ -305,7 +307,11 @@ namespace LearnMVC.Models
                 new ObjectParameter("Status", status) :
                 new ObjectParameter("Status", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("UpdateConsignmentStatus1", bookingIDParameter, statusParameter);
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("UpdateConsignmentStatus1", bookingIDParameter, statusParameter, useridParameter);
         }
     
         public virtual ObjectResult<string> InsertAnnouncements(string announcementTitle, string announcementContent, string createdBy, string classification)
@@ -457,6 +463,37 @@ namespace LearnMVC.Models
                 new ObjectParameter("BookingID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Consignment_Status_By_BookingID_Result>("Get_Consignment_Status_By_BookingID", bookingIDParameter);
+        }
+    
+        public virtual int LoadDashboardData(string userid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("LoadDashboardData", useridParameter);
+        }
+    
+        public virtual ObjectResult<Get_Consignment_History_Result> Get_Consignment_History(string bookingID)
+        {
+            var bookingIDParameter = bookingID != null ?
+                new ObjectParameter("BookingID", bookingID) :
+                new ObjectParameter("BookingID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Consignment_History_Result>("Get_Consignment_History", bookingIDParameter);
+        }
+    
+        public virtual ObjectResult<GetDashBoardData_Result> GetDashBoardData(string usertype, string userid)
+        {
+            var usertypeParameter = usertype != null ?
+                new ObjectParameter("usertype", usertype) :
+                new ObjectParameter("usertype", typeof(string));
+    
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDashBoardData_Result>("GetDashBoardData", usertypeParameter, useridParameter);
         }
     }
 }
