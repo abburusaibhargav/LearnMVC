@@ -1,0 +1,69 @@
+﻿@model LearnMVC.Models.SearchModel
+@{
+    ViewBag.Title = "SearchUploadTransactions";
+}
+
+<h2 id="headings">Search Upload Transactions</h2>
+
+@using (Html.BeginForm("SearchUploadTransactions","Search",FormMethod.Get))
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="uid" class="control-label">User ID:</label>
+                    <input id="uid" type="text" class="form-control" name="UserID" value="@Session["UserID"].ToString()" readonly />
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="uploadfiletype" class="control-label">Upload File Type:</label>
+                    <select class="form-control" id="uploadfiletype" name="uploadfiletype">
+                        <option value="#">--Select Upload File Type--</option>
+                        <option value="txt">Text Files</option>
+                        <option value="xlsx">Excel Files</option>
+                        <option value="pdf">PDF Files</option>
+                        <option value="jpg">Image Files</option>
+                        <option value="docx">Word Documents</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="dateFrom" class="control-label">From Date:</label>
+                    <input id="dateFrom" type="date" name="DateFrom" class="form-control"  />
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <label for="dateTo" class="control-label">To Date:</label>
+                    <input id="dateTo" type="date" name="DateTo" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row text-center">
+                <button type="submit" class="btn btn-success">Search</button>
+                <button type="reset" class="btn btn-primary">Reset</button>
+                @Html.ActionLink("Back to Search","Index","Search", new { @class="btn btn-primary"})
+            </div>
+        </div>
+    </div>
+
+    if(ViewBag.UploadTranResults != null)
+    {
+        <table class=" table table-bordered table-hover table-responsive text-center">
+            <tr id="rows">
+                <td>Upload File Name</td>
+                <td>Upload File Server Path</td>
+                <td>File Description</td>
+                <td>Uploaded On</td>
+                <td>ServerTransaction ID</td>
+            </tr>
+            @foreach(var item in ViewBag.UploadTranResults)
+            {
+                <tr>
+                    <td>@item.UploadFileName</td>
+                    <td>@item.UploadFileServerPath</td>
+                    <td>@item.UploadFileDescription</td>
+                    <td>@item.UploadedOn</td>
+                    <td>@item.ServerTransactionID</td>
+                </tr>
+            }
+        </table>
+    }
+}
+

@@ -14,5 +14,6 @@ namespace LearnMVC.Models
         public string ReportType { get; set; }
         public string AnnouncementClassification { get; set; }
         public string AuditRefID { get; set; }
+        public string uploadfiletype { get; set; }
     }
 }

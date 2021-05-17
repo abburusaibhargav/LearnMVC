@@ -66,7 +66,7 @@ namespace LearnMVC.Controllers
 
         public ActionResult DownloadUserList(string Proc, string UserID)
         {
-            gridView.DataSource = connectionEntity.Get_User_List(UserID).ToList();
+            gridView.DataSource = connectionEntity.Download_AllUserList(UserID).ToList();
             gridView.DataBind();
 
             Response.ClearContent();

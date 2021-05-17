@@ -10,11 +10,11 @@
     </div>
     <div class="col-lg-4">
         @*<div class="progress">
-            <div class="progress-bar progress-bar-striped active" role="progressbar"
-                 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                40%
-            </div>
-        </div>*@
+                <div class="progress-bar progress-bar-striped active" role="progressbar"
+                     aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                    40%
+                </div>
+            </div>*@
     </div>
     <div class="col-lg-4">
         <a class="text-primary pull-right" href="#" onclick='javascript: window.print()'>Print</a>  <span class="pull-right"> | </span>
@@ -23,49 +23,71 @@
     </div>
 </div>
 @*<h4 class="pull-left" style="color:red; font-style:italic">Search has retreived total @TempData["TotalTblRecords"] out of @TempData.Peek("TotalRecordsToFetch")</h4>
-<a class="text-primary pull-right" href="#" onclick='javascript: window.print()'>Print</a>  <span class="pull-right"> | </span>
-@Html.ActionLink("Download PDF", "PDF_AllUserList", "GeneratePDF", new { @class = "pull-right" }) <span class="pull-right"> | </span>
-@Html.ActionLink("Download Excel", "DownloadUserList", "Download", new { Proc = "Get_User_List", UserID = Session["UserID"].ToString() }, new { @class = "pull-right" })*@
-<table class="table table-bordered table-striped table-responsive table-hover text-center">
-    <tr id="rows">
-        <td>User ID</td>
-        <td>First Name</td>
-        <td>Last Name</td>
-        <td>Gender</td>
-        <td>E-Mail</td>
-        <td>Contact Number</td>
-        <td>Actions</td>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.first_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.last_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                <a class="glyphicon-envelope btn btn-primary" data-target="#mailmodel" data-toggle="modal"></a>
-                <span>
-                    <a class="glyphicon-pencil btn btn-primary" data-target="#msgmodal" data-toggle="modal"></a>
-                </span>
-            </td>
+    <a class="text-primary pull-right" href="#" onclick='javascript: window.print()'>Print</a>  <span class="pull-right"> | </span>
+    @Html.ActionLink("Download PDF", "PDF_AllUserList", "GeneratePDF", new { @class = "pull-right" }) <span class="pull-right"> | </span>
+    @Html.ActionLink("Download Excel", "DownloadUserList", "Download", new { Proc = "Get_User_List", UserID = Session["UserID"].ToString() }, new { @class = "pull-right" })*@
+
+@*@using (Html.BeginForm("AllUserList", "Search", FormMethod.Get))
+{
+    <div class="panel panel-info">
+        <div class="panel-body">
+
+        </div>
+    </div>
+    <b>Search By:</b>
+    @Html.RadioButton("searchBy", "userid", true) <text>User ID</text>
+    @Html.RadioButton("searchBy", "firstname") <text>First Name</text>
+    @Html.RadioButton("searchBy", "lastname") <text>Last Name</text>
+    @Html.RadioButton("searchBy", "gender") <text>Gender</text>
+    @Html.RadioButton("searchBy", "email") <text>E-Mail</text>
+    @Html.RadioButton("searchBy", "contactnumber")<text>Contact Number</text>
+    <br />
+    <input type="text" class="form-control" name="search" placeholder="Enter Search String" />
+    <input type="submit" class="btn btn-primary" value="Search" />*@
+
+
+    <table class="table table-bordered table-striped table-responsive table-hover text-center">
+        <tr id="rows">
+            <td>User ID</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Gender</td>
+            <td>E-Mail</td>
+            <td>Contact Number</td>
+            <td>Actions</td>
         </tr>
-    }
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.first_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.last_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    <a class="glyphicon-envelope btn btn-primary" data-target="#mailmodel" data-toggle="modal"></a>
+                    <span>
+                        <a class="glyphicon-pencil btn btn-primary" data-target="#msgmodal" data-toggle="modal"></a>
+                    </span>
+                </td>
+            </tr>
+        }
+    </table>
+@*}*@
+
 <br />
 
 @using (Html.BeginForm("AllUserList", "Search", FormMethod.Post))

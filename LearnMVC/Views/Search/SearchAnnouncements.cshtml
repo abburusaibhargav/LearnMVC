@@ -5,7 +5,7 @@
 
 <h2 id="headings">Search Announcements</h2>
 
-@using (Html.BeginForm("SearchAnnouncements", "Search", FormMethod.Post))
+@using (Html.BeginForm("SearchAnnouncements", "Search", FormMethod.Get))
 {
     <div class="row">
         <div class="col-lg-3">
@@ -20,7 +20,8 @@
                 <option value="FYA">FYA</option>
                 <option value="Internal">Internal</option>
                 <option value="Confidential">Confidential</option>
-            </select>
+                <option value="All">All</option>
+            </select> 
         </div>
         <div class="col-lg-3">
             <label for="from" class="control-label">From Date</label>
@@ -28,7 +29,7 @@
         </div>
         <div class="col-lg-3">
             <label for="to" class="control-label">To Date</label>
-            <input id="to" type="date" class="form-control" name="DateTo" required />
+            <input id="to" type="date" class="form-control" name="DateTo"  required />
         </div>
     </div>
     <br />
@@ -37,10 +38,34 @@
         <button type="reset" class="btn btn-primary">Reset</button>
         @Html.ActionLink("Back to Search", "Index", "Search", new { @class = "btn btn-primary" })
     </div>
-    <hr />
-    
-        @Html.Partial("SearchResults");    
+    <br />
+    if (ViewBag.AnnouncementsResults != null)
+    {
+        <table class="table table-bordered table-hover table-responsive text-center">
+            <tr id="rows">
+                <td>Announcement Title</td>
+                <td>Announcement Content</td>
+                <td>Announcement Classification</td>
+                <td>Announcement Status</td>
+            </tr>
+            @*@if(ViewBag.Count = 0)
+            {
+                <tr class="text-danger" style="column-span:all">No Data Found</tr>
+            }*@
+            @foreach (var item in ViewBag.AnnouncementsResults)
+            {
+                <tr>
+                    <td>@item.AnnouncementTitle</td>
+                    <td>@item.AnnouncementContent</td>
+                    <td>@item.AnnouncementClassification</td>                   
+                    <td>@item.AnnouncementStatus</td>
+                </tr>
+            }
+        </table>
+
+    }
 }
+
 
 
 

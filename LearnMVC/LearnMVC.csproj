@@ -362,6 +362,9 @@
     <Compile Include="Models\Data_Process_Log.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Download_AllUserList_Result.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EmiTable.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
@@ -387,6 +390,9 @@
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Get_OfficeDetails_By_Pincode_Result.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Get_Upload_TransactionLog_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Get_User_List_Result.cs">
@@ -439,6 +445,9 @@
     <Compile Include="Models\QRCodeModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\Search_User_List_Result.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
@@ -554,6 +563,8 @@
     <Content Include="Views\Search\SearchResults.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Consignment\BookingConfirm.cshtml" />
+    <Content Include="Views\Search\SearchForm.cshtml" />
+    <Content Include="Views\Search\SearchUploadTransactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

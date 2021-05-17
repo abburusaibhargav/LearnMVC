@@ -11,16 +11,12 @@ namespace LearnMVC.Models
 {
     using System;
     
-    public partial class Get_OfficeDetails_By_Pincode_Result
+    public partial class Get_Upload_TransactionLog_Result
     {
-        public string StateName { get; set; }
-        public string CircleName { get; set; }
-        public string RegionName { get; set; }
-        public string DivisionName { get; set; }
-        public string DistrictName { get; set; }
-        public string OfficeName { get; set; }
-        public string OfficeTypeName { get; set; }
-        public string DeliveryType { get; set; }
-        public int Pincode { get; set; }
+        public string UploadFileName { get; set; }
+        public string UploadFileServerPath { get; set; }
+        public string UploadFileDescription { get; set; }
+        public Nullable<System.DateTime> UploadedOn { get; set; }
+        public string ServerTransactionID { get; set; }
     }
 }

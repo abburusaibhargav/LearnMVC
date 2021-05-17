@@ -13,10 +13,11 @@ namespace LearnMVC.Models
     
     public partial class GetAnnouncements_Result1
     {
-        public string AnnouncementID { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string AnnouncementTitle { get; set; }
         public string AnnouncementContent { get; set; }
         public string AnnouncementClassification { get; set; }
+        public string AnnouncementID { get; set; }
+        public string AnnouncementStatus { get; set; }
     }
 }

@@ -11,16 +11,16 @@ namespace LearnMVC.Models
 {
     using System;
     
-    public partial class Get_OfficeDetails_By_Pincode_Result
+    public partial class Download_AllUserList_Result
     {
-        public string StateName { get; set; }
-        public string CircleName { get; set; }
-        public string RegionName { get; set; }
-        public string DivisionName { get; set; }
-        public string DistrictName { get; set; }
-        public string OfficeName { get; set; }
-        public string OfficeTypeName { get; set; }
-        public string DeliveryType { get; set; }
-        public int Pincode { get; set; }
+        public string User_ID { get; set; }
+        public string First_Name { get; set; }
+        public string Last_Name { get; set; }
+        public string Gender { get; set; }
+        public string E_Mail { get; set; }
+        public string User_Status { get; set; }
+        public string Created_By { get; set; }
+        public Nullable<System.DateTime> Created_Date { get; set; }
+        public string Phone { get; set; }
     }
 }
