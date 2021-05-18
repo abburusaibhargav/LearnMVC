@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "SearchPostalList";
+}
+
+<h2 id="headings">Search Postal List</h2>
+<hr />
+<script type="text/javascript" src="~/Scripts/jquery-ui.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui.js"></script>
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $(function(){
+        $("#searchvalue").autocomplete({
+            source: '@Url.Action("Search_PostalList")'
+        });
+    });
+</script>
+
+@using (Html.BeginForm("SearchPostalList", "Search", FormMethod.Get))
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <label for="searchBy" class="control-label">Search By:</label>
+                    <br />
+                    <label class="radio-inline"><input id="searchBy" type="radio" name="searchBy" value="pincode" checked />Pincode</label>
+                    <label class="radio-inline"><input id="searchBy" type="radio" name="searchBy" value="state" />State</label>
+                    <label class="radio-inline"><input id="searchBy" type="radio" name="searchBy" value="circle" />Circle</label>
+                    <label class="radio-inline"><input id="searchBy" type="radio" name="searchBy" value="division" />Division</label>
+                    <label class="radio-inline"><input id="searchBy" type="radio" name="searchBy" value="district" />District</label>
+                    <label class="radio-inline"><input id="searchBy" type="radio" name="searchBy" value="office" />Office</label>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <label for="searchvalue" class="control-label">Search:</label>
+                    <input id="searchvalue" type="text" class="form-control" name="searchvalue" placeholder="Enter Search Value" />
+                </div>
+            </div>
+            <br />
+            <div class="row text-center">
+                <button type="submit" class="btn btn-success">Search</button>
+                <button type="reset" class="btn btn-success">Reset</button>
+                @Html.ActionLink("Back to Search", "Index", "Search", new { @class = "btn btn-primary" })
+            </div>
+        </div>
+        <div class="panel-footer">
+            <strong class="text-info">
+                Search results has been limited to 20 rows.
+
+                @if (ViewBag.Results != null)
+                {
+                <a class="btn btn-sm btn-primary pull-right" href="~/Download/DownloadPostalOfficeList?searchBy=@ViewBag.searchBy&searchvalue=@ViewBag.searchvalue">Download Excel</a>
+                }
+            </strong>
+        </div>
+
+    </div>
+
+    if (ViewBag.Results != null)
+    {
+        <table class="table table-bordered table-hover table-responsive text-center">
+            <tr id="rows">
+                <td>Pincode</td>
+                <td>State Name</td>
+                <td>Circle Name</td>
+                <td>Region Name</td>
+                <td>Division Name</td>
+                <td>District Name</td>
+                <td>Office Name</td>
+                <td>Office Type</td>
+                <td>Delivery Type</td>
+            </tr>
+            @foreach (var item in ViewBag.Results)
+            {
+                if (item.DeliveryType == "Delivery")
+                {
+                    <tr class="bg-success">
+                        <td>@item.Pincode</td>
+                        <td>@item.StateName</td>
+                        <td>@item.CircleName</td>
+                        <td>@item.RegionName</td>
+                        <td>@item.DivisionName</td>
+                        <td>@item.DistrictName</td>
+                        <td>@item.OfficeName</td>
+                        <td>@item.OfficeTypeName</td>
+                        <td>@item.DeliveryType</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="bg-warning">
+                        <td>@item.Pincode</td>
+                        <td>@item.StateName</td>
+                        <td>@item.CircleName</td>
+                        <td>@item.RegionName</td>
+                        <td>@item.DivisionName</td>
+                        <td>@item.DistrictName</td>
+                        <td>@item.OfficeName</td>
+                        <td>@item.OfficeTypeName</td>
+                        <td>@item.DeliveryType</td>
+                    </tr>
+                }
+
+            }
+        </table>
+    }
+
+    if (ViewBag.OverLimit != null)
+    {
+        <h4 class="text-center" style="color:red">
+            @ViewBag.OverLimit. But you can still download to Excel<br /><br />
+            <a class="btn btn-primary" href="~/Download/DownloadPostalOfficeList?searchBy=@ViewBag.searchBy&searchvalue=@ViewBag.searchvalue">Download Excel</a>
+        </h4>
+    }
+    <h3 class="text-center" style="color:red">
+        @ViewBag.NoResults
+    </h3>
+
+}
+

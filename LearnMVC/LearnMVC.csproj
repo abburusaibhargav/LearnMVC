@@ -445,6 +445,9 @@
     <Compile Include="Models\QRCodeModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\SearchPostalList_Result.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Search_User_List_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
@@ -558,12 +561,11 @@
     <Content Include="Views\Admin\LandingImageControl.cshtml" />
     <Content Include="Views\Home\HomeLandingImages.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
-    <Content Include="Views\Search\sdd.cshtml" />
     <Content Include="Views\Search\SearchAnnouncements.cshtml" />
     <Content Include="Views\Search\SearchResults.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Consignment\BookingConfirm.cshtml" />
-    <Content Include="Views\Search\SearchForm.cshtml" />
+    <Content Include="Views\Search\SearchPostalList.cshtml" />
     <Content Include="Views\Search\SearchUploadTransactions.cshtml" />
   </ItemGroup>
   <ItemGroup>

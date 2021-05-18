@@ -538,5 +538,18 @@ namespace LearnMVC.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Get_Upload_TransactionLog_Result>("Get_Upload_TransactionLog", useridParameter, fromParameter, toParameter, uploadfiletypeParameter);
         }
+    
+        public virtual ObjectResult<SearchPostalList_Result> SearchPostalList(string searchBy, string searchvalue)
+        {
+            var searchByParameter = searchBy != null ?
+                new ObjectParameter("searchBy", searchBy) :
+                new ObjectParameter("searchBy", typeof(string));
+    
+            var searchvalueParameter = searchvalue != null ?
+                new ObjectParameter("searchvalue", searchvalue) :
+                new ObjectParameter("searchvalue", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchPostalList_Result>("SearchPostalList", searchByParameter, searchvalueParameter);
+        }
     }
 }

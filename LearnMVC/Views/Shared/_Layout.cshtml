@@ -6,14 +6,11 @@
     <title>@ViewBag.Title | Learn MVC</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/Site_Scripts.js"></script>
-    <script src="~/Content/Scripts/Search.js" type="text/javascript"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
 <body>
-    @*@model LearnMVC.Models.GetHomePageMenu_Result*@
+   
 
     <div class="navbar navbar-inverse navbar-fixed-top" id="navbar">
         <div class="container">
@@ -24,14 +21,14 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Learn MVC", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                
+
             </div>
             <div class="navbar-collapse collapse" id="menulinks">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>
                         <a href="#" data-target="#mailsend" data-toggle="modal">
-                        <span class="glyphicon glyphicon-envelope"></span> Send Mail
+                            <span class="glyphicon glyphicon-envelope"></span> Send Mail
                         </a>
                     </li>
                     @if (Session["UserID"] != null)
@@ -59,10 +56,9 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        @*<script type="text/javascript" src="~/Content/Site_jQuery.js"></script>*@
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Learn MVC</p>
         </footer>
     </div>
 

@@ -87,5 +87,29 @@ namespace LearnMVC.Controllers
             return RedirectToAction("AllUserList", "Search", new RouteValueDictionary
                                                   (new { Controller = "Search", Action = "AllUserList" }));
         }
+
+        public ActionResult DownloadPostalOfficeList(SearchModel searchModel)
+        {
+            gridView.DataSource = connectionEntity.SearchPostalList(searchModel.searchBy, searchModel.searchvalue).ToList();
+            gridView.DataBind();
+
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment ; filename=" + searchModel.searchBy+"_"+searchModel.searchvalue + ".xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+
+            StringWriter stringWriter = new StringWriter();
+            HtmlTextWriter htmlTextWriter = new HtmlTextWriter(stringWriter);
+
+            gridView.RenderControl(htmlTextWriter);
+
+            Response.Output.Write(stringWriter.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("SearchPostalList", "Search", new RouteValueDictionary
+                                                  (new { Controller = "Search", Action = "SearchPostalList" }));
+        }
     }
 }

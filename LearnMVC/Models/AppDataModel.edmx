@@ -783,6 +783,10 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Parameter Name="searchBy" Type="nvarchar" Mode="In" />
           <Parameter Name="search" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="SearchPostalList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="searchBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="searchvalue" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -1329,6 +1333,10 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             <Parameter Name="from" Mode="In" Type="DateTime" />
             <Parameter Name="to" Mode="In" Type="DateTime" />
             <Parameter Name="uploadfiletype" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SearchPostalList" ReturnType="Collection(AppDataModel.SearchPostalList_Result)">
+            <Parameter Name="searchBy" Mode="In" Type="String" />
+            <Parameter Name="searchvalue" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Login_Credentials">
@@ -1880,6 +1888,17 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Type="String" Name="UploadFileDescription" Nullable="true" />
           <Property Type="DateTime" Name="UploadedOn" Nullable="true" Precision="23" />
           <Property Type="String" Name="ServerTransactionID" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="SearchPostalList_Result">
+          <Property Type="String" Name="StateName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CircleName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="RegionName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DivisionName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="OfficeName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="OfficeTypeName" Nullable="false" MaxLength="108" />
+          <Property Type="String" Name="DeliveryType" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Pincode" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2536,6 +2555,21 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
                 <ScalarProperty Name="UploadFileDescription" ColumnName="UploadFileDescription" />
                 <ScalarProperty Name="UploadedOn" ColumnName="UploadedOn" />
                 <ScalarProperty Name="ServerTransactionID" ColumnName="ServerTransactionID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SearchPostalList" FunctionName="AppDataModel.Store.SearchPostalList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AppDataModel.SearchPostalList_Result">
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="CircleName" ColumnName="CircleName" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="OfficeName" ColumnName="OfficeName" />
+                <ScalarProperty Name="OfficeTypeName" ColumnName="OfficeTypeName" />
+                <ScalarProperty Name="DeliveryType" ColumnName="DeliveryType" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
