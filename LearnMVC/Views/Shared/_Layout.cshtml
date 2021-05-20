@@ -56,6 +56,40 @@
     </div>
     <div class="container body-content">
         @RenderBody()
+
+        @using (Html.BeginForm("MailSystem", "Home", FormMethod.Post))
+        {
+            <div id="mailsend" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" type="button" data-dismiss="modal">&times;</button>
+                            <h3 id="headings" class="modal-title">Mail System</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label class="control-label " for="Receivermailid"> Receiver Mail ID</label>
+                                    <input id="Receivermailid" class="form-control" type="email" placeholder="Enter Receiver Mail ID" name="Receivermailid" required />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label class="control-label" for="MailBody">Message</label>
+                                    <textarea id="MailBody" class="form-control" type="text" placeholder="Enter Message" name="MailBody" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Send Mail</button>
+                            <button type="reset" class="btn btn-primary">Reset</button>
+                            <button class="btn btn-primary" type="button" data-dismiss="modal">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Learn MVC</p>
