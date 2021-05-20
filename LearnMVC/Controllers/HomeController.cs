@@ -17,6 +17,17 @@ namespace LearnMVC.Controllers
             //Response.AddHeader("Refresh", "5");
             var Announcements = GetAnnouncements();
 
+                if (Session["UserID"] != null)
+                {
+                    var homepagetime = GetHomePageTimeZone(Session["UserID"].ToString());
+                ViewBag.TimeZone = homepagetime;
+                }
+                else
+                {
+                    var homepagetime = GetHomePageTimeZone(null);
+                ViewBag.TimeZone = homepagetime;
+            }
+
             if (UserID != null)
             {
                 if (Session["UserID"] != null)
@@ -113,6 +124,14 @@ namespace LearnMVC.Controllers
                                 .ToList();
 
             return announcements;
+        }
+
+        public List<GetHomePageTime_Result> GetHomePageTimeZone(string UserID)
+        {
+            List<GetHomePageTime_Result> timeZones = new List<GetHomePageTime_Result>();
+            timeZones = connectionEntity.GetHomePageTime(UserID).ToList();
+
+            return timeZones;
         }
     }
 }

@@ -58,6 +58,7 @@ namespace LearnMVC.Models
         public virtual DbSet<ConsignmentStatu> ConsignmentStatus { get; set; }
         public virtual DbSet<TrackConsignment> TrackConsignments { get; set; }
         public virtual DbSet<ConsignmentDetail> ConsignmentDetails { get; set; }
+        public virtual DbSet<TimeZone> TimeZones { get; set; }
     
         public virtual int Record_Upload_Transaction_Log(string uploadServerTranID, string uploadfilename, string filepath, string descr, string createdby, Nullable<System.DateTime> createddate)
         {
@@ -550,6 +551,40 @@ namespace LearnMVC.Models
                 new ObjectParameter("searchvalue", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchPostalList_Result>("SearchPostalList", searchByParameter, searchvalueParameter);
+        }
+    
+        public virtual ObjectResult<GetHomePageTime_Result> GetHomePageTime(string userid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomePageTime_Result>("GetHomePageTime", useridParameter);
+        }
+    
+        public virtual ObjectResult<string> InsertUpdateDeleteTimezone(string userid, string action, string countryname, string timezone, string timezoneid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("action", action) :
+                new ObjectParameter("action", typeof(string));
+    
+            var countrynameParameter = countryname != null ?
+                new ObjectParameter("countryname", countryname) :
+                new ObjectParameter("countryname", typeof(string));
+    
+            var timezoneParameter = timezone != null ?
+                new ObjectParameter("timezone", timezone) :
+                new ObjectParameter("timezone", typeof(string));
+    
+            var timezoneidParameter = timezoneid != null ?
+                new ObjectParameter("timezoneid", timezoneid) :
+                new ObjectParameter("timezoneid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("InsertUpdateDeleteTimezone", useridParameter, actionParameter, countrynameParameter, timezoneParameter, timezoneidParameter);
         }
     }
 }

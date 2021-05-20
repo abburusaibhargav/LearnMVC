@@ -380,6 +380,9 @@
     <Compile Include="Models\GetHomePageMenu_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetHomePageTime_Result.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Get_Consignment_Details_By_BookingID1_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
@@ -452,6 +455,9 @@
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TimeZone.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrackConsignment.cs">
@@ -567,6 +573,7 @@
     <Content Include="Views\Consignment\BookingConfirm.cshtml" />
     <Content Include="Views\Search\SearchPostalList.cshtml" />
     <Content Include="Views\Search\SearchUploadTransactions.cshtml" />
+    <Content Include="Views\Admin\AdjustTimezone.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

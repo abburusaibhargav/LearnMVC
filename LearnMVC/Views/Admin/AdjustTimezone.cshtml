@@ -1,0 +1,334 @@
+﻿ 
+@{
+    ViewBag.Title = "AdjustTimezone";
+}
+
+<h2 id="headings">Adjust Timezone</h2>
+
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    View All Timezone
+                </h4>
+            </div>
+                <div class="panel-body">
+                    @if (ViewBag.viewtimezone != null)
+                    {
+                        <table class="table table-bordered table-striped table-hover text-center">
+                            <tr id="rows">
+                                <td>Country Name</td>
+                                <td>Country Timezone</td>
+                                <td>Country Current Time</td>
+                                <td>Status</td>
+                            </tr>
+                            @foreach (var time in ViewBag.viewtimezone)
+                            {
+                                <tr>
+                                    <td>@time.Country</td>
+                                    <td>@time.Timezone</td>
+                                    <td>@time.CountryTime</td>
+                                    @if (@time.Active == true)
+                                    {
+                                        <td>
+                                            Active
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            Inactive
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </table>
+                    }
+                </div>
+            </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel-group" id="adjtimeaccordion">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Create New Timezone
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("AdjustTimezone", "Admin", FormMethod.Post))
+                        {
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <input type="hidden" value="INSERT" name="request" />
+                                        <div class="col-lg-4">
+                                            <label for="cname" class="control-label">Country Name:</label>
+                                            <input id="cname" type="text" class="form-control" name="Country" placeholder="Enter Country Name" required />
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label for="ctimezone" class="control-label">Country Timezone:</label>
+                                            <input id="ctimezone" type="text" class="form-control" name="Timezone1" placeholder="Enter Country Name" required />
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row text-center">
+                                        <button class="btn btn-success" type="submit">Search</button>
+                                        <button class="btn btn-primary" type="reset">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Update Existing Timezone
+                        </h3>
+                    </div>
+
+                    <div class="panel-body">
+                        @using (Html.BeginForm("AdjustTimezone", "Admin", FormMethod.Get))
+                        {
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <input type="hidden" value="resultforupdate" name="request" />
+                                        <div class="col-lg-4">
+                                            <label for="cname" class="control-label">Country Name:</label>
+                                            @*<input id="cname" type="text" class="form-control" name="Country" placeholder="Enter Country Name" required />*@
+                                            <select id="cname" class="form-control" name="TimezoneID">
+                                                <option value="#">--Select Country--</option>
+                                                @foreach (var ddl in ViewBag.UpdateDDL)
+                                                {
+                                                    <option value="@ddl.TimezoneID">@ddl.Country</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-4 text-center">
+                                            <br />
+                                            <button class="btn btn-success" type="submit">Search</button>
+                                            <button class="btn btn-primary" type="reset">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @using (Html.BeginForm("AdjustTimezone", "Admin", FormMethod.Post))
+                        {
+                            if (ViewBag.updatetimezone != null)
+                            {
+                                <input type="hidden" value="UPDATE" name="request" />
+
+                                <table class="table table-bordered table-striped table-hover text-center">
+                                    <tr id="rows">
+                                        <td>Country Name</td>
+                                        <td>Country Timezone</td>
+                                        <td>Country Current Time</td>
+                                        <td>Status</td>
+                                        <td>Action</td>
+                                    </tr>
+                                    @foreach (var time in ViewBag.updatetimezone)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control" value="@time.Country" name="Country" required />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" value="@time.Timezone" name="Timezone1" required />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" value="@time.CountryTime" name="Country" required readonly />
+                                            </td>
+                                            @if (@time.Active == true)
+                                            {
+                                                <td>
+                                                    Active
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    Inactive
+                                                </td>
+                                            }
+                                            <td>
+                                                <button class="btn btn-warning" type="submit">Update</button>
+                                                <button class="btn btn-info" type="reset">Reset</button>
+                                            </td>
+                                            <input type="hidden" value="@time.TimezoneID" name="TimezoneID" />
+                                        </tr>
+                                    }
+                                </table>
+                            }
+                        }
+                    </div>
+
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            Delete Timezone
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("AdjustTimezone", "Admin", FormMethod.Get))
+                        {
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <input type="hidden" value="resultfordelete" name="request" />
+                                        <div class="col-lg-4">
+                                            <label for="cname" class="control-label">Country Name:</label>
+                                            @*<input id="cname" type="text" class="form-control" name="Country" placeholder="Enter Country Name" required />*@
+                                            <select id="cname" class="form-control" name="TimezoneID">
+                                                <option value="#">--Select Country--</option>
+                                                @foreach (var ddl in ViewBag.DeleteDDL)
+                                                {
+                                                    <option value="@ddl.TimezoneID">@ddl.Country</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-4 text-center">
+                                            <br />
+                                            <button class="btn btn-success" type="submit">Search</button>
+                                            <button class="btn btn-primary" type="reset">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @using (Html.BeginForm("AdjustTimezone", "Admin", FormMethod.Post))
+                        {
+                            if (ViewBag.deletetimezone != null)
+                            {
+                                <input type="hidden" value="DELETE" name="request" />
+
+                                <table class="table table-bordered table-striped table-hover text-center">
+                                    <tr id="rows">
+                                        <td>Country Name</td>
+                                        <td>Country Timezone</td>
+                                        <td>Country Current Time</td>
+                                        <td>Status</td>
+                                        <td>Action</td>
+                                    </tr>
+                                    @foreach (var time in ViewBag.deletetimezone)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control" value="@time.Country" name="Country" required readonly />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" value="@time.Timezone" name="Timezone1" required readonly />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" value="@time.CountryTime" name="Country" required readonly />
+                                            </td>
+                                            @if (@time.Active == true)
+                                            {
+                                                <td>
+                                                    Active
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    Inactive
+                                                </td>
+                                            }
+                                            <td>
+                                                <button class="btn btn-danger" type="submit">Delete</button>
+                                            </td>
+                                            <input type="hidden" value="@time.TimezoneID" name="TimezoneID" />
+                                        </tr>
+                                    }
+                                </table>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            Re-activate Timezone
+                        </h4>
+                    </div>
+
+                    <div class="panel-body">
+                        @using (Html.BeginForm("AdjustTimezone", "Admin", FormMethod.Get))
+                        {
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <input type="hidden" value="resultforreactivate" name="request" />
+                                        <div class="col-lg-4">
+                                            <label for="cname" class="control-label">Country Name:</label>
+                                            @*<input id="cname" type="text" class="form-control" name="Country" placeholder="Enter Country Name" required />*@
+                                            <select id="cname" class="form-control" name="TimezoneID">
+                                                <option value="#">--Select Country--</option>
+                                                @foreach (var ddl in ViewBag.ReactivateDDL)
+                                                {
+                                                    <option value="@ddl.TimezoneID">@ddl.Country</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-4 text-center">
+                                            <br />
+                                            <button class="btn btn-success" type="submit">Search</button>
+                                            <button class="btn btn-primary" type="reset">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @using (Html.BeginForm("AdjustTimezone", "Admin", FormMethod.Post))
+                        {
+                            if (ViewBag.reactivatetimezone != null)
+                            {
+                                <input type="hidden" value="REACTIVATE" name="request" />
+
+                                <table class="table table-bordered table-striped table-hover text-center">
+                                    <tr id="rows">
+                                        <td>Country Name</td>
+                                        <td>Country Timezone</td>
+                                        <td>Country Current Time</td>
+                                        <td>Status</td>
+                                        <td>Action</td>
+                                    </tr>
+                                    @foreach (var time in ViewBag.reactivatetimezone)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control" value="@time.Country" name="Country" required />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" value="@time.Timezone" name="Timezone1" required />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" value="@time.CountryTime" name="Country" required readonly />
+                                            </td>
+                                            <td>
+                                                Inactive
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-info" type="submit">Re-activate</button>
+                                            </td>
+                                            <input type="hidden" value="@time.TimezoneID" name="TimezoneID" />
+                                        </tr>
+                                    }
+                                </table>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="text-success">@ViewBag.Result</p>
+</div>
+

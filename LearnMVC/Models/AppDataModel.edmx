@@ -394,6 +394,24 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="TimeZone">
+          <Key>
+            <PropertyRef Name="TimezoneID" />
+          </Key>
+          <Property Name="TimezoneID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" />
+          <Property Name="Timezone" Type="nvarchar" MaxLength="100" />
+          <Property Name="AdjustHours" Type="int" />
+          <Property Name="AdjustMinutes" Type="int" />
+          <Property Name="CountryTime" Type="datetime" />
+          <Property Name="Sortorder" Type="int" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="Highlight" Type="bit" />
+        </EntityType>
         <EntityType Name="TrackConsignment">
           <Key>
             <PropertyRef Name="TrackConsignmentID" />
@@ -460,6 +478,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="password" Type="nvarchar" MaxLength="100" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <Association Name="FK_CID_SID">
           <End Role="Postal_State_List" Type="Self.Postal_State_List" Multiplicity="1" />
@@ -718,6 +737,9 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Parameter Name="userid" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="GetHomePageMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetHomePageTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="Insert_User_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="first_name" Type="nvarchar" Mode="In" />
           <Parameter Name="last_name" Type="nvarchar" Mode="In" />
@@ -738,6 +760,13 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Parameter Name="LandingImagePath" Type="nvarchar" Mode="In" />
           <Parameter Name="SortOrder" Type="int" Mode="In" />
           <Parameter Name="Createdby" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="InsertUpdateDeleteTimezone" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="nvarchar" Mode="In" />
+          <Parameter Name="action" Type="nvarchar" Mode="In" />
+          <Parameter Name="countryname" Type="nvarchar" Mode="In" />
+          <Parameter Name="timezone" Type="nvarchar" Mode="In" />
+          <Parameter Name="timezoneid" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="LoadDashboardData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="nvarchar" Mode="In" />
@@ -873,6 +902,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <EntitySet Name="Postal_Region_List" EntityType="Self.Postal_Region_List" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Postal_State_List" EntityType="Self.Postal_State_List" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeZone" EntityType="Self.TimeZone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrackConsignment" EntityType="Self.TrackConsignment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionSummary" EntityType="Self.TransactionSummary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UploadTransactionLog" EntityType="Self.UploadTransactionLog" Schema="dbo" store:Type="Tables" />
@@ -1097,6 +1127,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="LoanDetails" Relationship="AppDataModel.FK_LoanDetails_Users" FromRole="User" ToRole="LoanDetail" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Division_RegionID_Region_RegionID">
           <End Role="Postal_Region_List" Type="Self.Postal_Region_List" Multiplicity="1" />
@@ -1338,6 +1369,17 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             <Parameter Name="searchBy" Mode="In" Type="String" />
             <Parameter Name="searchvalue" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="GetHomePageTime" ReturnType="Collection(AppDataModel.GetHomePageTime_Result)">
+          <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertUpdateDeleteTimezone" ReturnType="Collection(String)">
+            <Parameter Name="userid" Mode="In" Type="String" />
+            <Parameter Name="action" Mode="In" Type="String" />
+            <Parameter Name="countryname" Mode="In" Type="String" />
+            <Parameter Name="timezone" Mode="In" Type="String" />
+            <Parameter Name="timezoneid" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="TimeZones" EntityType="AppDataModel.TimeZone" />
         </EntityContainer>
         <EntityType Name="Login_Credentials">
           <Key>
@@ -1900,6 +1942,32 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Type="String" Name="DeliveryType" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="Pincode" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="GetHomePageTime_Result">
+          <Property Type="String" Name="Country" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="CountryTime" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="Highlight" Nullable="false" />
+          <Property Type="String" Name="TimezoneID" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Timezone" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="Active" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="TimeZone">
+          <Key>
+            <PropertyRef Name="TimezoneID" />
+          </Key>
+          <Property Name="TimezoneID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Timezone1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AdjustHours" Type="Int32" />
+          <Property Name="AdjustMinutes" Type="Int32" />
+          <Property Name="CountryTime" Type="DateTime" Precision="3" />
+          <Property Name="Sortorder" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="Highlight" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2030,6 +2098,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="AppDataModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="first_name" ColumnName="first_name" />
@@ -2573,6 +2642,38 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetHomePageTime" FunctionName="AppDataModel.Store.GetHomePageTime">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AppDataModel.GetHomePageTime_Result">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="CountryTime" ColumnName="CountryTime" />
+                <ScalarProperty Name="Highlight" ColumnName="Highlight" />
+                <ScalarProperty Name="TimezoneID" ColumnName="TimezoneID" />
+                <ScalarProperty Name="Timezone" ColumnName="Timezone" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertUpdateDeleteTimezone" FunctionName="AppDataModel.Store.InsertUpdateDeleteTimezone" />
+          <EntitySetMapping Name="TimeZones">
+            <EntityTypeMapping TypeName="AppDataModel.TimeZone">
+              <MappingFragment StoreEntitySet="TimeZone">
+                <ScalarProperty Name="Highlight" ColumnName="Highlight" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Sortorder" ColumnName="Sortorder" />
+                <ScalarProperty Name="CountryTime" ColumnName="CountryTime" />
+                <ScalarProperty Name="AdjustMinutes" ColumnName="AdjustMinutes" />
+                <ScalarProperty Name="AdjustHours" ColumnName="AdjustHours" />
+                <ScalarProperty Name="Timezone1" ColumnName="Timezone" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="TimezoneID" ColumnName="TimezoneID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
