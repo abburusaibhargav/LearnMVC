@@ -1,0 +1,164 @@
+﻿@model LearnMVC.Models.Message
+@{
+    ViewBag.Title = "ViewMessages";
+}
+
+<h2 id="headings">View Messages</h2>
+
+<script type="text/javascript">
+    function ConfirmAcknowledge() {
+        return confirm("Do you want to Acknowledge the message?");
+    }
+</script>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-4">
+                <h3>Total Messages(@ViewBag.allmsgcount)</h3>
+            </div>
+            <div class="col-lg-4">
+                <h3>Reply Required(@ViewBag.replycount)</h3>
+            </div>
+            <div class="col-lg-4">
+                <h3>Pending Acknowledgement(@ViewBag.fyicount)</h3>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="pill" href="#totalmessages">All Messages<span class="text-danger">(@ViewBag.allmsgcount)</span></a></li>
+            <li><a data-toggle="pill" href="#replies">Replies Required<span class="text-danger">(@ViewBag.replycount)</span></a></li>
+            <li><a data-toggle="pill" href="#fyi">Pending Acknowledgement<span class="text-danger">(@ViewBag.fyicount)</span></a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="totalmessages" class="tab-pane fade in active">
+                <h3>All Messages</h3>
+                <p>View all messages and their status.</p>
+                <hr />
+                <table class="table table-bordered table-hover table-responsive table-striped text-center">
+                    <tr id="rows" class="text-center">
+                        <td>Sender Name</td>
+                        <td>Receiver Name</td>
+                        <td>Message Subject</td>
+                        <td>Message</td>
+                        <td>Message Read Status</td>
+                        <td>Sent Date</td>
+                    </tr>
+                    @foreach(var msg in ViewBag.allmessages)
+                    {
+                        <tr>
+                            <td>@msg.SenderName</td>
+                            <td>@msg.ReceiverName</td>
+                            <td>@msg.MessageSubject</td>
+                            <td>@msg.Message</td>
+                            @if (msg.Acknowledged == true)
+                            {
+                                <td>Acknowledged</td>
+                            }
+                            else
+                            {
+                                <td>Yet to check</td>
+                            }
+                            <td>@msg.CreatedDate</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div id="replies" class="tab-pane fade in">
+                <h3>Replies Required</h3>
+                <p>The sender of these messages expects replies.</p>
+                <hr />
+                <table class="table table-bordered table-hover table-responsive table-condensed table-striped text-center">
+                    <tr id="rows" class="text-center">
+                        <td>Sender Name</td>
+                        <td>Receiver Name</td>
+                        <td>Message Subject</td>
+                        <td>Message</td>
+                        <td>Sent Date</td>
+                        <td>Reply Message</td>
+                        <td>Action</td>
+                    </tr>
+                    @if (ViewBag.replyrequested != null)
+                    {
+                        foreach(var msg in ViewBag.replyrequested)
+                        {
+                            <tr>
+                                <td>@msg.SenderName</td>
+                                <td>@msg.ReceiverName</td>
+                                <td>@msg.MessageSubject</td>
+                                <td>@msg.Message</td>
+                                <td>@msg.CreatedDate</td>
+                                <td>
+                                    <textarea class="form-control" name="ReplyMessage" placeholder="Type your reply here..." rows="2" cols="10" required></textarea>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-success">Reply</button>
+                                    @*<button type="reset" class="btn btn-primary">Reset</button>*@
+                                </td>
+                            </tr>
+                        }
+                        
+                    }
+
+                </table>
+            </div>
+            <div id="fyi" class="tab-pane fade in">
+                @using (Html.BeginForm("Acknowledge", "Messages", FormMethod.Post))
+                {
+                    <h3>FYI Messages</h3>
+                    <p>No action is required for these messages. These are just for your information.</p>
+                    <br />
+                    <hr />
+                    if (ViewBag.fyi != null)
+                    {
+                        <button type="submit" class="btn btn-success" onclick="javascript:return ConfirmUpdate()">Acknowledge All</button>
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                    }
+                    <table class="table table-bordered table-hover table-responsive table-striped text-center">
+                        <tr id="rows" class="text-center">
+                            <td>Sender Name</td>
+                            <td>Receiver Name</td>
+                            <td>Message Subject</td>
+                            <td>Message</td>
+                            <td>Acknowledge</td>
+                            <td>Action</td>
+                            <td>Sent Date</td>
+                        </tr>
+                        @foreach (var fyi in ViewBag.fyi)
+                        {
+                    <tr>
+                        <input type="hidden" name="messageid" value="@fyi.MessageID" />
+                        <td>@fyi.SenderName</td>
+                        <td>@fyi.ReceiverName</td>
+                        <td>@fyi.MessageSubject</td>
+                        <td>@fyi.Message</td>
+                        @if (fyi.Acknowledged == true)
+                        {
+                            <td>
+                                <input type="checkbox" name="Acknowledged" disabled checked />
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-success disabled" onclick="javascript:return ConfirmAcknowledge()">Acknowledge</button>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <input type="checkbox" name="Acknowledged" value="true" />
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-success" onclick="javascript:return ConfirmAcknowledge()">Acknowledge</button>
+                            </td>
+                        }
+                        <td>@fyi.CreatedDate</td>
+
+                    </tr>
+                        }
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -20,12 +20,18 @@ namespace LearnMVC.Controllers
                 if (Session["UserID"] != null)
                 {
                     var homepagetime = GetHomePageTimeZone(Session["UserID"].ToString());
+                    var allmessages = connectionEntity.GetMessages(Session["UserID"].ToString()).ToList();
+                var replyrequest = connectionEntity.GetMessages(Session["UserID"].ToString()).Where(x => x.ReplyRequired == true).ToList();
                 ViewBag.TimeZone = homepagetime;
-                }
+                ViewBag.allmessages = allmessages.Count();
+                ViewBag.replyrequest = replyrequest.Count();
+            }
                 else
                 {
                     var homepagetime = GetHomePageTimeZone(null);
                 ViewBag.TimeZone = homepagetime;
+                ViewBag.allmessages = 0;
+                ViewBag.replyrequest = 0;
             }
 
             if (UserID != null)
@@ -45,6 +51,8 @@ namespace LearnMVC.Controllers
             {
                 ViewBag.Announcements = null;
             }
+
+            ViewBag.MessagesCount = 10;
 
             return View();
         }
@@ -72,38 +80,38 @@ namespace LearnMVC.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult MailSystem(MailSystemModel mail)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    MailMessage mailMessage = new MailMessage();
-                    mailMessage.To.Add(mail.Receivermailid);
-                    mailMessage.Subject = "Ad-hoc Mail";
-                    mailMessage.From = new MailAddress("abburusaibhargav@gmail.com", "AVSSB - Learn MVC");
-                    mailMessage.Body = mail.MailBody + "<br/>" +
-                        "<br/>" +
-                        "Regards,<br />" +
-                        "AVSSB - Learn MVC<br/>"+
-                        "This is system generated mail. Replies to this inbox are not monitored." ;
-                    mailMessage.IsBodyHtml = true;
-                    SmtpClient smtpClient = new SmtpClient();
-                    smtpClient.Send(mailMessage);
+        //[HttpPost]
+        //public ActionResult MailSystem(MailSystemModel mail)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            MailMessage mailMessage = new MailMessage();
+        //            mailMessage.To.Add(mail.Receivermailid);
+        //            mailMessage.Subject = "Ad-hoc Mail";
+        //            mailMessage.From = new MailAddress("abburusaibhargav@gmail.com", "AVSSB - Learn MVC");
+        //            mailMessage.Body = mail.MailBody + "<br/>" +
+        //                "<br/>" +
+        //                "Regards,<br />" +
+        //                "AVSSB - Learn MVC<br/>"+
+        //                "This is system generated mail. Replies to this inbox are not monitored." ;
+        //            mailMessage.IsBodyHtml = true;
+        //            SmtpClient smtpClient = new SmtpClient();
+        //            smtpClient.Send(mailMessage);
 
-                    ViewBag.Message = "Mail Sent Successfully..!";
-                }
-                catch
-                {
-                    ViewBag.Message = "Mail Sending Failed..!";
-                    return RedirectToAction("Index", "Home");
-                }
+        //            ViewBag.Message = "Mail Sent Successfully..!";
+        //        }
+        //        catch
+        //        {
+        //            ViewBag.Message = "Mail Sending Failed..!";
+        //            return RedirectToAction("Index", "Home");
+        //        }
                
 
-            }
-            return RedirectToAction("Index", "Home");
-        }
+        //    }
+        //    return RedirectToAction("Index", "Home");
+        //}
 
 
         public List<LandingImage> GetLandingImages()

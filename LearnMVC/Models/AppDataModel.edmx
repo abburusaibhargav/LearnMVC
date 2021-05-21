@@ -254,6 +254,26 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SenderID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ReceiverID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MessageSubject" Type="nvarchar" MaxLength="100" />
+          <Property Name="Message" Type="nvarchar" MaxLength="100" />
+          <Property Name="ReplyRequired" Type="bit" />
+          <Property Name="Acknowledged" Type="bit" />
+          <Property Name="MessageParentID" Type="nvarchar" MaxLength="100" />
+          <Property Name="ReplyMessage" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="nvarchar" MaxLength="100" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="ReplyDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="NumToWords">
           <Key>
             <PropertyRef Name="NumToWordsID" />
@@ -640,6 +660,17 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Parameter Name="destinationpincode" Type="int" Mode="In" />
           <Parameter Name="createdby" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="CreateandReplyMessages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="action" Type="nvarchar" Mode="In" />
+          <Parameter Name="messageid" Type="nvarchar" Mode="In" />
+          <Parameter Name="senderid" Type="nvarchar" Mode="In" />
+          <Parameter Name="receiverid" Type="nvarchar" Mode="In" />
+          <Parameter Name="subject" Type="nvarchar" Mode="In" />
+          <Parameter Name="message" Type="nvarchar" Mode="In" />
+          <Parameter Name="replyrequested" Type="bit" Mode="In" />
+          <Parameter Name="acknowledge" Type="bit" Mode="In" />
+          <Parameter Name="replymessage" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="DB_Mail_Trigger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="toaddress" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="cc" Type="nvarchar(max)" Mode="In" />
@@ -739,6 +770,9 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
         <Function Name="GetHomePageMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetHomePageTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetMessages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="Insert_User_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="first_name" Type="nvarchar" Mode="In" />
@@ -891,6 +925,7 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <EntitySet Name="LoanDetails" EntityType="Self.LoanDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Login_Credentials" EntityType="Self.Login_Credentials" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NumToWords" EntityType="Self.NumToWords" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Postal_Circle_List" EntityType="Self.Postal_Circle_List" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Postal_Delivery_Type" EntityType="Self.Postal_Delivery_Type" Schema="dbo" store:Type="Tables" />
@@ -1380,6 +1415,21 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             <Parameter Name="timezoneid" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="TimeZones" EntityType="AppDataModel.TimeZone" />
+          <EntitySet Name="Messages" EntityType="AppDataModel.Message" />
+          <FunctionImport Name="CreateandReplyMessages" ReturnType="Collection(String)">
+            <Parameter Name="action" Mode="In" Type="String" />
+            <Parameter Name="messageid" Mode="In" Type="String" />
+            <Parameter Name="senderid" Mode="In" Type="String" />
+            <Parameter Name="receiverid" Mode="In" Type="String" />
+            <Parameter Name="subject" Mode="In" Type="String" />
+            <Parameter Name="message" Mode="In" Type="String" />
+            <Parameter Name="replyrequested" Mode="In" Type="Boolean" />
+            <Parameter Name="acknowledge" Mode="In" Type="Boolean" />
+            <Parameter Name="replymessage" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMessages" ReturnType="Collection(AppDataModel.GetMessages_Result)">
+            <Parameter Name="UserID" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Login_Credentials">
           <Key>
@@ -1968,6 +2018,39 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="Highlight" Type="Boolean" />
         </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SenderID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReceiverID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MessageSubject" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Message1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReplyRequired" Type="Boolean" />
+          <Property Name="Acknowledged" Type="Boolean" />
+          <Property Name="MessageParentID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReplyMessage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="ReplyDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="GetMessages_Result">
+          <Property Type="String" Name="MessageID" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="SenderName" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="MessageSubject" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Message" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="ReplyRequired" Nullable="true" />
+          <Property Type="String" Name="ReplyMessage" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="Acknowledged" Nullable="true" />
+          <Property Type="String" Name="MessageParentID" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReplyDate" Nullable="true" Precision="23" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2674,6 +2757,45 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="AppDataModel.Message">
+              <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="ReplyDate" ColumnName="ReplyDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ReplyMessage" ColumnName="ReplyMessage" />
+                <ScalarProperty Name="MessageParentID" ColumnName="MessageParentID" />
+                <ScalarProperty Name="Acknowledged" ColumnName="Acknowledged" />
+                <ScalarProperty Name="ReplyRequired" ColumnName="ReplyRequired" />
+                <ScalarProperty Name="Message1" ColumnName="Message" />
+                <ScalarProperty Name="MessageSubject" ColumnName="MessageSubject" />
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
+                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreateandReplyMessages" FunctionName="AppDataModel.Store.CreateandReplyMessages" />
+          <FunctionImportMapping FunctionImportName="GetMessages" FunctionName="AppDataModel.Store.GetMessages">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AppDataModel.GetMessages_Result">
+                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
+                <ScalarProperty Name="MessageSubject" ColumnName="MessageSubject" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="ReplyRequired" ColumnName="ReplyRequired" />
+                <ScalarProperty Name="ReplyMessage" ColumnName="ReplyMessage" />
+                <ScalarProperty Name="Acknowledged" ColumnName="Acknowledged" />
+                <ScalarProperty Name="MessageParentID" ColumnName="MessageParentID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ReplyDate" ColumnName="ReplyDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -310,6 +310,7 @@
     <Compile Include="Controllers\GeneratePDFController.cs" />
     <Compile Include="Controllers\GenerateQRCodeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Global.asax.cs">
@@ -383,6 +384,9 @@
     <Compile Include="Models\GetHomePageTime_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetMessages_Result.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Get_Consignment_Details_By_BookingID1_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
@@ -412,6 +416,9 @@
     </Compile>
     <Compile Include="Models\MailSystemModel.cs" />
     <Compile Include="Models\Menu.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Message.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\NumToWord.cs">
@@ -574,6 +581,7 @@
     <Content Include="Views\Search\SearchPostalList.cshtml" />
     <Content Include="Views\Search\SearchUploadTransactions.cshtml" />
     <Content Include="Views\Admin\AdjustTimezone.cshtml" />
+    <Content Include="Views\Messages\ViewMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

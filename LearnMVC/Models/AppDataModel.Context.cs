@@ -59,6 +59,7 @@ namespace LearnMVC.Models
         public virtual DbSet<TrackConsignment> TrackConsignments { get; set; }
         public virtual DbSet<ConsignmentDetail> ConsignmentDetails { get; set; }
         public virtual DbSet<TimeZone> TimeZones { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
     
         public virtual int Record_Upload_Transaction_Log(string uploadServerTranID, string uploadfilename, string filepath, string descr, string createdby, Nullable<System.DateTime> createddate)
         {
@@ -585,6 +586,56 @@ namespace LearnMVC.Models
                 new ObjectParameter("timezoneid", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("InsertUpdateDeleteTimezone", useridParameter, actionParameter, countrynameParameter, timezoneParameter, timezoneidParameter);
+        }
+    
+        public virtual ObjectResult<string> CreateandReplyMessages(string action, string messageid, string senderid, string receiverid, string subject, string message, Nullable<bool> replyrequested, Nullable<bool> acknowledge, string replymessage)
+        {
+            var actionParameter = action != null ?
+                new ObjectParameter("action", action) :
+                new ObjectParameter("action", typeof(string));
+    
+            var messageidParameter = messageid != null ?
+                new ObjectParameter("messageid", messageid) :
+                new ObjectParameter("messageid", typeof(string));
+    
+            var senderidParameter = senderid != null ?
+                new ObjectParameter("senderid", senderid) :
+                new ObjectParameter("senderid", typeof(string));
+    
+            var receiveridParameter = receiverid != null ?
+                new ObjectParameter("receiverid", receiverid) :
+                new ObjectParameter("receiverid", typeof(string));
+    
+            var subjectParameter = subject != null ?
+                new ObjectParameter("subject", subject) :
+                new ObjectParameter("subject", typeof(string));
+    
+            var messageParameter = message != null ?
+                new ObjectParameter("message", message) :
+                new ObjectParameter("message", typeof(string));
+    
+            var replyrequestedParameter = replyrequested.HasValue ?
+                new ObjectParameter("replyrequested", replyrequested) :
+                new ObjectParameter("replyrequested", typeof(bool));
+    
+            var acknowledgeParameter = acknowledge.HasValue ?
+                new ObjectParameter("acknowledge", acknowledge) :
+                new ObjectParameter("acknowledge", typeof(bool));
+    
+            var replymessageParameter = replymessage != null ?
+                new ObjectParameter("replymessage", replymessage) :
+                new ObjectParameter("replymessage", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("CreateandReplyMessages", actionParameter, messageidParameter, senderidParameter, receiveridParameter, subjectParameter, messageParameter, replyrequestedParameter, acknowledgeParameter, replymessageParameter);
+        }
+    
+        public virtual ObjectResult<GetMessages_Result> GetMessages(string userID)
+        {
+            var userIDParameter = userID != null ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMessages_Result>("GetMessages", userIDParameter);
         }
     }
 }
