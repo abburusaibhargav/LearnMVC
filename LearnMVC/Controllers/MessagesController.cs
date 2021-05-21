@@ -92,5 +92,15 @@ namespace LearnMVC.Controllers
             
             return RedirectToAction("ViewMessages", "Messages");
         }
+
+        [HttpPost]
+        public ActionResult Reply(string MessageID, string ReplyMessage)
+        {
+            string action = "reply";
+            string senderid = Session["UserID"].ToString();
+
+            var results = connectionEntity.CreateandReplyMessages(action, MessageID, senderid, null, null, null, null, null, ReplyMessage).First();
+            return RedirectToAction("ViewMessages", "Messages");
+        }
     }
 }

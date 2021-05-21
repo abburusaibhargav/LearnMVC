@@ -42,7 +42,7 @@
                         <td>Receiver Name</td>
                         <td>Message Subject</td>
                         <td>Message</td>
-                        <td>Message Read Status</td>
+                        <td>Acknowledged</td>
                         <td>Sent Date</td>
                     </tr>
                     @foreach(var msg in ViewBag.allmessages)
@@ -54,11 +54,15 @@
                             <td>@msg.Message</td>
                             @if (msg.Acknowledged == true)
                             {
-                                <td>Acknowledged</td>
+                                <td>
+                                <p class="glyphicon glyphicon-eye-open text-success"></p>
+                                </td>
                             }
                             else
                             {
-                                <td>Yet to check</td>
+                                <td>
+                                    <p class="glyphicon glyphicon-eye-close text-danger"></p>
+                                </td>
                             }
                             <td>@msg.CreatedDate</td>
                         </tr>
@@ -69,39 +73,41 @@
                 <h3>Replies Required</h3>
                 <p>The sender of these messages expects replies.</p>
                 <hr />
-                <table class="table table-bordered table-hover table-responsive table-condensed table-striped text-center">
-                    <tr id="rows" class="text-center">
-                        <td>Sender Name</td>
-                        <td>Receiver Name</td>
-                        <td>Message Subject</td>
-                        <td>Message</td>
-                        <td>Sent Date</td>
-                        <td>Reply Message</td>
-                        <td>Action</td>
-                    </tr>
-                    @if (ViewBag.replyrequested != null)
-                    {
-                        foreach(var msg in ViewBag.replyrequested)
+                @using (Html.BeginForm("Reply","Messages",FormMethod.Post))
+                {
+                    <table class="table table-bordered table-hover table-responsive table-condensed table-striped text-center">
+                        <tr id="rows" class="text-center">
+                            <td>Sender Name</td>
+                            <td>Receiver Name</td>
+                            <td>Message Subject</td>
+                            <td>Message</td>
+                            <td>Sent Date</td>
+                            <td>Reply Message</td>
+                            <td>Action</td>
+                        </tr>
+                        @if (ViewBag.replyrequested != null)
                         {
-                            <tr>
-                                <td>@msg.SenderName</td>
-                                <td>@msg.ReceiverName</td>
-                                <td>@msg.MessageSubject</td>
-                                <td>@msg.Message</td>
-                                <td>@msg.CreatedDate</td>
-                                <td>
-                                    <textarea class="form-control" name="ReplyMessage" placeholder="Type your reply here..." rows="2" cols="10" required></textarea>
-                                </td>
-                                <td>
-                                    <button type="submit" class="btn btn-success">Reply</button>
-                                    @*<button type="reset" class="btn btn-primary">Reset</button>*@
-                                </td>
-                            </tr>
+                            foreach (var msg in ViewBag.replyrequested)
+                            {
+                                <tr>
+                                    <input type="hidden" value="@msg.MessageID" name="MessageID"/>
+                                    <td>@msg.SenderName</td>
+                                    <td>@msg.ReceiverName</td>
+                                    <td>@msg.MessageSubject</td>
+                                    <td>@msg.Message</td>
+                                    <td>@msg.CreatedDate</td>
+                                    <td>
+                                        <textarea class="form-control" name="ReplyMessage" placeholder="Type your reply here..." rows="2" cols="10"></textarea>
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-success">Reply</button>
+                                        @*<button type="reset" class="btn btn-primary">Reset</button>*@
+                                    </td>
+                                </tr>
+                            }
                         }
-                        
-                    }
-
-                </table>
+                    </table>
+                }
             </div>
             <div id="fyi" class="tab-pane fade in">
                 @using (Html.BeginForm("Acknowledge", "Messages", FormMethod.Post))

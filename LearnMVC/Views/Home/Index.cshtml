@@ -98,8 +98,10 @@
             <div class="panel-body">
                 @if (Session["UserID"] != null)
                 { 
-                <a id="btnInbox" class="glyphicon glyphicon-envelope" href="~/Messages/ViewMessages" data-toggle="tooltip" title="FYI Messages"><span id="Inboxcount" class="badge bg-warning">@ViewBag.allmessages</span></a>
-                <a id="btnInbox" class="glyphicon glyphicon-pencil" href="~/Messages/ViewMessages" data-toggle="tooltip" title="Expects Replies"><span id="Inboxcount" class="badge bg-warning">@ViewBag.replyrequest</span></a>
+                <a id="btnInbox" class="glyphicon glyphicon-envelope" href="~/Messages/ViewMessages#totalmessages"
+                   data-toggle="tooltip" title="FYI Messages"><span id="Inboxcount" class="badge bg-warning">@ViewBag.allmessages</span></a>
+                <a id="btnInbox" class="glyphicon glyphicon-pencil" href="~/Messages/ViewMessages#replies" 
+                   data-toggle="tooltip" title="Expects Replies"><span id="Inboxcount" class="badge bg-warning">@ViewBag.replyrequest</span></a>
                 }
                 else
                 {
