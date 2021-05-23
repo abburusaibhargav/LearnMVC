@@ -1,0 +1,143 @@
+﻿@model List<LearnMVC.Models.Product>
+@{
+    ViewBag.Title = "ModifyProducts";
+}
+
+<h2 id="headings">Modify Products</h2>
+
+@using (Html.BeginForm("ModifyProducts", "Admin", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-lg-3">
+            <label for="pdt" class="control-label">Product</label>
+            <select class="form-control" name="ProductID">
+                <option value="all">--Select Product--</option>
+                @foreach (var pdtddl in ViewBag.Products)
+                {
+                    <option value="@pdtddl.ProductID">@pdtddl.ProductName</option>
+                }
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <br />
+            <button type="submit" class="btn btn-success">Get Product Info</button>
+            <button type="reset" class="btn btn-primary">Reset</button>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("ModifyProducts", "Admin", FormMethod.Post))
+{
+    if (ViewBag.ProductInfo != null)
+    {
+        <br />
+        foreach (var pdt in ViewBag.ProductInfo)
+        {
+            <div class="row">
+                <input type="hidden" name="ProductID" value="@pdt.ProductID"/>
+                <div class="col-lg-3">
+                    <label for="pname" class="control-label">Product Name</label>
+                    <input id="pname" type="text" class="form-control" value="@pdt.ProductName" name="ProductName" />
+                </div>
+                <div class="col-lg-3">
+                    <label for="pname" class="control-label">Product Page URL</label>
+                    <input id="pname" type="text" class="form-control" value="@pdt.ProductPageURL" name="ProductPageURL" />
+                </div>
+                <div class="col-lg-3">
+                    <label for="pname" class="control-label">Product Image URL</label>
+                    <input id="file" type="text" class="form-control" value="@pdt.ProductImageURL" readonly />
+                </div>
+                <div class="col-lg-3">
+                    <label for="pimg" class="control-label">Product Image</label>
+                    <img src='~/@pdt.ProductImageURL' alt="@pdt.ProductName" class="img-responsive" style="width:50%;margin-left:25%;" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-3">
+                    <label class="control-label" id="udimg">Update Product Image</label>
+                    <input type="file" class="form-control" name="ProductImageURL" />
+                </div>
+                <div class="col-lg-3">
+                    @if (pdt.Active == true)
+                    {
+                        <label for="pname" class="control-label">De-activate</label><br />
+                        <input id="pname" type="checkbox" value="false" name="Active" />
+                        <input type="hidden" name="Active" value="true" />
+                    }
+                    else
+                    {
+                        <label for="pname" class="control-label">Re-activate</label><br />
+                        <input id="pname" type="checkbox" value="true" name="Active" />
+                        <input type="hidden" name="Active" value="true" />
+                    }
+                </div>
+                <div class="col-lg-3">
+                    <button class="btn btn-success" type="submit">Modify</button>
+                    <button class="btn btn-primary" type="reset">Reset</button>
+                </div>
+            </div>
+        }
+
+    }
+}
+
+<br />
+@if (ViewBag.ProductsAllinfo != null)
+{
+    <table class="table table-bordered table-striped table-hover table-responsive text-center">
+        <tr id="rows">
+            <td>Product Name</td>
+            <td>Product Page</td>
+            <td>Product Image</td>
+            <td>Product Status</td>
+            <td>Created On</td>
+            <td>Modified On</td>
+        </tr>
+
+        @foreach (var product in ViewBag.ProductsAllinfo)
+        {
+            <tr>
+                @*<input type="hidden" value="@product.ProductID" name="ProductID" />*@
+                <td>
+                    @product.ProductName<br />
+                    @*<input type="text" class="form-control" value="@product.ProductName" name="ProductName" />*@
+                </td>
+                <td>
+                    @product.ProductPageURL<br />
+                    @*<input type="text" class="form-control" value="@product.ProductPageURL" name="ProductPageURL" />*@
+                </td>
+                <td>
+                    <img src='~/@product.ProductImageURL' alt="@product.ProductName" class="img-responsive" style="width:50%;margin-left:25%;" /><br />
+                    @*<input type="file" id="uploadfile" class="form-control" name="ProductImageURL" />*@
+                </td>
+                @if (@product.Active == true)
+                {
+                    <td>
+                        Active
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        Inactive
+                    </td>
+                }
+                <td>
+                    @product.CreatedDate
+                </td>
+                <td>
+                    @product.ModifiedBy <br /> @product.ModifiedDate
+                </td>
+            </tr>
+        }
+
+    </table>
+
+}
+
+
+
+
+
+

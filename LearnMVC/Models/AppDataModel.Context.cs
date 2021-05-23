@@ -60,6 +60,7 @@ namespace LearnMVC.Models
         public virtual DbSet<ConsignmentDetail> ConsignmentDetails { get; set; }
         public virtual DbSet<TimeZone> TimeZones { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
     
         public virtual int Record_Upload_Transaction_Log(string uploadServerTranID, string uploadfilename, string filepath, string descr, string createdby, Nullable<System.DateTime> createddate)
         {
@@ -636,6 +637,44 @@ namespace LearnMVC.Models
                 new ObjectParameter("UserID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMessages_Result>("GetMessages", userIDParameter);
+        }
+    
+        public virtual ObjectResult<GetProducts_Result> GetProducts(string page)
+        {
+            var pageParameter = page != null ?
+                new ObjectParameter("page", page) :
+                new ObjectParameter("page", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProducts_Result>("GetProducts", pageParameter);
+        }
+    
+        public virtual int ModifyProducts(string userid, string productid, string productname, string productpageurl, string imageurl, Nullable<bool> active)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            var productidParameter = productid != null ?
+                new ObjectParameter("productid", productid) :
+                new ObjectParameter("productid", typeof(string));
+    
+            var productnameParameter = productname != null ?
+                new ObjectParameter("productname", productname) :
+                new ObjectParameter("productname", typeof(string));
+    
+            var productpageurlParameter = productpageurl != null ?
+                new ObjectParameter("productpageurl", productpageurl) :
+                new ObjectParameter("productpageurl", typeof(string));
+    
+            var imageurlParameter = imageurl != null ?
+                new ObjectParameter("imageurl", imageurl) :
+                new ObjectParameter("imageurl", typeof(string));
+    
+            var activeParameter = active.HasValue ?
+                new ObjectParameter("active", active) :
+                new ObjectParameter("active", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ModifyProducts", useridParameter, productidParameter, productnameParameter, productpageurlParameter, imageurlParameter, activeParameter);
         }
     }
 }

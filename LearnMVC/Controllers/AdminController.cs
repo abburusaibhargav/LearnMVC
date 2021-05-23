@@ -153,5 +153,60 @@ namespace LearnMVC.Controllers
 
             return RedirectToAction("AdjustTimezone", "Admin" );
         }
+
+        public ActionResult ModifyProducts(string ProductID)
+        {
+            if(ProductID != null)
+            {
+                if(ProductID == "all")
+                {
+                    var productsallinfo = connectionEntity.GetProducts("admin").ToList();
+                    if (productsallinfo.Count() > 0)
+                    {
+                        ViewBag.ProductsAllinfo = productsallinfo;
+                    }
+                }
+                else
+                {
+                    var productInfo = connectionEntity.GetProducts("admin").Where(x => x.ProductID == ProductID).ToList();
+                    ViewBag.ProductInfo = productInfo;
+                }
+            }
+
+            var products = connectionEntity.GetProducts("admin").ToList();
+            if (products.Count() > 0)
+            {
+                ViewBag.Products = products;
+            }
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ModifyProducts(string ProductID, string ProductName, bool Active,string ProductPageURL, HttpPostedFileBase ProductImageURL)
+        {
+            string UserID = Session["UserID"].ToString();
+            if(ProductImageURL != null)
+            {
+                string FileName = Path.GetFileNameWithoutExtension(ProductImageURL.FileName);
+                string filetype = Path.GetExtension(ProductImageURL.FileName);
+
+                if (filetype.ToLower() == ".jpg" || filetype.ToLower() == ".png" || filetype.ToLower() == ".jpeg")
+                {
+                    string fullfilename = FileName + filetype;
+                    string dbpath = "Content/Products/" + fullfilename;
+
+                    string filepath = Path.Combine(Server.MapPath("~/Content/Products/"), fullfilename);
+
+                    ProductImageURL.SaveAs(filepath);
+                    connectionEntity.ModifyProducts(UserID,ProductID, ProductName, ProductPageURL, dbpath, Active);
+                }
+                
+            }
+
+           connectionEntity.ModifyProducts(UserID,ProductID, ProductName, ProductPageURL, null, Active);
+                return RedirectToAction("ModifyProducts", "Admin");
+        }
     }
 }

@@ -48,6 +48,7 @@
         <AssociationConnector Association="AppDataModel.FK_Consignee_BookingID_Consignment_BookingID" />
         <EntityTypeShape EntityType="AppDataModel.TimeZone" Width="1.5" PointX="13.375" PointY="16.75" />
         <EntityTypeShape EntityType="AppDataModel.Message" Width="1.5" PointX="15.375" PointY="16.75" />
+        <EntityTypeShape EntityType="AppDataModel.Product" Width="1.5" PointX="17.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

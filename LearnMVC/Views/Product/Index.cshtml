@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 id="headings">Products</h2>
+<hr />
+
+
+@if (ViewBag.ProductsCount > 0)
+{
+    <div class="row">
+        @foreach (var product in ViewBag.Products)
+        {
+            <div class="col-lg-4">
+                <div id="pnlproduct" class="panel">
+                    <div class="panel-heading">
+                        <h4>@product.ProductName</h4>
+                    </div>
+                    <div id="pnlproductbody" class="panel-body">
+                        <img id="productimages" class="img-responsive" src='@product.ProductImageURL' alt='@product.ProductName' />
+                    </div>
+                    <div class="panel-footer text-center">
+                        <a class="btn btn-primary" href='@product.ProductPageURL'>Order Product</a>
+                        <input type="hidden" value="@product.ProductID"/>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <h3 id="headings">No Products to show at the moment..!</h3>
+}
+
+
+
+

@@ -10,7 +10,7 @@
     <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
 <body>
-   
+
 
     <div class="navbar navbar-inverse navbar-fixed-top" id="navbar">
         <div class="container">
@@ -27,9 +27,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>
-                        <a href="#" data-target="#mailsend" data-toggle="modal">
-                            <span class="glyphicon glyphicon-envelope"></span> Send Mail/Message
-                        </a>
+                    <li>@Html.ActionLink("Products", "Index", "Product")</li>
                     </li>
                     @if (Session["UserID"] != null)
                     {
@@ -56,9 +54,9 @@
     </div>
     <div class="container body-content">
         @RenderBody()
+    </div>
 
-        
-
+    <div class="container" id="footer">
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Learn MVC</p>

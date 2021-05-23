@@ -311,6 +311,7 @@
     <Compile Include="Controllers\GenerateQRCodeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Global.asax.cs">
@@ -387,6 +388,9 @@
     <Compile Include="Models\GetMessages_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetProducts_Result.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Get_Consignment_Details_By_BookingID1_Result.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
@@ -450,6 +454,9 @@
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Postal_State_List.cs">
+      <DependentUpon>AppDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\QRCodeModel.cs" />
@@ -582,6 +589,9 @@
     <Content Include="Views\Search\SearchUploadTransactions.cshtml" />
     <Content Include="Views\Admin\AdjustTimezone.cshtml" />
     <Content Include="Views\Messages\ViewMessages.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\Presentations.cshtml" />
+    <Content Include="Views\Admin\ModifyProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -404,6 +404,22 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TestDatabase.dbo.Products' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ProductImageURL" Type="nvarchar" MaxLength="100" />
+          <Property Name="ProductPageURL" Type="nvarchar" MaxLength="50" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -774,6 +790,9 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
         <Function Name="GetMessages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="GetProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="page" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="Insert_User_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="first_name" Type="nvarchar" Mode="In" />
           <Parameter Name="last_name" Type="nvarchar" Mode="In" />
@@ -804,6 +823,14 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
         </Function>
         <Function Name="LoadDashboardData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="ModifyProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="nvarchar" Mode="In" />
+          <Parameter Name="productid" Type="nvarchar" Mode="In" />
+          <Parameter Name="productname" Type="nvarchar" Mode="In" />
+          <Parameter Name="productpageurl" Type="nvarchar" Mode="In" />
+          <Parameter Name="imageurl" Type="nvarchar" Mode="In" />
+          <Parameter Name="active" Type="bit" Mode="In" />
         </Function>
         <Function Name="NumbersToWords" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="value" Type="bigint" Mode="In" />
@@ -976,6 +1003,19 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
     [EmiTable].[ModifiedBy] AS [ModifiedBy], 
     [EmiTable].[ModifiedDate] AS [ModifiedDate]
     FROM [dbo].[EmiTable] AS [EmiTable]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Products" EntityType="Self.Products" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Products].[ProductID] AS [ProductID], 
+    [Products].[ProductName] AS [ProductName], 
+    [Products].[ProductImageURL] AS [ProductImageURL], 
+    [Products].[ProductPageURL] AS [ProductPageURL], 
+    [Products].[Active] AS [Active], 
+    [Products].[CreatedBy] AS [CreatedBy], 
+    [Products].[CreatedDate] AS [CreatedDate], 
+    [Products].[ModifiedBy] AS [ModifiedBy], 
+    [Products].[ModifiedDate] AS [ModifiedDate]
+    FROM [dbo].[Products] AS [Products]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_CID_SID" Association="Self.FK_CID_SID">
             <End Role="Postal_State_List" EntitySet="Postal_State_List" />
@@ -1428,7 +1468,19 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
             <Parameter Name="replymessage" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetMessages" ReturnType="Collection(AppDataModel.GetMessages_Result)">
-            <Parameter Name="UserID" Mode="In" Type="String" />
+          <Parameter Name="UserID" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Products" EntityType="AppDataModel.Product" />
+          <FunctionImport Name="GetProducts" ReturnType="Collection(AppDataModel.GetProducts_Result)" >
+          <Parameter Name="page" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ModifyProducts">
+            <Parameter Name="userid" Mode="In" Type="String" />
+            <Parameter Name="productid" Mode="In" Type="String" />
+            <Parameter Name="productname" Mode="In" Type="String" />
+            <Parameter Name="productpageurl" Mode="In" Type="String" />
+            <Parameter Name="imageurl" Mode="In" Type="String" />
+            <Parameter Name="active" Mode="In" Type="Boolean" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Login_Credentials">
@@ -2050,6 +2102,30 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
           <Property Type="String" Name="MessageParentID" Nullable="true" MaxLength="100" />
           <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="ReplyDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProductImageURL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProductPageURL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="GetProducts_Result">
+          <Property Type="String" Name="ProductID" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ProductImageURL" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ProductPageURL" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="Active" Nullable="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ModifiedBy" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2796,6 +2872,36 @@ warning 6002: The table/view 'TestDatabase.dbo.EmiTable' does not have a primary
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="AppDataModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ProductPageURL" ColumnName="ProductPageURL" />
+                <ScalarProperty Name="ProductImageURL" ColumnName="ProductImageURL" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetProducts" FunctionName="AppDataModel.Store.GetProducts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AppDataModel.GetProducts_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductImageURL" ColumnName="ProductImageURL" />
+                <ScalarProperty Name="ProductPageURL" ColumnName="ProductPageURL" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ModifyProducts" FunctionName="AppDataModel.Store.ModifyProducts" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -108,3 +108,26 @@ th{
     border-bottom-left-radius: 0%;
     border-bottom-right-radius: 5%;
 }
+
+#footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+#pnlproduct .panel-heading{
+    background-color:midnightblue;
+    text-align:center;
+    color:white;
+}
+
+#pnlproduct .panel-footer {
+    margin-top: 10px;
+    background-color: powderblue;
+}
+#productimages {
+    margin-left:20px;
+  
+}
