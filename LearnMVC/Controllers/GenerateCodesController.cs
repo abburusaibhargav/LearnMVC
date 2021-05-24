@@ -18,7 +18,7 @@ using ZXing;
 
 namespace LearnMVC.Controllers
 {
-    public class GenerateQRCodeController : Controller
+    public class GenerateCodesController : Controller
     {
         // GET: GenerateQRCode
         
@@ -60,6 +60,12 @@ namespace LearnMVC.Controllers
                 TempData["GenerateResult"] = ViewBag.ErrorMessage;
             }
             
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GenerateBarCode(string id)
+        {
             return View();
         }
     }

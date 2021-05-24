@@ -1,0 +1,192 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Print</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        #pnlheading{
+            color:midnightblue;
+            text-align:center;
+            font-weight:bold;
+        }
+        #pnlbdyheadrow{
+            border-bottom:1px solid black;
+        }
+        #pnlbdyhdng {
+            color: midnightblue;
+            text-align:center;
+        }
+        /*#pnlbdy{
+            border:1px solid black;
+        }*/
+        #pnlbookstatus{
+            text-align:center;
+            font-weight:bolder;
+            background-color:darkgreen;
+            color:white;
+        }
+        #pnlbdy2rowhdng{
+            color:midnightblue;
+        }
+        #tblhdrows{
+            background-color:midnightblue;
+            color:white;
+            text-align:center;
+            font-weight:bold;
+        }
+        #tblclright{
+            text-align:right;
+        }
+        #pnlfooter{
+            background-color:lightgrey;
+            color:black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="pnlheading">Consignment Details</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row" id="pnlbdyheadrow">
+                    <h4 id="pnlbdyhdng">Booking Details</h4>
+                    <div class="col-lg-6">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>Booking ID</td>
+                                <td><strong>@ViewBag.BookingID</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Booking Date</td>
+                                <td>@DateTime.Now.ToString()</td>
+                            </tr>
+                            <tr>
+                                <td>Booking Office</td>
+                                <td>Malavya Nagar - Gudur</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-lg-6">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>Booking Status</td>
+                                <td id="pnlbookstatus">In Transit</td>
+                            </tr>
+                            <tr>
+                                <td>Booking Operator</td>
+                                <td>Abburu Sai Bhargav</td>
+                            </tr>
+                            <tr>
+                                <td>Destination Office</td>
+                                <td><strong>Malavya Nagar - Gudur</strong></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div><br />
+                <div class="row" id="pnlbdyheadrow">
+                    <div class="col-lg-4">
+                        <h4 id="pnlbdyhdng" style="text-align:left">Consignee Details</h4>
+                        <p id="pnlbdy">
+                            1-407/5, Malavya Nagar<br />
+                            Opp.Street to Post Office,<br />
+                            Gudur - Andhra Pradesh<br />
+                            524101
+                        </p>
+                    </div>
+                    <div class="col-lg-4">
+                        <h4 id="pnlbdyhdng" style="text-align:left">Consignee Details</h4>
+                        <p id="pnlbdy">
+                            Plot No: 110/111, PJR Nagar<br />
+                            Opp. Deloitte Software,<br />
+                            Gachibowli - Rangareddy Dist<br />
+                            Hyderabad - 500032
+                        </p>
+                    </div>
+                    <div class="col-lg-4">
+                        <h4 id="pnlbdyhdng" style="text-align:left">Scan this to view this Document</h4>
+                        <img src="@ViewBag.QRImage" alt="" style="height:35%; width:35%; margin-left:25%;" />
+                        <p>@ViewBag.ErrorMessage</p>
+                    </div>
+                </div><br />
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h3 id="pnlbdy2rowhdng">Consignment History</h3>
+                        @if (ViewBag.ConsignmentHistory != null)
+                        {
+                        <table class="table table-bordered">
+                            <tr id="rows">
+                                <td>S.No</td>
+                                <td>Status Date</td>
+                                <td>Consignment Status</td>
+                                <td>Destination Pincode</td>
+                            </tr>
+                            @foreach (var history in ViewBag.ConsignmentHistory)
+                            {
+                                <tr>
+                                    <td>@history.SortOrder</td>
+                                    <td>@history.StatusDateTime</td>
+                                    <td>@history.ConsignmentStatusName</td>
+                                    <td>@history.DestinationPincode</td>
+                                </tr>
+                            }
+                        </table>
+                        }
+                        </div>
+                        
+                    <div class="col-lg-6">
+                        <h3 id="pnlbdy2rowhdng">Shipment Cost</h3>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>Shipment Cost</td>
+                                <td id="tblclright">15,460</td>
+                            </tr>
+                            <tr>
+                                <td>Package Cost</td>
+                                <td id="tblclright">15,460</td>
+                            </tr>
+                            <tr>
+                                <td>Admin Cost</td>
+                                <td id="tblclright">15,460</td>
+                            </tr>
+                            <tr>
+                                <td>CGST</td>
+                                <td id="tblclright">15,460</td>
+                            </tr>
+                            <tr>
+                                <td>SGST</td>
+                                <td id="tblclright">15,460</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:right; font-weight:bold;color:midnightblue">Total Payable</td>
+                                <td id="tblclright" style="text-align:right; font-weight:bold;color:midnightblue">INR 1,00,245</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div><br /><br /><br />
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5 class="pull-left">Consigner Signature</h5><h5 class="pull-right">Authorised Signatory</h5>
+                    </div>                    
+                </div>
+            </div>
+            <div class="panel-footer" id="pnlfooter">
+                <p>For any queries please contact our 24X7 Customer care toll-free on <strong>1800 090 8734</strong>. Please write us your queries on 
+                <a href="mailto:ibhargav547@gmail.com" style="color:midnightblue">ibhargav547@gmail.com</a>
+                </p>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>

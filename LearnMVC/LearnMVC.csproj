@@ -308,7 +308,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\GeneratePDFController.cs" />
-    <Compile Include="Controllers\GenerateQRCodeController.cs" />
+    <Compile Include="Controllers\GenerateCodesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -592,6 +592,7 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Presentations.cshtml" />
     <Content Include="Views\Admin\ModifyProducts.cshtml" />
+    <Content Include="Views\Consignment\Printpage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

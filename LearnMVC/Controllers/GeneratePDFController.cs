@@ -20,5 +20,10 @@ namespace LearnMVC.Controllers
             var results = connectionEntity.Get_User_List(Session["UserID"].ToString()).ToList();
             return results;
         }
+
+        public ActionResult PDF_Consignment(string ConsignmentID)
+        {
+            return View();
+        }
     }
 }

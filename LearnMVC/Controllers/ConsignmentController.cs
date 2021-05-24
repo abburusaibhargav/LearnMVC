@@ -11,6 +11,10 @@ using System.Data.SqlClient;
 using Rotativa;
 using iTextSharp;
 using iText;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+using QRCoder;
 
 namespace LearnMVC.Controllers
 {
@@ -214,6 +218,67 @@ namespace LearnMVC.Controllers
             var report = new ActionAsPdf("BookingConfirm", new { status = true, BookingID = BookingID});
             return report;
         }
+
+        [HttpGet]
+        public ActionResult Printpage(string BookingID)
+        {
+            ViewBag.BookingID = BookingID;
+
+            var consignmenthistory = connectionEntity.Get_Consignment_History(BookingID).ToList();
+            ViewBag.ConsignmentHistory = consignmenthistory;
+
+            //using (MemoryStream memoryStream = new MemoryStream())
+            //{
+            //    using (Bitmap bitMap = new Bitmap(BookingID.Length * 10, 10))
+            //    {
+            //        using (Graphics graphics = Graphics.FromImage(bitMap))
+            //        {
+            //            Font oFont = new Font("IDAutomationHC39M", 16);
+            //            PointF point = new PointF(2f, 2f);
+            //            SolidBrush whiteBrush = new SolidBrush(Color.White);
+            //            graphics.FillRectangle(whiteBrush, 0, 0, bitMap.Width, bitMap.Height);
+            //            SolidBrush blackBrush = new SolidBrush(Color.DarkBlue);
+            //            graphics.DrawString("*" + BookingID + "*", oFont, blackBrush, point);
+            //        }
+            //        bitMap.Save(memoryStream, ImageFormat.Jpeg);
+            //        ViewBag.BarcodeImage = "data:image/png;base64," + Convert.ToBase64String(memoryStream.ToArray());
+            //    }
+            //}
+
+            try
+            {
+                byte[] byteimage;
+
+                //string qrtexts = TempData["uploadtransaction"].ToString();
+
+                MemoryStream memoryStream = new MemoryStream();
+                QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
+                QRCodeData qRCodeData = qRCodeGenerator.CreateQrCode(BookingID, QRCodeGenerator.ECCLevel.Q);
+                QRCode qRCode = new QRCode(qRCodeData);
+
+                Bitmap bitmapQRImage = qRCode.GetGraphic(20);
+
+                bitmapQRImage.Save(memoryStream, ImageFormat.Png);
+                byteimage = memoryStream.ToArray();
+
+                var baseimage = Convert.ToBase64String(byteimage);
+
+                ViewBag.QRImage = "data:image/png;base64," + baseimage;
+            }
+            catch
+            {
+                ViewBag.ErrorMessage = "Unable to generate QR code.";
+            }
+
+            return View();
+        }
+
+        public ActionResult PrintConsignmentInvoice(string bookingID)
+        {
+            var report = new ActionAsPdf("Printpage", new { BookingID = bookingID});
+            return report;
+        }
+
 
         #region Drop Down List Data -> GET Methods | JSON Response
         public JsonResult GetCircleDataDDL(string StateID)

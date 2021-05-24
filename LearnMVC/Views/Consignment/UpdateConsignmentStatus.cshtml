@@ -125,7 +125,13 @@
                 <br />
             }
 
-            if(ViewBag.ConsignmentHistory != null)
+            using (Html.BeginForm("PrintConsignmentInvoice","Consignment"))
+            {
+               <input type="hidden" value="@ViewBag.BookingID" name="bookingID"/>
+               <button class="btn btn-primary" type="submit">Download Invoice</button>
+                   }
+
+            if (ViewBag.ConsignmentHistory != null)
             {
                 <div class="modal fade" role="dialog" id="consignmenthistory">
                     <div class="modal-dialog">
