@@ -3,64 +3,146 @@
 @{
     ViewBag.Title = "PaymentPage";
 }
-<style>
-    #txnnote {
-        border: 1px solid black;
-        border-radius: 4px 4px;
-        box-shadow: rgba(128, 128, 128, 128) 10px 10px;
-        background-color: #F8F8F8;
-        color: #66667D;
-    }
-   
-
-</style>
-
-<h2 id="headings">Payment Checkout</h2>
-
-@using (Html.BeginForm("PaymentPage","PaymentGatewayTransaction",FormMethod.Post)) 
+<br />
+@using (Html.BeginForm("PaymentPage", "PaymentGatewayTransaction", FormMethod.Post))
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <hr />
-        <div class="row">
-            <div class="col-lg-6">
-                <label class="control-label" for="fname">Name</label>
-                <input id="fname" type="text" name="fname" class="form-control" value="Sai Bhargav" placeholder="Name" />
-                <label class="control-label" for="amt">Amount</label>
-                <input id="amt" type="text" name="itemamount" class="form-control" value="100" placeholder="Amount" />
-                <label class="control-label" for="prf">Product Info</label>
-                <input id="prf" type="text" name="iteminfo" class="form-control" value="Test" placeholder="Product Info" />
-                <label class="control-label" for="email">E-Mail</label>
-                <input id="email" type="email" name="email" class="form-control" value="ibhargav547@gmail.com" placeholder="email" />
-                <br /><br />
+    <div id="paymentpage">
+        <img id="payimage" class=" pull-left" src="~/Content/Images/paymentsecure.png" />
+        <img id="payimage" class=" pull-right" src="~/Content/Images/payu.png" />
+        <h2 id="headings">Payment Checkout</h2>
+        <hr  style="border-top:2px solid grey;width:65%" />
+        <div class="container">
+            <div id="paydetails" class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <h3>Customer Details</h3>
+                    <br />
+                    <label class="control-label" for="fname">Name</label>
+                    <input id="fname" type="text" name="fname" class="form-control" value="Sai Bhargav" placeholder="Name" />
+                    <label class="control-label" for="amt">Amount</label>
+                    <input id="amt" type="text" name="itemamount" class="form-control" value="100" placeholder="Amount" />
+                    <label class="control-label" for="prf">Product Info</label>
+                    <input id="prf" type="text" name="iteminfo" class="form-control" value="Test" placeholder="Product Info" />
+                    <label class="control-label" for="email">E-Mail</label>
+                    <input id="email" type="email" name="email" class="form-control" value="ibhargav547@gmail.com" placeholder="email" />
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <h3>Payment Details</h3>
+                    <br />
+                    <label class="control-label" for="fname">Item Price</label>
+                    <input id="fname" type="text" name="fname" class="form-control" value="Sai Bhargav" placeholder="Name" />
+                    <label class="control-label" for="amt">Shipping Charges</label>
+                    <input id="amt" type="text" name="itemamount" class="form-control" value="100" placeholder="Amount" />
+                    <label class="control-label" for="prf">GST Charges</label>
+                    <input id="prf" type="text" name="iteminfo" class="form-control" value="Test" placeholder="Product Info" />
+                    <label class="control-label" for="paytype">Payment Type</label>
+                    <select id="paytype" class="form-control">
+                        <option id="#">-- Select Payment Type --</option>
+                        <option id="#">Credit Card</option>
+                        <option id="#">Debit Card</option>
+                        <option id="#">Net Banking</option>
+                        <option id="#">UPI</option>
+                        <option id="#">EMI</option>
+                    </select>
+                    <label class="control-label" for="email">Other Charges</label>
+                    <input id="email" type="email" name="email" class="form-control" value="ibhargav547@gmail.com" placeholder="email" />
+                </div>
+            </div><br />
+            @*<div class="row">
+                <h3 id="headings" class="pull-right" style="margin-right:15%">Total Payable Amount:INR 642.65 </h3>
+            </div>*@
+            <div class="row">
+                <div id="txnnote" class="col-lg-12 col-md-12 col-sm-12 pull-left">
+                    <h4><u>Transaction fees for various modes of payment are as follows -</u></h4>
+                    <p>
+                        <ul>
+                            <li>Net Banking : Rs.2.50/- per transaction</li>
+                            <li>Debit Cards : 0.90% of the Bill Amount</li>
+                            <li>Credit Cards and Other Payment Options : 1.00% of the Bill Amount</li>
+                            <li>BharatQR - 0.85% of the Bill amount</li>
+                            <li>Rupay Debit cards - Nil</li>
+                            <li>UPI - Nil</li>
+                            <text style="font-style:italic">(GST and other Govt levies applicable on Transaction fee would be charged extra)</text>
+                        </ul>
+                    </p>
+                    <br />
+                    <text style="color:red;text-align:justify;">
+                        <strong><u>Note:</u></strong> There is a possibility of link getting disconnected, during returning from the BANK after successful debit from your bank account.
+                        If this occurs, PLEASE DO NOT pay the bill again. The portal system, will receive the confirmation from the BANK within 2 working days,
+                        after which it can be verified at the website
+                        <br /><br />
+                    </text>
+                </div>
+            </div>
+            <br />
+            <p class="text-center">** Auto-generated email will be sent on transaction status along with details **</p>
+            <br /><br />
+            <div class="row text-center">
                 <input type="submit" value="Proceed to Pay" class="btn btn-success" />
                 <a class="btn btn-danger" href="#">Cancel Transaction</a>
             </div>
             <br />
-            <div id="txnnote" class="col-lg-6 col-md-12 col-sm-12 pull-left">
-                <h4><u>Transaction fees for various modes of payment are as follows -</u></h4>
-                <p>
-                    <ul>
-                        <li>Net Banking : Rs.2.50/- per transaction</li>
-                        <li>Debit Cards : 0.90% of the Bill Amount</li>
-                        <li>Credit Cards and Other Payment Options : 1.00% of the Bill Amount</li>
-                        <li>BharatQR - 0.85% of the Bill amount</li>
-                        <li>Rupay Debit cards - Ni</li>
-                        <li>UPI - Nil</li>
-                        <text style="font-style:italic">(GST and other Govt levies applicable on Transaction fee would be charged extra)</text>
-                    </ul>
-                </p>
-                <br />
-                <text style="color:red;text-align:justify;">
-                    <strong><u>Note:</u></strong> There is a possibility of link getting disconnected, during returning from the BANK after successful debit from your bank account.
-                    If this occurs, PLEASE DO NOT pay the bill again. The portal system, will receive the confirmation from the BANK within 2 working days,
-                    after which it can be verified at the website
-                    <br /><br />
-                </text>
-                
+        </div>
+        <hr style="border-top:2px solid grey;width:90%" />
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <img id="secureimage" class="img-thumbnail" src="~/Content/Images/securepayment.png" />
             </div>
-        </div>    
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <img id="secureimage" class="img-thumbnail" src="~/Content/Images/securepayment2.png" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <img id="secureimage" class="img-thumbnail" src="~/Content/Images/safe_secure.jpg" />
+            </div>
+        </div>
+
+        <br /><br />
     </div>
 }
+
+    @*@using (Html.BeginForm("PaymentPage", "PaymentGatewayTransaction", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            <div class="row">
+                <div class="col-lg-6">
+                    <label class="control-label" for="fname">Name</label>
+                    <input id="fname" type="text" name="fname" class="form-control" value="Sai Bhargav" placeholder="Name" />
+                    <label class="control-label" for="amt">Amount</label>
+                    <input id="amt" type="text" name="itemamount" class="form-control" value="100" placeholder="Amount" />
+                    <label class="control-label" for="prf">Product Info</label>
+                    <input id="prf" type="text" name="iteminfo" class="form-control" value="Test" placeholder="Product Info" />
+                    <label class="control-label" for="email">E-Mail</label>
+                    <input id="email" type="email" name="email" class="form-control" value="ibhargav547@gmail.com" placeholder="email" />
+                    <br /><br />
+                    <input type="submit" value="Proceed to Pay" class="btn btn-success" />
+                    <a class="btn btn-danger" href="#">Cancel Transaction</a>
+                </div>
+                <br />
+                <div id="txnnote" class="col-lg-6 col-md-12 col-sm-12 pull-left">
+                    <h4><u>Transaction fees for various modes of payment are as follows -</u></h4>
+                    <p>
+                        <ul>
+                            <li>Net Banking : Rs.2.50/- per transaction</li>
+                            <li>Debit Cards : 0.90% of the Bill Amount</li>
+                            <li>Credit Cards and Other Payment Options : 1.00% of the Bill Amount</li>
+                            <li>BharatQR - 0.85% of the Bill amount</li>
+                            <li>Rupay Debit cards - Ni</li>
+                            <li>UPI - Nil</li>
+                            <text style="font-style:italic">(GST and other Govt levies applicable on Transaction fee would be charged extra)</text>
+                        </ul>
+                    </p>
+                    <br />
+                    <text style="color:red;text-align:justify;">
+                        <strong><u>Note:</u></strong> There is a possibility of link getting disconnected, during returning from the BANK after successful debit from your bank account.
+                        If this occurs, PLEASE DO NOT pay the bill again. The portal system, will receive the confirmation from the BANK within 2 working days,
+                        after which it can be verified at the website
+                        <br /><br />
+                    </text>
+
+                </div>
+            </div>
+        </div>
+    }*@
 

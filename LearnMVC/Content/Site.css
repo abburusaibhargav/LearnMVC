@@ -129,5 +129,29 @@ th{
 }
 #productimages {
     margin-left:20px;
-  
+}
+#txnnote {
+    border: 1px solid black;
+    border-radius: 4px 4px;
+    /*box-shadow: rgba(128, 128, 128, 128) 10px 10px;*/
+    background-color: #F8F8F8;
+    color: #66667D;
+    width: 85%;
+    margin-left: 6%;
+    padding-right: 2px;
+}
+#paymentpage {
+    border: 2.3px solid grey;
+    border-radius: 4px 4px;
+    background-color: #E9FFBF;
+}
+#payimage {
+    width: 15%;
+    height: 10%;
+    margin-top: 3px;
+}
+#secureimage {
+    width: 90%;
+    height: 130px;
+    margin-left: 5%;
 }
