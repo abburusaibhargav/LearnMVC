@@ -3,8 +3,19 @@
 @{
     ViewBag.Title = "PaymentPage";
 }
+<style>
+    #txnnote {
+        border: 1px solid black;
+        border-radius: 4px 4px;
+        box-shadow: rgba(128, 128, 128, 128) 10px 10px;
+        background-color: #F8F8F8;
+        color: #66667D;
+    }
+   
 
-<h2 id="headings">Payment Page</h2>
+</style>
+
+<h2 id="headings">Payment Checkout</h2>
 
 @using (Html.BeginForm("PaymentPage","PaymentGatewayTransaction",FormMethod.Post)) 
 {
@@ -12,23 +23,44 @@
     
     <div class="form-horizontal">
         <hr />
-        <div class="col-lg-6">
-            <label class="control-label" for="fname">Name</label>
-            <input id="fname" type="text" name="fname" class="form-control" value="Sai Bhargav" placeholder="Name" />
-            <label class="control-label" for="amt">Amount</label>
-            <input id="amt" type="text" name="itemamount" class="form-control" value="100" placeholder="Amount" />
-            <label class="control-label" for="prf">Product Info</label>
-            <input id="prf" type="text" name="iteminfo" class="form-control" value="Test" placeholder="Product Info" />
-            <label class="control-label" for="email">E-Mail</label>
-            <input id="email" type="email" name="email" class="form-control" value="ibhargav547@gmail.com" placeholder="email" />
-        </div>
-        <br />
-        <div class="form-group">
-            <div class="col-lg-6 text-center">
+        <div class="row">
+            <div class="col-lg-6">
+                <label class="control-label" for="fname">Name</label>
+                <input id="fname" type="text" name="fname" class="form-control" value="Sai Bhargav" placeholder="Name" />
+                <label class="control-label" for="amt">Amount</label>
+                <input id="amt" type="text" name="itemamount" class="form-control" value="100" placeholder="Amount" />
+                <label class="control-label" for="prf">Product Info</label>
+                <input id="prf" type="text" name="iteminfo" class="form-control" value="Test" placeholder="Product Info" />
+                <label class="control-label" for="email">E-Mail</label>
+                <input id="email" type="email" name="email" class="form-control" value="ibhargav547@gmail.com" placeholder="email" />
+                <br /><br />
                 <input type="submit" value="Proceed to Pay" class="btn btn-success" />
                 <a class="btn btn-danger" href="#">Cancel Transaction</a>
             </div>
-        </div>
+            <br />
+            <div id="txnnote" class="col-lg-6 col-md-12 col-sm-12 pull-left">
+                <h4><u>Transaction fees for various modes of payment are as follows -</u></h4>
+                <p>
+                    <ul>
+                        <li>Net Banking : Rs.2.50/- per transaction</li>
+                        <li>Debit Cards : 0.90% of the Bill Amount</li>
+                        <li>Credit Cards and Other Payment Options : 1.00% of the Bill Amount</li>
+                        <li>BharatQR - 0.85% of the Bill amount</li>
+                        <li>Rupay Debit cards - Ni</li>
+                        <li>UPI - Nil</li>
+                        <text style="font-style:italic">(GST and other Govt levies applicable on Transaction fee would be charged extra)</text>
+                    </ul>
+                </p>
+                <br />
+                <text style="color:red;text-align:justify;">
+                    <strong><u>Note:</u></strong> There is a possibility of link getting disconnected, during returning from the BANK after successful debit from your bank account.
+                    If this occurs, PLEASE DO NOT pay the bill again. The portal system, will receive the confirmation from the BANK within 2 working days,
+                    after which it can be verified at the website
+                    <br /><br />
+                </text>
+                
+            </div>
+        </div>    
     </div>
 }
 
