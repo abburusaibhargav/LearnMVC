@@ -855,6 +855,17 @@ warning 6002: The table/view 'TestDatabase.dbo.Products' does not have a primary
           <Parameter Name="createdby" Type="nvarchar" Mode="In" />
           <Parameter Name="createddate" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="RecordPaymentDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TransactionID" Type="nvarchar" Mode="In" />
+          <Parameter Name="UserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Amount" Type="nvarchar" Mode="In" />
+          <Parameter Name="Email" Type="nvarchar" Mode="In" />
+          <Parameter Name="Phone" Type="nvarchar" Mode="In" />
+          <Parameter Name="PaymentMode" Type="nvarchar" Mode="In" />
+          <Parameter Name="PaymentServiceProvider" Type="nvarchar" Mode="In" />
+          <Parameter Name="PaymentStatus" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="RecordTranSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AuditRefId" Type="nvarchar" Mode="In" />
           <Parameter Name="ActionOn" Type="nvarchar" Mode="In" />
@@ -1481,6 +1492,17 @@ warning 6002: The table/view 'TestDatabase.dbo.Products' does not have a primary
             <Parameter Name="productpageurl" Mode="In" Type="String" />
             <Parameter Name="imageurl" Mode="In" Type="String" />
             <Parameter Name="active" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="RecordPaymentDetails">
+            <Parameter Name="TransactionID" Mode="In" Type="String" />
+            <Parameter Name="UserID" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Amount" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="PaymentMode" Mode="In" Type="String" />
+            <Parameter Name="PaymentServiceProvider" Mode="In" Type="String" />
+            <Parameter Name="PaymentStatus" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Login_Credentials">
@@ -2902,6 +2924,7 @@ warning 6002: The table/view 'TestDatabase.dbo.Products' does not have a primary
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ModifyProducts" FunctionName="AppDataModel.Store.ModifyProducts" />
+          <FunctionImportMapping FunctionImportName="RecordPaymentDetails" FunctionName="AppDataModel.Store.RecordPaymentDetails" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

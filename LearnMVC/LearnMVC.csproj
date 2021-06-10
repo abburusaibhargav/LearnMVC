@@ -311,6 +311,7 @@
     <Compile Include="Controllers\GenerateCodesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\PaymentGatewayTransactionController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
@@ -429,6 +430,7 @@
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Pager.cs" />
+    <Compile Include="Models\PaymentModel.cs" />
     <Compile Include="Models\Postal_Circle_List.cs">
       <DependentUpon>AppDataModel.tt</DependentUpon>
     </Compile>
@@ -593,6 +595,8 @@
     <Content Include="Views\Product\Presentations.cshtml" />
     <Content Include="Views\Admin\ModifyProducts.cshtml" />
     <Content Include="Views\Consignment\Printpage.cshtml" />
+    <Content Include="Views\PaymentGatewayTransaction\PaymentPage.cshtml" />
+    <Content Include="Views\PaymentGatewayTransaction\PaymentStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

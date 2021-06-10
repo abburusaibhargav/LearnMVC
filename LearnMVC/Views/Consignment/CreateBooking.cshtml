@@ -8,7 +8,7 @@
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js" type="text/javascript"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript"></script>
 <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css" rel="Stylesheet" type="text/css" />
-<script src="~/Content/Site_jQuery.js"></script>
+@*<script src="~/Content/Site_jQuery.js"></script>*@
 
 <h4 class="text-info">Basic Details</h4>
 @using (Html.BeginForm("CreateBooking", "Consignment", FormMethod.Post))
@@ -70,12 +70,12 @@
             <label for="ConsignerState" class="control-label">Consigner State</label>
             <div id="ConsignerState" class="row">
 
-                <input type="text" class="form-control" name="ConsignerState" id="ConsignerState" readonly />
+                @*<input type="text" class="form-control" name="ConsignerState" id="ConsignerState" readonly />*@
 
-                @*@if (ViewBag.StateDDL != null)
+                @if (ViewBag.StateDDL != null)
                 {
                     @Html.DropDownListFor(model => model.ConsignerStateID, ViewBag.StateDDL as SelectList, "--Select Consigner State--", new { @class = "form-control" });
-                }*@
+                }
             </div>
         </div>
     </div>
@@ -85,38 +85,47 @@
     <h4 class="text-info">Office Details</h4>
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12">
-            @Html.DropDownListFor(model => model.CircleID, ViewBag.postal_Circle_Lists_DDL as SelectList, "--Select Circle--", new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.CircleID, ViewBag.postal_Circle_Lists_DDL as SelectList, "--Select Circle--", new { @class = "form-control" })*@
+            @Html.DropDownListFor(model => model.CircleID, new SelectList(" "), "--Select Circle--", new { @class = "form-control" })
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12">
-            @Html.DropDownListFor(model => model.RegionID, ViewBag.postal_Region_DDL as SelectList, "--Select Region--", new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.RegionID, ViewBag.postal_Region_DDL as SelectList, "--Select Region--", new { @class = "form-control" })*@
+            @Html.DropDownListFor(model => model.RegionID, new SelectList(" "), "--Select Region--", new { @class = "form-control" })
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12">
-            @Html.DropDownListFor(model => model.DivisionID, ViewBag.divisionddl as SelectList, "--Select Division--", new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.DivisionID, ViewBag.divisionddl as SelectList, "--Select Division--", new { @class = "form-control" })*@
+            @Html.DropDownListFor(model => model.DivisionID, new SelectList(" "), "--Select Division--", new { @class = "form-control" })
         </div>
     </div>
     <br />
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12">
-            @Html.DropDownListFor(model => model.DistrictID, ViewBag.districtddl as SelectList, "--Select District--", new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.DistrictID, ViewBag.districtddl as SelectList, "--Select District--", new { @class = "form-control" })*@
+            @Html.DropDownListFor(model => model.DistrictID, new SelectList(" "), "--Select District--", new { @class = "form-control" })
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12">
-            @Html.DropDownListFor(model => model.OfficeID, ViewBag.officedataddl as SelectList, "--Select Office--", new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.OfficeID, ViewBag.officedataddl as SelectList, "--Select Office--", new { @class = "form-control" })*@
+            @Html.DropDownListFor(model => model.OfficeID, new SelectList(" "), "--Select Office--", new { @class = "form-control" })
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12">
-            @Html.DropDownListFor(model => model.ConsignerPincode, ViewBag.pincodeDDL as SelectList, "--Select ConsignerPincode--", new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.ConsignerPincode, ViewBag.pincodeDDL as SelectList, "--Select ConsignerPincode--", new { @class = "form-control" })*@
+            @Html.DropDownListFor(model => model.ConsignerPincode, new SelectList(" "), "--Select Pincode--", new { @class = "form-control" })
         </div>
-    </div><br />
+    </div>
+    <br />
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12">
             @if (ViewBag.OfficeTypeDDL != null)
             {
                 @Html.DropDownListFor(model => model.OfficeTypeID, ViewBag.OfficeTypeDDL as SelectList, "--Select OfficeType--", new { @class = "form-control" })
+                @*@Html.DropDownListFor(model => model.OfficeTypeID, new SelectList(" "), "--Select Office Type--", new { @class = "form-control" })*@
             }
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12">
             @if (ViewBag.DeliveryTypeDDL != null)
             {
                 @Html.DropDownListFor(model => model.DeliveryID, ViewBag.DeliveryTypeDDL as SelectList, "--Select Delivery Type--", new { @class = "form-control" })
+                @*@Html.DropDownListFor(model => model.DeliveryID, new SelectList(" "), "--Select Delivery Type--", new { @class = "form-control" })*@
             }
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -128,70 +137,11 @@
         <div class="text-center">
             <button class="btn btn-success" type="submit">Create Booking</button>
             <button class="btn btn-primary" type="reset">Reset Booking</button>
-            @Html.ActionLink("Back","Index","Consignment", new { @class="btn btn-primary"})
+            @Html.ActionLink("Back", "Index", "Consignment", new { @class = "btn btn-primary" })
         </div>
     </div>
 }
-@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#ConsignerStateID").change(function () {
-            $.get("/Consignment/GetCircleDataDDL", { StateID: $("#ConsignerStateID").val() }, function (data) {
-                $("#CircleID").empty();
-                $.each(data, function (index, row) {
-                    $("#CircleID").append("<option value='" + row.CircleID + "'>" + row.CircleName + "</option>")
-                });
-            });
-        })
-    });
 
-    $(document).ready(function () {
-        $("#CircleID").change(function () {
-            $.get("/Consignment/GetRegionDataDDL", { CircleID: $("#CircleID").val() }, function (data) {
-                $("#RegionID").empty();
-                $.each(data, function (index, row) {
-                    $("#RegionID").append("<option value='" + row.RegionID + "'>" + row.RegionName + "</option>")
-                });
-            });
-        })
-    });
-   
-    $(document).ready(function () {
-        $("#RegionID").change(function () {
-            $.get("/Consignment/GetDivisionDataDDL", { RegionID: $("#RegionID").val() },
-                function (data) {
-                    $("#DivisionID").empty();
-                    $.each(data, function (index, row) {
-                        $("#DivisionID").append("<option value='" + row.DivisionID + "'>" + row.DivisionName + "</option>")
-                    });
-                });
-        })
-    });
-
-    $(document).ready(function () {
-        $("#DivisionID").change(function () {
-            $.get("/Consignment/GetDistrictDataDDL", { DivisionID: $("#DivisionID").val() },
-                function (data) {
-                    $("#DistrictID").empty();
-                    $.each(data, function (index, row) {
-                        $("#DistrictID").append("<option value='" + row.DistrictID + "'>" + row.DistrictName + "</option>")
-                    });
-                });
-        })
-    });
-
-    $(document).ready(function () {
-        $("#DistrictID").change(function () {
-            $.get("/Consignment/GetOfficeDataDDL", { DistrictID: $("#DistrictID").val() },
-                function (data) {
-                    $("#OfficeID").empty();
-                    $.each(data, function (index, row) {
-                        $("#OfficeID").append("<option value='" + row.OfficeID + "'>" + row.OfficeName + "</option>")
-                    });
-                });
-        })
-    });
-</script>*@
 
 @using (Html.BeginForm("LookUpPincode", "Search", FormMethod.Post))
 {
@@ -207,10 +157,10 @@
                         <div class="col-lg-8 col-md-12 col-sm-12">
                             <label for="searchpin" class="control-label">Enter Pincode</label>
                             <input type="text" class="form-control" id="searchpin" placeholder="Enter Pincode" name="Pincode" required />
-                        </div>    
+                        </div>
                     </div>
 
-                    @if(ViewBag.PincodeNoResults != null || ViewBag.PincodeResults != null)
+                    @if (ViewBag.PincodeNoResults != null || ViewBag.PincodeResults != null)
                     {
                         <hr />
                         <div class="row">
@@ -234,17 +184,17 @@
                                     </tr>
                                     @foreach (var item in ViewBag.PincodeResults)
                                     {
-                                    <tr>
-                                        <td>@item.Pincode</td>
-                                        <td>@item.StateName</td>
-                                        <td>@item.CircleName</td>
-                                        <td>@item.RegionName</td>
-                                        <td>@item.DivisionName</td>
-                                        <td>@item.DistrictName</td>
-                                        <td>@item.OfficeName</td>
-                                        <td>@item.OfficeTypeName</td>
-                                        <td>@item.DeliveryType</td>
-                                    </tr>
+                                        <tr>
+                                            <td>@item.Pincode</td>
+                                            <td>@item.StateName</td>
+                                            <td>@item.CircleName</td>
+                                            <td>@item.RegionName</td>
+                                            <td>@item.DivisionName</td>
+                                            <td>@item.DistrictName</td>
+                                            <td>@item.OfficeName</td>
+                                            <td>@item.OfficeTypeName</td>
+                                            <td>@item.DeliveryType</td>
+                                        </tr>
                                     }
                                 </table>
                             }
@@ -261,9 +211,68 @@
     </div>
 }
 
-<script type="text/javascript">
 
-    $(document).ready(function () {
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+            $(document).ready(function () {
+                $("#ConsignerStateID").change(function () {
+                    $.get("/Consignment/GetCircleDataDDL", { StateID: $("#ConsignerStateID").val() }, function (data) {
+                        $("#CircleID").empty();
+                        $.each(data, function (index, row) {
+                            $("#CircleID").append("<option value='" + row.CircleID + "'>" + row.CircleName + "</option>")
+                        });
+                    });
+                });
+            });
+
+        //$(function () {
+    $("#CircleID").change(function () {
+        $.get("~/Consignment/GetRegionDataDDL", { CircleID: $("#CircleID").val() }, function (data) {
+            $("#RegionID").empty();
+            $.each(data, function (index, row) {
+                $("#RegionID").append("<option value='" + row.RegionID + "'>" + row.RegionName + "</option>")
+            });
+        });
+    });
+            //});
+
+        //$(function () {
+    $("#RegionID").change(function () {
+        $.get("~/Consignment/GetDivisionDataDDL", { RegionID: $("#RegionID").val() },
+            function (data) {
+                $("#DivisionID").empty();
+                $.each(data, function (index, row) {
+                    $("#DivisionID").append("<option value='" + row.DivisionID + "'>" + row.DivisionName + "</option>")
+                });
+            });
+    });
+            //});
+
+       $(function () {
+                $("#DivisionID").change(function () {
+                    $.get("/Consignment/GetDistrictDataDDL", { DivisionID: $("#DivisionID").val() },
+                        function (data) {
+                            $("#DistrictID").empty();
+                            $.each(data, function (index, row) {
+                                $("#DistrictID").append("<option value='" + row.DistrictID + "'>" + row.DistrictName + "</option>")
+                            });
+                        });
+                })
+            });
+
+        $(function () {
+                $("#DistrictID").change(function () {
+                    $.get("/Consignment/GetOfficeDataDDL", { DistrictID: $("#DistrictID").val() },
+                        function (data) {
+                            $("#OfficeID").empty();
+                            $.each(data, function (index, row) {
+                                $("#OfficeID").append("<option value='" + row.OfficeID + "'>" + row.OfficeName + "</option>")
+                            });
+                        });
+                })
+            });
+</script>
+    @*$(document).ready(function () {
         $("#btnlookuppincode").click(function () {
             var pincode = $('#ConsignerPincode').val();
             $.ajax({
@@ -273,16 +282,16 @@
                 url: '@Url.Action("LookUpPincode", "Search")',
                 dataType: 'json',  // add this line
                 "success": function (data) {
-                    if (data != null) {
-                        var vdata = data;
-                        $("#ConsignerState").val(vdata[0].StateName);
-                        //$("#FName").val(vdata[0].FatherName);
-                        //$("#Phone").val(vdata[0].Phone1);
-                    }
+                if (data != null) {
+                var vdata = data;
+                $("#ConsignerState").val(vdata[0].StateName);
+                //$("#FName").val(vdata[0].FatherName);
+                //$("#Phone").val(vdata[0].Phone1);
                 }
-            });
-        });
-    });
-</script>
+                }
+                });
+                });
+                });
+                </script>*@
 
 

@@ -1,0 +1,34 @@
+﻿@model LearnMVC.Models.PaymentModel
+
+@{
+    ViewBag.Title = "PaymentPage";
+}
+
+<h2 id="headings">Payment Page</h2>
+
+@using (Html.BeginForm("PaymentPage","PaymentGatewayTransaction",FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        <div class="col-lg-6">
+            <label class="control-label" for="fname">Name</label>
+            <input id="fname" type="text" name="fname" class="form-control" value="Sai Bhargav" placeholder="Name" />
+            <label class="control-label" for="amt">Amount</label>
+            <input id="amt" type="text" name="itemamount" class="form-control" value="100" placeholder="Amount" />
+            <label class="control-label" for="prf">Product Info</label>
+            <input id="prf" type="text" name="iteminfo" class="form-control" value="Test" placeholder="Product Info" />
+            <label class="control-label" for="email">E-Mail</label>
+            <input id="email" type="email" name="email" class="form-control" value="ibhargav547@gmail.com" placeholder="email" />
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-lg-6 text-center">
+                <input type="submit" value="Proceed to Pay" class="btn btn-success" />
+                <a class="btn btn-danger" href="#">Cancel Transaction</a>
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "PaymentStatus";
+}
+
+<style>
+    #tbltran{
+        width:50%;
+        margin-left:25%;
+    }
+
+    #c {
+        background-color: midnightblue;
+        color: white;
+    }
+</style>
+
+<h2 id="headings">Payment Status</h2>
+
+<hr />
+<table id="tbltran" class="table table-bordered table-responsive text-center">
+    <tr>
+        <td colspan="2">
+            <h4>Your @ViewBag.TranStatus</h4>
+        </td>
+    </tr>
+    
+    <tr>
+        <td id="c">Transaction ID</td>
+        <td>@ViewBag.OrderID.ToUpper()</td>
+    </tr>
+    <tr>
+        <td id="c">Customer Name</td>
+        <td>@ViewBag.Name</td>
+    </tr>
+    <tr>
+        <td id="c">Paid Amount</td>
+        <td>@ViewBag.Amount</td>
+    </tr>
+    <tr>
+        <td id="c">Transaction Status</td>
+        @if (ViewBag.Transtatus == "Payment is successful")
+        {
+            <td style="background-color:green;color:white">@ViewBag.Transtatus</td>
+        }
+        else
+        {
+            <td style="background-color:red;color:white">@ViewBag.Transtatus</td>
+        }
+
+    </tr>
+</table>
+<br />
+<a class="btn btn-primary" href="javascript:window.print()">Print</a>
+<a class="btn btn-primary" href="~/Home/Index">Back to Home</a>
+

@@ -15,6 +15,7 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using QRCoder;
+using Microsoft.Extensions.Logging;
 
 namespace LearnMVC.Controllers
 {

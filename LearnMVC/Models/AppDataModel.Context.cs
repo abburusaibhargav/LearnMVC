@@ -676,5 +676,46 @@ namespace LearnMVC.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ModifyProducts", useridParameter, productidParameter, productnameParameter, productpageurlParameter, imageurlParameter, activeParameter);
         }
+    
+        public virtual int RecordPaymentDetails(string transactionID, string userID, string name, string amount, string email, string phone, string paymentMode, string paymentServiceProvider, string paymentStatus)
+        {
+            var transactionIDParameter = transactionID != null ?
+                new ObjectParameter("TransactionID", transactionID) :
+                new ObjectParameter("TransactionID", typeof(string));
+    
+            var userIDParameter = userID != null ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(string));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var amountParameter = amount != null ?
+                new ObjectParameter("Amount", amount) :
+                new ObjectParameter("Amount", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var phoneParameter = phone != null ?
+                new ObjectParameter("Phone", phone) :
+                new ObjectParameter("Phone", typeof(string));
+    
+            var paymentModeParameter = paymentMode != null ?
+                new ObjectParameter("PaymentMode", paymentMode) :
+                new ObjectParameter("PaymentMode", typeof(string));
+    
+            var paymentServiceProviderParameter = paymentServiceProvider != null ?
+                new ObjectParameter("PaymentServiceProvider", paymentServiceProvider) :
+                new ObjectParameter("PaymentServiceProvider", typeof(string));
+    
+            var paymentStatusParameter = paymentStatus != null ?
+                new ObjectParameter("PaymentStatus", paymentStatus) :
+                new ObjectParameter("PaymentStatus", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RecordPaymentDetails", transactionIDParameter, userIDParameter, nameParameter, amountParameter, emailParameter, phoneParameter, paymentModeParameter, paymentServiceProviderParameter, paymentStatusParameter);
+        }
     }
 }
