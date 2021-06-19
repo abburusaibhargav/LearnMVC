@@ -38,12 +38,12 @@ namespace LearnMVC.Controllers
             else
             {
                 string guid = Guid.NewGuid().ToString();
-                ViewData["GUID"] = guid;
+                ViewData["GUID"] = guid.Replace("-", "");
             }
             return View();
         }
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase UploadFileName, UploadTransactionLog uploadTransaction)
+        public ActionResult Upload(HttpPostedFileBase UploadFileName, UploadTransactionLog uploadTransaction, string uploadfiletype)
         {
             string tranid = uploadTransaction.UploadTransactionID;
             string FileName = Path.GetFileNameWithoutExtension(UploadFileName.FileName);
@@ -64,28 +64,47 @@ namespace LearnMVC.Controllers
 
             if (filetype == ".xlsx" || filetype == ".xls")
             {
-                string truncatetable = "Truncate Table Postal_Data_Staging";
-                string updatetranid = "Update Postal_Data_Staging SET StageTransactionID='" + tranid + "',CreatedBy='" + Session["UserID"] + "'" +
-                                                                                                                        ",CreatedOn='" + DateTime.Now.ToString() + "'";
+                if(uploadfiletype == "pusr" || uploadfiletype == "pdtl")
+                {
+                    string truncatetable = "Truncate Table Postal_Data_Staging";
+                    string updatetranid = "Update Postal_Data_Staging SET StageTransactionID='" + tranid + "',CreatedBy='" + Session["UserID"] + "'" +
+                                                                                                                            ",CreatedOn='" + DateTime.Now.ToString() + "'";
 
-                SqlCommand truncatecmd = new SqlCommand(truncatetable, sqlConnection);
-                sqlConnection.Open();
-                truncatecmd.ExecuteNonQuery();
-                sqlConnection.Close();
+                    SqlCommand truncatecmd = new SqlCommand(truncatetable, sqlConnection);
+                    sqlConnection.Open();
+                    truncatecmd.ExecuteNonQuery();
+                    sqlConnection.Close();
 
-                ImportExcelData(filepath);
+                    ImportExcelData(filepath,uploadfiletype);
 
-                SqlCommand updatecmd = new SqlCommand(updatetranid, sqlConnection);
-                sqlConnection.Open();
-                updatecmd.ExecuteNonQuery();
-                sqlConnection.Close();
+                    SqlCommand updatecmd = new SqlCommand(updatetranid, sqlConnection);
+                    sqlConnection.Open();
+                    updatecmd.ExecuteNonQuery();
+                    sqlConnection.Close();
+                }
+                
+                if(uploadfiletype == "mcl")
+                {
+                    string truncatetable = "Truncate Table Muncipal_City_List_Staging";
+                    string updatetranid = "Update Muncipal_City_List_Staging SET StageTransactionID='" + tranid + "',CreatedBy='" + Session["UserID"] + "'" +
+                                                                                                                            ",CreatedOn='" + DateTime.Now.ToString() + "'";
 
-                connectionEntity.Generate_Upload_Transaction_Summary(tranid, "OfficeDetails");
+                    SqlCommand truncatecmd = new SqlCommand(truncatetable, sqlConnection);
+                    sqlConnection.Open();
+                    truncatecmd.ExecuteNonQuery();
+                    sqlConnection.Close();
+
+                    ImportExcelData(filepath,uploadfiletype);
+
+                    SqlCommand updatecmd = new SqlCommand(updatetranid, sqlConnection);
+                    sqlConnection.Open();
+                    updatecmd.ExecuteNonQuery();
+                    sqlConnection.Close();
+                }
+
+                connectionEntity.Generate_Upload_Transaction_Summary(tranid, uploadfiletype);
 
             }
-
-          
-
             return RedirectToAction("Upload", new RouteValueDictionary(new { Controller = "Upload", Action = "Upload", transactionid = tranid }));
         }
 
@@ -94,12 +113,6 @@ namespace LearnMVC.Controllers
             var trandetails = connectionEntity.UploadTranSummaries.Where(x => x.StageTranID == tranid).ToList();
            return View(trandetails);
         }
-        //[HttpPost]
-        //public ActionResult ProcessData(UploadTranSummary uploadTranSummary)
-        //{
-        //    return View();
-        //}
-
 
 
         private void ExcelConn(string filepath)
@@ -107,39 +120,73 @@ namespace LearnMVC.Controllers
             string connstring = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source =" + filepath + ";Extended Properties=Excel 12.0;";
             Econ = new OleDbConnection(connstring);
         }
-        private void ImportExcelData(string filepath)
+        private void ImportExcelData(string filepath, string uploadfiletype)
         {
             ExcelConn(filepath);
-            string query = "SELECT State,CircleName,RegionName,DivisionName,District,OfficeName,OfficeType,Delivery,Pincode FROM [AP_Postal_Data$]";
-            OleDbCommand oleDbCommand = new OleDbCommand(query, Econ);
-            OleDbDataAdapter oleDbDataAdapter = new OleDbDataAdapter(oleDbCommand);
-            DataSet ds = new DataSet();
 
-            oleDbDataAdapter.Fill(ds);
+            if (uploadfiletype == "pusr" || uploadfiletype == "pdtl")
+            {
+                string query = "SELECT State,CircleName,RegionName,DivisionName,District,OfficeName,OfficeType,Delivery,Pincode FROM [AP_Postal_Data$]";
+                OleDbCommand oleDbCommand = new OleDbCommand(query, Econ);
+                OleDbDataAdapter oleDbDataAdapter = new OleDbDataAdapter(oleDbCommand);
+                DataSet ds = new DataSet();
 
-            Econ.Open();
+                oleDbDataAdapter.Fill(ds);
 
-            DbDataReader dbDataReader = oleDbCommand.ExecuteReader();
-            SqlConnection dbconnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString);
+                Econ.Open();
 
-            SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(dbconnection);
+                DbDataReader dbDataReader = oleDbCommand.ExecuteReader();
+                SqlConnection dbconnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString);
 
-            sqlBulkCopy.DestinationTableName = "Postal_Data_Staging";
-            sqlBulkCopy.ColumnMappings.Add("State", "State");
-            sqlBulkCopy.ColumnMappings.Add("CircleName", "CircleName");
-            sqlBulkCopy.ColumnMappings.Add("RegionName", "RegionName");
-            sqlBulkCopy.ColumnMappings.Add("DivisionName", "DivisionName");
-            sqlBulkCopy.ColumnMappings.Add("District", "District");
-            sqlBulkCopy.ColumnMappings.Add("OfficeName", "OfficeName");
-            sqlBulkCopy.ColumnMappings.Add("OfficeType", "OfficeType");
-            sqlBulkCopy.ColumnMappings.Add("Delivery", "Delivery");
-            sqlBulkCopy.ColumnMappings.Add("Pincode", "Pincode");
-      
-            dbconnection.Open();
-            sqlBulkCopy.WriteToServer(dbDataReader);
-            dbconnection.Close();
+                SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(dbconnection);
 
-            Econ.Close();
+                sqlBulkCopy.DestinationTableName = "Postal_Data_Staging";
+                sqlBulkCopy.ColumnMappings.Add("State", "State");
+                sqlBulkCopy.ColumnMappings.Add("CircleName", "CircleName");
+                sqlBulkCopy.ColumnMappings.Add("RegionName", "RegionName");
+                sqlBulkCopy.ColumnMappings.Add("DivisionName", "DivisionName");
+                sqlBulkCopy.ColumnMappings.Add("District", "District");
+                sqlBulkCopy.ColumnMappings.Add("OfficeName", "OfficeName");
+                sqlBulkCopy.ColumnMappings.Add("OfficeType", "OfficeType");
+                sqlBulkCopy.ColumnMappings.Add("Delivery", "Delivery");
+                sqlBulkCopy.ColumnMappings.Add("Pincode", "Pincode");
+
+                dbconnection.Open();
+                sqlBulkCopy.WriteToServer(dbDataReader);
+                dbconnection.Close();
+
+                Econ.Close();
+            }
+
+            if (uploadfiletype == "mcl")
+            {
+                string query = "SELECT NameofCity,State,Type,Population,Populationclass FROM [City_Towns$]";
+                OleDbCommand oleDbCommand = new OleDbCommand(query, Econ);
+                OleDbDataAdapter oleDbDataAdapter = new OleDbDataAdapter(oleDbCommand);
+                DataSet ds = new DataSet();
+
+                oleDbDataAdapter.Fill(ds);
+
+                Econ.Open();
+
+                DbDataReader dbDataReader = oleDbCommand.ExecuteReader();
+                SqlConnection dbconnection = new SqlConnection(ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString);
+
+                SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(dbconnection);
+
+                sqlBulkCopy.DestinationTableName = "Muncipal_City_List_Staging";
+                sqlBulkCopy.ColumnMappings.Add("State", "Statename");
+                sqlBulkCopy.ColumnMappings.Add("NameofCity", "Cityname");
+                sqlBulkCopy.ColumnMappings.Add("Type", "Citytype");
+                sqlBulkCopy.ColumnMappings.Add("Populationclass", "Class");
+                sqlBulkCopy.ColumnMappings.Add("Population", "CityPopulation");
+
+                dbconnection.Open();
+                sqlBulkCopy.WriteToServer(dbDataReader);
+                dbconnection.Close();
+
+                Econ.Close();
+            }
         }
     }
 }

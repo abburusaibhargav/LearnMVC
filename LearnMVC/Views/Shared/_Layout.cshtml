@@ -10,8 +10,6 @@
     <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
 <body>
-
-
     <div class="navbar navbar-inverse navbar-fixed-top" id="navbar">
         <div class="container">
             <div class="navbar-header">
@@ -21,7 +19,6 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Learn MVC", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-
             </div>
             <div class="navbar-collapse collapse" id="menulinks">
                 <ul class="nav navbar-nav">
@@ -29,7 +26,7 @@
                     <li>
                     <li>@Html.ActionLink("Products", "Index", "Product")</li>
                     <li>@Html.ActionLink("Payment", "PaymentPage", "PaymentGatewayTransaction")</li>
-                 
+
                     @if (Session["UserID"] != null)
                     {
                         <li>@Html.ActionLink("Consignment", "Index", "Consignment")</li>
@@ -64,8 +61,8 @@
         </footer>
     </div>
 
-    @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)*@
+    @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
 </body>
 </html>
